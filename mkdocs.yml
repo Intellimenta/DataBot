@@ -15,6 +15,7 @@ nav:
 extra_css:
   - assets/extra.css
 extra:
+  CNAME: "databot.intellimenta.com"
   social:
     - icon: fontawesome/brands/youtube
       link: https://www.youtube.com/@IntellimentaAnalytics
