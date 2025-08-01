@@ -1,4 +1,4 @@
-name: ci 
+name: docs_compile 
 on:
   push:
     branches:
