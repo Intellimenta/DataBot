@@ -2,6 +2,7 @@ databot-standalone-windows
 venv/
 __pycache__/
 *.pyc
+commands
 
 *.py
 !**/models.py

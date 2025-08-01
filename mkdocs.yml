@@ -1,9 +1,27 @@
 site_name: DataBot Documentation
 site_url: https://databot-docs.intellimenta.com
+copyright: Copyright &copy; 2025 Intellimenta Analytics Inc.
+nav:
+  - Home: index.md
+  - Admin Guide:
+      - Getting Started: admin_guide/getting_started.md
+      - BI Integration: admin_guide/bi_integration.md
+      - Production Deployment: admin_guide/production_deployment.md
+      - Admin Panel Overview: admin_guide/admin_panel_overview.md
+      - Embedding: admin_guide/embedding.md
+      - Misc.: admin_guide/misc.md
+  - Other Resources:
+      - Billing: other_resources/billing.md
+extra_css:
+  - assets/extra.css
 theme:
   name: material
   logo: assets/logo.png
   favicon: assets/favicon.ico
+  features:
+    - content.code.copy
+    - navigation.expand
+    - navigation.footer
 
   palette:
     # Dark Mode
@@ -21,3 +39,20 @@ theme:
         name: Light mode
       primary: blue
       accent: deep orange
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+      use_pygments: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - attr_list
+  - md_in_html
+  - pymdownx.blocks.caption
+  - toc:
+      permalink: true
