@@ -1,11 +1,11 @@
 site_name: DataBot Documentation
-site_url: https://databot-docs.intellimenta.com
+site_url: https://databot.intellimenta.com
 copyright: Copyright &copy; 2025 Intellimenta Analytics Inc.
 nav:
   - Home: index.md
   - Admin Guide:
       - Getting Started: admin_guide/getting_started.md
-      - BI Integration: admin_guide/bi_integration.md
+      - Integration with BI Tools: admin_guide/bi_integration.md
       - Production Deployment: admin_guide/production_deployment.md
       - Admin Panel Overview: admin_guide/admin_panel_overview.md
       - Embedding: admin_guide/embedding.md

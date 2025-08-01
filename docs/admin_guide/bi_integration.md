@@ -6,7 +6,9 @@ Connecting DataBot to your BI tool allows you to
 - Use the dashboards created in your BI tool as a data source for answering questions in DataBot
 - Use the ['Dashboards + Chatbot' interface](./admin_panel_overview.md#bi-integration), where one or more dashboards are shown on the left (with a dashboard picker to switch between dashboards) and the chatbot is shown on the right. This interface is ideal for customer-facing analytics where you are sharing one or more dashboards with your customers.
 
-Currently only Metabase is supported for BI integration. We are planning to add support for other BI tools such as Redash and Apache Superset in the near future.
+!!! note
+
+    Currently only **Metabase** is supported for BI integration. We are planning to add support for other BI tools such as **Apache Superset** and **Redash** in the near future.
 
 ### Preparations
 
