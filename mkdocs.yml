@@ -1,6 +1,7 @@
 site_name: DataBot Documentation
 site_url: https://databot.intellimenta.com
 copyright: Copyright &copy; 2025 Intellimenta Analytics Inc.
+
 nav:
   - Home: index.md
   - Admin Guide:
@@ -12,8 +13,10 @@ nav:
       - Misc.: admin_guide/misc.md
   - Other Resources:
       - Billing: other_resources/billing.md
+
 extra_css:
   - assets/extra.css
+
 extra:
   CNAME: "databot.intellimenta.com"
   social:
@@ -23,6 +26,7 @@ extra:
       link: https://www.linkedin.com/company/intellimenta
     - icon: fontawesome/brands/github
       link: https://github.com/intellimenta/databot
+
 theme:
   name: material
   logo: assets/logo.png
