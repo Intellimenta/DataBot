@@ -1,0 +1,10 @@
+databot-standalone-windows
+venv/
+__pycache__/
+*.pyc
+
+*.py
+!**/models.py
+!**/__init__.py
+!**/alembic/**/*.py
+!**/python/**/*.py
