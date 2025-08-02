@@ -1,5 +1,5 @@
-[![Latest Release](https://img.shields.io/github/release/intellimenta/databot.svg?label=latest%20release)](https://github.com/intellimenta/databot/releases)
-![Docker Pulls](https://img.shields.io/docker/pulls/intellimenta/databot)
+[![Latest Release](https://img.shields.io/github/release/intellimenta/databot.svg?label=latest%20release&color=644883)](https://github.com/intellimenta/databot/releases)
+![Docker Pulls](https://img.shields.io/docker/pulls/intellimenta/databot?color=644883)
 
 # DataBot
 - With <a href="https://intellimenta.com/products/databot/" target="_blank">DataBot</a> you can **explore/visualize/analyze/forecast** your data in your **native language**.
