@@ -7,7 +7,7 @@
 - Trying out DataBot is very easy and takes just a few minutes. Follow the instructions <a href="https://databot.intellimenta.com/admin_guide/getting_started/" target="_blank">here</a>.
 
 <div align="center">
-  <img src="media/databot-diagram.png" width=700px alt="DataBot Logo">
+  <img src="media/databot-diagram-white-bg.png" width=700px alt="DataBot Logo">
 </div>
 
 ## Features
