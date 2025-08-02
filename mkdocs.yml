@@ -36,20 +36,20 @@ theme:
     - navigation.footer
 
   palette:
-    # Dark Mode
-    - scheme: slate
-      toggle:
-        icon: material/weather-sunny
-        name: Dark mode
-      primary: green
-      accent: deep purple
-
     # Light Mode
     - scheme: default
       toggle:
         icon: material/weather-night
         name: Light mode
       primary: blue
+      accent: deep purple
+
+    # Dark Mode
+    - scheme: slate
+      toggle:
+        icon: material/weather-sunny
+        name: Dark mode
+      primary: green
       accent: deep purple
 
 markdown_extensions:
