@@ -27,3 +27,10 @@
 - 🏢 Multi-Tenant Support
 - 🔑 Single Sign-On (SSO)
 - 🎨 White-Labelling
+
+## Data Sources
+- Major SQL and NoSQL Databases
+- Dashboards (via Integration with BI Tools)
+- Unstructured files (PDF, Word, TXT, ...) [Coming Soon]
+- Structured files (CSV, Excel, ...) [Coming Soon]
+- Custom Connectors (Google Sheets, AWS CloudWatch Logs, AirTable, ...) [Coming Soon]
