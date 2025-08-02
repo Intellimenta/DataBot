@@ -2,9 +2,9 @@
 ![Docker Pulls](https://img.shields.io/docker/pulls/intellimenta/databot?color=644883)
 
 # **DataBot** – Effortless Self-Service Analytics
-- With <a href="https://intellimenta.com/products/databot/" target="_blank">DataBot</a>, you can **explore**, **visualize**, **analyze**, and **forecast** your data in your **native language**.
+- With <a href="https://intellimenta.com/products/databot" target="_blank">DataBot</a>, you can **explore**, **visualize**, **analyze**, and **forecast** your data in your **native language**.
 - It's **self-hosted** and **free** for personal use.
-- Trying out DataBot is very easy and takes just a few minutes. Follow the instructions <a href="https://databot.intellimenta.com/admin_guide/getting_started/" target="_blank">here</a>.
+- Trying out DataBot is very easy and takes just a few minutes. Follow the instructions <a href="https://databot.intellimenta.com/admin_guide/getting_started" target="_blank">here</a>.
 
 <div align="center">
   <img src="media/databot-diagram-white-bg-m.png" width=700px alt="DataBot Logo">
