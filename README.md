@@ -4,7 +4,7 @@
 # DataBot
 - With <a href="https://intellimenta.com/products/databot/" target="_blank">DataBot</a> you can **explore/visualize/analyze/forecast** your data in your **native language**.
 - It's **self-hosted** and **free** for personal use.
-- Trying out DataBot is super easy and takes just a few minutes. Instructions <a href="https://databot.intellimenta.com/admin_guide/getting_started/" target="_blank">here</a>.
+- Trying out DataBot is very easy and takes just a few minutes. Follow the instructions <a href="https://databot.intellimenta.com/admin_guide/getting_started/" target="_blank">here</a>.
 
 <div align="center">
   <img src="media/databot-diagram.png" width=700px alt="DataBot Logo">
@@ -23,6 +23,7 @@
 - 💻 Easy Embedding in Your Website or App
 - 📦 Standalone and Containerized Deployment
 - 🛡️ Fine-grained Access Control
+- 🙈 Data Obfuscation (Using Dynamic Data Masking)
 - 👥 Role-Based Access Control (RBAC)
 - 🏢 Multi-Tenant Support
 - 🔑 Single Sign-On (SSO)
