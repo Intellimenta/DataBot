@@ -10,6 +10,7 @@ nav:
       - Production Deployment: admin_guide/production_deployment.md
       - Admin Panel Overview: admin_guide/admin_panel_overview.md
       - Embedding: admin_guide/embedding.md
+      - Upgrading: admin_guide/upgrading.md
       - Misc.: admin_guide/misc.md
   - Other Resources:
       - Billing: other_resources/billing.md

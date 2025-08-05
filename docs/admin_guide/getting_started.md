@@ -90,7 +90,7 @@ Use a service that can run containers, such as compute services (e.g., AWS EC2, 
 - If the container status is "Exited", you can use `docker logs <container-id>` to see the logs and troubleshoot the issue.
 - Once the container is running, you can access the app by browsing the public IP address of the EC2 instance. E.g. if the public IP address is 172.30.40.243, then you should browse http://172.30.40.243
 
-#### Production Deployment
+#### Production
 For production deployment (over HTTPS), see [here](./production_deployment.md).
 
 ### Configuration
