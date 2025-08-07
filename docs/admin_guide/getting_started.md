@@ -10,7 +10,7 @@ DataBot can be run in two different modes, depending on your needs:
 ## Standalone Mode
 
 ### Launch
-- Download the latest standalone version <a href="https://github.com/Intellimenta/DataBot/releases/tag/v3.0" target="_blank">here</a>.
+- Download the latest standalone version <a href="https://github.com/Intellimenta/DataBot/releases/latest" target="_blank">here</a>.
 - Unzip the file.
 - Click on `launch_databot.bat` to run DataBot.
 - Browse `http://127.0.0.1:5000` to access the app.
