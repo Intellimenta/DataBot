@@ -30,6 +30,10 @@ Connecting DataBot to your BI tool allows you to
 
 In the 'Dashboards + Chatbot' layout, after user login, the chatbot is shown on the right and a dashboard is shown on the left (plus a dashboard picker for selecting different dashboards). This format is ideal for **customer-facing analytics**, e.g. if you are already sharing one or more dashboards with your customers.
 
+!!! note
+
+    If there is extra empty space between the dashboards and the dashboard picker, you can set the environment variable `ADD_MARGIN_TOP_TO_DASHBOARD` to false at deployment time to remove the extra space.
+
 In this subsection you can specify which dashboards should be available to each user group.
 
 - Enable static embedding in your Metabase (Admin Panel > Settings > Embedding)
