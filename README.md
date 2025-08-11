@@ -34,7 +34,7 @@
 - Dashboards (via Integration with BI Tools)
 - Unstructured files (PDF, Word, TXT, ...) [Coming Soon]
 - Structured files (CSV, Excel, ...) [Coming Soon]
-- Custom Connectors (Google Sheets, AWS CloudWatch Logs, AirTable, ...) [Coming Soon]
+- Custom Connectors (Google Sheets, AWS CloudWatch Logs, ...) [Coming Soon]
 
 ## Watch DataBot in Action
 
