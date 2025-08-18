@@ -1,0 +1,60 @@
+# Bangla translations for PROJECT.
+# Copyright (C) 2025 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2025-06-08 11:11-0700\n"
+"PO-Revision-Date: 2025-04-09 21:55-0700\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: bn\n"
+"Language-Team: bn <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: templates/chatbot_and_dashboards.html:123
+msgid "Toggle Chatbot"
+msgstr "চ্যাটবট চালু/বন্ধ করুন"
+
+#: templates/chatbot_and_dashboards.html:179 templates/index.html:118
+msgid "Delete Session"
+msgstr "সেশন মুছুন"
+
+#: templates/chatbot_and_dashboards.html:205 templates/index.html:147
+msgid "Use Voice"
+msgstr "ভয়েস ব্যবহার করুন"
+
+#: templates/chatbot_and_dashboards.html:208 templates/index.html:150
+msgid "Type ? for help"
+msgstr "সাহায্যের জন্য ? টাইপ করুন"
+
+#: templates/chatbot_and_dashboards.html:236 templates/index.html:180
+msgid "Open Personal Dashboard"
+msgstr "ব্যক্তিগত ড্যাশবোর্ড খুলুন"
+
+#: templates/chatbot_and_dashboards.html:238 templates/index.html:182
+msgid "New Chat"
+msgstr "নতুন চ্যাট"
+
+#: templates/chatbot_and_dashboards.html:239 templates/index.html:183
+msgid "Settings"
+msgstr "সেটিংস"
+
+#: templates/chatbot_and_dashboards.html:240
+msgid "Open Chatbot in Full Screen"
+msgstr "চ্যাটবট সম্পূর্ণ পর্দায় খুলুন"
+
+#: templates/index.html:109
+msgid "Toggle Sidebar"
+msgstr "সাইডবার চালু/বন্ধ করুন"
+
+#: templates/index.html:114
+msgid "Chat Archive"
+msgstr "চ্যাট আর্কাইভ"
+

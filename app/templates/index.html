@@ -1,0 +1,1517 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {%if white_labeling == True %}
+        {%if white_labeling_config.get('app_name') %}
+            <title>{{white_labeling_config.get('app_name')}}</title>
+        {%endif%}
+    {%else%}
+        <title>DataBot</title>
+    {%endif%}
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Merriweather:100,200,300,400,500,600,700,800,900">
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@700&family=Play&display=swap" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+    <script src="{{ url_for('static', path='js/actionButtons.js') }}?v={{ app_version }}"></script>
+    <script src="{{ url_for('static', path='js/chat.js') }}?v={{ app_version }}"></script>
+    <script src="{{ url_for('static', path='js/chatbotAndDashboardInterface.js') }}?v={{ app_version }}"></script>
+    <script src="{{ url_for('static', path='js/i18n.js') }}?v={{ app_version }}"></script>
+    <script src="{{ url_for('static', path='js/nav.js') }}?v={{ app_version }}"></script>
+    <script src="{{ url_for('static', path='js/personalDashboard.js') }}?v={{ app_version }}"></script>
+    <script src="{{ url_for('static', path='js/sidebar.js') }}?v={{ app_version }}"></script>
+    <script src="{{ url_for('static', path='js/statusUpdates.js') }}?v={{ app_version }}"></script>
+    <script src="{{ url_for('static', path='js/userSettings.js') }}?v={{ app_version }}"></script>
+    <script src="{{ url_for('static', path='js/utils.js') }}?v={{ app_version }}"></script>
+    <script src="{{ url_for('static', path='js/adminPanel/appAccessManagement.js') }}?v={{ app_version }}"></script>
+    <script src="{{ url_for('static', path='js/adminPanel/appMode.js') }}?v={{ app_version }}"></script>
+    <script src="{{ url_for('static', path='js/adminPanel/databaseConnections.js') }}?v={{ app_version }}"></script>
+    <script src="{{ url_for('static', path='js/adminPanel/dataObfuscation.js') }}?v={{ app_version }}"></script>
+    <script src="{{ url_for('static', path='js/adminPanel/defaultLanguageForAllUsers.js') }}?v={{ app_version }}"></script>
+    <script src="{{ url_for('static', path='js/adminPanel/emailSetup.js') }}?v={{ app_version }}"></script>
+    <script src="{{ url_for('static', path='js/adminPanel/fileUploadConfig.js') }}?v={{ app_version }}"></script>
+    <script src="{{ url_for('static', path='js/adminPanel/integrationWithBITool.js') }}?v={{ app_version }}"></script>
+    <script src="{{ url_for('static', path='js/adminPanel/llmConfig.js') }}?v={{ app_version }}"></script>
+    <script src="{{ url_for('static', path='js/adminPanel/misc.js') }}?v={{ app_version }}"></script>
+    <script src="{{ url_for('static', path='js/adminPanel/performanceTuning.js') }}?v={{ app_version }}"></script>
+    <script src="{{ url_for('static', path='js/adminPanel/querySuggestions.js') }}?v={{ app_version }}"></script>
+    <script src="{{ url_for('static', path='js/adminPanel/rls.js') }}?v={{ app_version }}"></script>
+    <script src="{{ url_for('static', path='js/adminPanel/schemaModeConfig.js') }}?v={{ app_version }}"></script>
+    <script src="{{ url_for('static', path='js/adminPanel/textToSQLTransactionTests.js') }}?v={{ app_version }}"></script>
+    <script src="{{ url_for('static', path='js/adminPanel/userManagement.js') }}?v={{ app_version }}"></script>
+    <script src="{{ url_for('static', path='js/adminPanel/whiteLabeling.js') }}?v={{ app_version }}"></script>
+    <script src="{{ url_for('static', path='js/adminPanel/analyticalModeConfig.js') }}?v={{ app_version }}"></script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', path='style.css') }}?v={{ app_version }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="icon" href="{{ white_labeling_config.get('favicon_url') if white_labeling_config.get('favicon_url') else url_for('static', path='media/databot-favicon.ico') }}" type="image/x-icon">
+    <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/dist/tippy.css" />
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="https://unpkg.com/tippy.js@6"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {%if analytical_mode == True %}
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-filler"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-financial"></script>
+    {%endif%}
+    <style>
+        input[type=text] {
+            font-family: 'Merriweather', 'Rubik', sans-serif;
+        }
+        input[type=text]::placeholder {
+            font-family: 'Play', 'Rubik', sans-serif;
+        }
+
+        @media screen and (max-width: 1000px){
+            #sidebar {
+                width: 0px;
+            }
+            #sidebarToggle {
+                display: none;
+            }
+            #active-db-container {
+                position: absolute;
+            }
+            #sidebar-logo {
+                position: absolute;
+            }
+            #content-wrapper {
+                padding: 45px 0px 0px 0px;
+            }
+            #settingsPopup, #personalDashboardSection {
+                max-width: 900px;
+                height: 100%;
+                top: 0;
+                border-radius: 0px;
+            }
+            #footer {
+                border-radius: 5px;
+                margin-bottom: 2px;
+                margin-right: 1px;
+                margin-left: 1px;
+            }
+            #query-suggestions {
+                flex-wrap: wrap;
+                margin: 0px 10px;
+                flex-direction: column;
+                align-content: center;
+            }
+            .query-suggestion {
+                flex: 1 1 100%;
+                max-width: 440px;
+            }
+        }
+
+        #content-wrapper {
+            background: #fff;
+        }
+        .tabcontent {
+            border-radius: 12px;
+            background: #fff;
+        }
+    </style>
+</head>
+<body id="main-body" style="visibility: hidden; flex-direction:row; background: linear-gradient(135deg, #f5f6fa 0%, #e9e6f7 100%);">
+
+<!-- 'block access' is handled in the /chat endpont -->
+<div id="warning" style="{{ 'display: block;' if license_key_status == 'warning' else 'display: none;' }} padding: 5px; background-color: lightyellow; position: absolute; z-index: 2;">
+    {% if license_is_static == True %}
+    Your license has expired. If you are the account owner, please renew the license to avoid any interruption in service.    
+    {% endif %}
+    {% if license_is_static == False %}
+    There is a billing issue with your subscription. If you are the account owner, please settle the outstanding balance to avoid any interruption in service.    
+    {% endif %}
+</div>
+
+<div id="sidebar" style="transition: width 0.5s;">
+    <div id="sidebar-top" style="display: flex; flex-direction: row; align-items: center; justify-content: space-between; border-bottom: 2px solid #644883; padding: 5px;">
+        
+        {%if is_session_page != True %}
+        <div id="active-db-container" style="display: flex; {% if databases_that_user_has_access | length == 1 %} visibility:hidden;{% endif %} align-items: center; margin-left: 3px">
+            <span style="font-size: 15px;"> DB:&nbsp;</span>
+            <select id="ActiveDatabaseDropdown" name="ActiveDBdropdown" onchange="registerActiveDB()" class="input-with-shadow" style="padding: 1px; width:140px; height: 26px; border: 2px solid #64488370;" >
+                    <option id="0" value="" selected disabled>Select a Database</option>
+                {% for db_id, engine, display_name in databases_that_user_has_access %}
+                    <option id="{{db_id}}" engine="{{engine}}" value="{{display_name}}" {% if active_db_id == db_id %}selected{% endif %}>{{display_name}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        {%endif%}
+
+        <img id="sidebar-toggle" src="{{ url_for('static', path='media/toggleSidebarIcon.svg') }}" data-tippy-content="{{ _('Toggle Sidebar') }}" onclick="toggleSidebar()" style="width:28px;" >
+    
+    </div>
+
+    <div id="chat_session_archive" style="margin-top: 10px;">
+        <p style="margin-bottom: 10px; font-weight: bold;">{{ _('Chat Archive') }}</p>
+    {% for session_hash, first_query in chat_sessions_archive %}
+        <div style="position: relative;" class="session-container">
+            <div id="session_{{session_hash}}" class="chat-session" title="{{first_query}}" onclick="window.open('/session/{{session_hash}}', '_blank')" style="direction:{{ 'rtl' if language in ['fa-IR', 'ar-SA', 'he-IL'] else 'ltr' }}; text-align:{{ 'right' if language in ['fa-IR', 'ar-SA', 'he-IL'] else 'left' }};">{{first_query}}</div>
+            <button class="session-delete-button" data-tippy-content="{{ _('Delete Session') }}" onclick="deleteSession('{{session_hash}}')">
+            <img src="{{ url_for('static', path='media/closeIcon.svg') }}" alt="Delete" style="width: 16px; height: 16px; vertical-align: middle;">
+            </button>
+        </div>
+    {% endfor %}
+    </div>
+</div>
+
+<div id="content-wrapper" >
+<div id="content" style="overflow-y: auto">
+    <div id="initialLoadingSpinner" class="spinner"></div>
+    <div id="main">
+        
+        <div id="loading-overlay">
+            <div id="status-updates-wrapper" style="position: inherit; top: 40%; left: calc(50% - 180px);">
+                <div id="spinner" class="spinner" style="position:relative; margin:auto; margin-bottom: 10px;"></div>
+                <div id="status-updates" style="width:350px; position: relative; direction:{{ 'rtl' if language in ['fa-IR', 'ar-SA', 'he-IL'] else 'ltr' }}; text-align:{{ 'right' if language in ['fa-IR', 'ar-SA', 'he-IL'] else 'left' }}; background-color: #8080802b; padding: 15px; border-radius: 5px;"></div>
+            </div>
+        </div>
+
+        <div id="conversation">
+        </div>
+        
+        {% if is_session_page != True %}   <!-- TODO: Enable resuming chat on loaded sessions-->
+            
+            <div id="footer">
+                <div id="input-area">
+                    <form onsubmit="submitUserMessage(event)" method="post" id="user_message_form" style="width: 100%; height:35px; margin-bottom: 0px; ">
+                        <div id="mic-container">
+                            <img src="{{ url_for('static', path='media/mic.svg') }}" onclick="startVoiceRecognition()" id="micIcon">
+                            <img src="{{ url_for('static', path='media/micDark.svg') }}" onclick="startVoiceRecognition()" id="micIconDark" data-tippy-content="{{ _('Use Voice') }}">
+                        </div>
+                        
+                        <textarea id="user_message"
+                            placeholder="{{ _('Type ? for help') }}"
+                            name="user_message"
+                            style="direction:{{ 'rtl' if language in ['fa-IR', 'ar-SA', 'he-IL'] else 'ltr' }}; resize: none; font-family: 'Merriweather', 'Rubik', sans-serif; padding-top: 7px; box-sizing: border-box; height: 40px; line-height: 20px;"
+                            required
+                            autocomplete="off"
+                            rows="1"
+                            onkeydown="handleEnter(event)"></textarea>
+
+                        <div id="submit-container">
+                            <input type="image" src="{{ url_for('static', path='media/submitIcon.svg') }}" alt="Submit" id="submitIcon">
+                            <input type="image" src="{{ url_for('static', path='media/submitIconDark.svg') }}" alt="Submit" id="submitIconDark">
+                        </div>
+                        
+                    </form>
+                </div>
+            </div>
+
+        {% endif %}
+
+        <div id="notification"></div>
+
+    </div>
+</div>
+</div>
+
+<div id="listeningDiv" style="width: 100%; height: 100%; position: absolute; inset: 0px; background-color: rgb(0 0 0 / 80%);">
+    <div id="listeningContainer" style="max-width: 600px; margin: auto; margin-top: 10%;">
+        <img src="{{ url_for('static', path='media/mic.gif') }}" style="width: 90px; margin-top: 50px">
+        <div id='transcription' style="color: white; font-size: 22px; margin-top: 30px; padding: 15px;"></div>
+    </div>
+</div>
+
+
+{%if is_session_page != True %}
+<div id="top-right-buttons-container" style="position: absolute; display: flex; top: 8px; right: 5px; justify-content: space-around; align-items: center; width: {{80 if analytical_mode == True else 110}}px; height: 36px;">
+    {%if analytical_mode != True %}
+        <img src="{{ url_for('static', path='media/personalDashboardIcon.svg') }}" id="personalDashboardIcon" alt="personalDashboardIcon" class="top-right-button" data-tippy-content="{{ _('Open Personal Dashboard') }}" onclick="loadPersonalDashboard()" style="width:32px; height: 32px;">
+    {%endif%}
+    <img src="{{ url_for('static', path='media/newSessionIcon.svg') }}" id="newSessionIcon" alt="newSessionIcon" data-tippy-content="{{ _('New Chat') }}" class="top-right-button" onclick="startNewSession()" style="width:32px; height: 32px; margin-top: 3px;">
+    <img src="{{ url_for('static', path='media/gearIcon.svg') }}" id="gearIcon" alt="gearIcon" class="top-right-button" data-tippy-content="{{ _('Settings') }}" onclick="togglePopup()" style="width: 28px; height: 28px; padding: 5px 3px;">
+</div>
+{%else%}
+<div id="top-right-buttons-container" style="position: absolute; display: flex; top: 8px; right: 5px; justify-content: space-around; align-items: center; width: {{80 if analytical_mode == True else 110}}px; height: 36px;">
+    <img src="{{ url_for('static', path='media/newSessionIcon.svg') }}" id="newSessionIcon" alt="newSessionIcon" data-tippy-content="{{ _('New Chat') }}" class="top-right-button" onclick="window.location.href='/main'" style="width:32px; height: 32px; margin-top: 3px;">
+</div>
+
+{%endif%}
+
+<div id="personalDashboard_BG" style="position: absolute; inset: 0px; display: none; background-color: rgba(0, 0, 0, 0.5);" >
+    <div id="personalDashboardSection" style="max-width:800px;">
+    </div>
+</div>
+
+
+<div id="settingsPopup_BG" style="position: absolute; inset: 0px; display: none; background-color: rgba(0, 0, 0, 0.5);" >
+    <div id="settingsPopup">
+        <button class="close-button" onclick="closePopup()" style="margin-bottom: {{100 if white_labeling == True else 50}}px;">
+            <img src="{{ url_for('static', path='media/X small.png') }}" class="close_icon">Close
+        </button>
+        <img src="{{ white_labeling_config.get('logo_url') if white_labeling == True and white_labeling_config.get('logo_url') else url_for('static', path='media/DataBot Logo Transparent.svg') }}" style="max-width: {{ white_labeling_config.get('logo_max_width', 200) * 0.7 if white_labeling == True else 100 }}px; padding:5px; margin-bottom: 10px; margin-top:-10px;">
+        
+        <h2 style="margin:10px; margin-top:0px; text-align:center;">Settings</h2>
+        {{email}}
+        {% if client_name %}
+            <br>{{client_name}}
+        {% endif %}
+        <div class="tab">
+            {% if is_admin %}
+            <button class="tablinks" data-testid="settings_admin_panel_btn" onclick="openTab('adminPanel')" style="margin-bottom: 15px;"><img src="{{ url_for('static', path='media/adminPanel.svg') }}" style="padding-right: 10px;">Admin Panel <img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
+            {% endif %}
+            
+            <button class="tablinks" data-testid="settings_lang_setting_btn" onclick="openTab('userLanguageSettings')"><img src="{{ url_for('static', path='media/langIcon.svg') }}" style="padding-right: 10px;">Language<img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
+            {% if analytical_mode == True %}
+            <button class="tablinks" data-testid="settings_chatbot_instructions_btn" onclick="openTab('provideInstructions')"><img src="{{ url_for('static', path='media/metadata.svg') }}" style="padding-right: 10px;">Provide instructions for the Chatbot <img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
+            {% endif %}
+            {% if analytical_mode != True %}
+            <button class="tablinks" data-testid="settings_card_height_btn" onclick="openTab('CardHeightSettings')"><img src="{{ url_for('static', path='media/cardHeightIcon.svg') }}" style="padding-right: 10px;">Result Card Height <img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
+            {% endif %}
+            <button class="tablinks" data-testid="settings_show_interim_result_btn"><img src="{{ url_for('static', path='media/showInterimResultIcon.svg') }}" style="padding-right: 10px;">Continuous Voice Transcription 
+                <input type="checkbox" data-testid="settings_show_interim_result_toggle" id="toggle-button-settings-pref" class="toggle-button" {% if user_prefs[2] == True %} checked {% endif %} onclick="saveUserPreference('showInterimResult', this.checked)">
+                <label for="toggle-button-settings-pref" class="toggle-label"></label>
+            </button>
+            {% if white_labeling != True %}
+            <button class="tablinks" onclick="openTab('reportIssue')" style="margin-top: 15px;"><img src="{{ url_for('static', path='media/reportIssueIcon.svg') }}" style="padding-right: 8px; width: 27px; margin-left: -1px;">Report a Problem or Request a Feature<img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
+            <button class="tablinks" onclick="window.open('https://github.com/Intellimenta/DataBot/discussions', '_blank')"><img src="{{ url_for('static', path='media/discussionForumIcon.svg') }}" style="padding-right: 10px;">Ask a Question<img src="{{ url_for('static', path='media/openInNewWindowIcon.svg') }}" style="padding-left: 10px;"></button>
+            <button class="tablinks" onclick="window.open({%if analytical_mode == True %}'https://www.loom.com/share/d3746a993eca463eb5100ce65104cfb6'{%else%}'https://www.loom.com/share/d1af20ba05f94be2b9d84c5c26937463'{%endif%}, '_blank')"><img src="{{ url_for('static', path='media/demoVideoIcon.svg') }}" style="padding-right: 10px;">Watch a Demo of DataBot<img src="{{ url_for('static', path='media/openInNewWindowIcon.svg') }}" style="padding-left: 10px;"></button>
+            <!-- <button class="tablinks" onclick="window.open('https://intellimenta.com/products/databot', '_blank')"><img src="{{ url_for('static', path='media/visitProductPageIcon.svg') }}" style="padding-right: 10px;">Visit the Product Page<img src="{{ url_for('static', path='media/openInNewWindowIcon.svg') }}" style="padding-left: 10px;"></button> -->
+            {% else %}
+                {% if white_labeling_config.get('demo_url') %}
+                    <button class="tablinks" onclick="window.open('{{ white_labeling_config.get("demo_url") }}', '_blank')"><img src="{{ url_for('static', path='media/demoVideoIcon.svg') }}" style="padding-right: 10px;">Watch a Demo of the App<img src="{{ url_for('static', path='media/openInNewWindowIcon.svg') }}" style="padding-left: 10px;"></button>
+                {% endif %}
+            {% endif %}
+            {% if logged_in_with_sso != True %}
+            <button class="tablinks" data-testid="settings_change_password_btn" onclick="openTab('changePassword')"><img src="{{ url_for('static', path='media/changePasswordIcon.svg') }}" style="padding-right: 10px;">Change Password <img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
+            <button class="tablinks" onclick="logout('{{is_two_col}}')"><img src="{{ url_for('static', path='media/logoutIcon.svg') }}" style="padding-right: 10px;">Logout</button>
+            {% endif %}
+            <div style="margin-top: 25px;">
+                Version: {{app_version}}<br>
+                {%if white_labeling != True %}Built with care in Vancouver, Canada {%endif%}
+            </div>
+        </div>
+
+
+        {% if is_admin %}
+            <div id="adminPanel" class="tabcontent tabAdmin">
+                <button class="back-button" data-testid="back-btn-adminPanel" style="max-width: 72px; max-height: 30px; margin-bottom: 20px; margin-top:22px;" onclick="closeTab('adminPanel')"><img src="{{ url_for('static', path='media/arrowBackwardIcon.svg') }}" class="back_icon">Back</button>
+                <h3 class="settings_inner_page_title" style="justify-content: center; padding-bottom: 10px; margin-top: 0px; padding-right: 15px;"><img src="{{ url_for('static', path='media/adminPanel.svg') }}" style="padding-right: 10px;">Admin Panel</h3>
+                {%if license_is_static == True and is_standalone != True %}
+                    <p style="margin:0px 0px 5px 0px">This instance of DataBot is licensed exclusively to {{client_name}}.<br> Redistribution or resale is not permitted.</p>
+                {%endif%}
+                <button class="tablinks" data-testid="admin_panel_admin_guide_btn" onclick="window.open('https://databot.intellimenta.com/admin_guide/admin_panel_overview', '_blank')" style="margin-bottom: 25px;"><img src="{{ url_for('static', path='media/adminGuideIcon.svg') }}" style="padding-right: 10px;">Admin Guide<img src="{{ url_for('static', path='media/openInNewWindowIcon.svg') }}" style="padding-left: 10px;"></button>
+                {%if bi_integration_enabled == True %}
+                <!-- <button class="tablinks" data-testid="admin_panel_analytical_mode_btn" style="justify-content: space-between;">
+                    <div id="schema-mode-text" {% if analytical_mode != True %} style="font-weight:bold" {% endif %}>Schema Mode</div>
+                    <input type="checkbox" id="toggle-button-analytical-mode" class="toggle-button" {% if analytical_mode == True %} checked {% endif %} onclick="saveAppMode(this.checked)" >
+                    <label for="toggle-button-analytical-mode" class="toggle-label toggle-label-secondary-color" style="left: calc(50% - 25px);"></label>
+                    <div id="analytical-mode-text" {% if analytical_mode == True %} style="font-weight:bold" {% endif %}>Analytical Mode</div>
+                </button> -->
+                {%endif%}
+                <button class="tablinks" data-testid="admin_panel_llm_config_btn" onclick="openTabNoPreLoad('llmConfig', 'llm-config')"><img src="{{ url_for('static', path='media/modelIcon.svg') }}" style="padding-right: 10px;">LLM Config<img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
+                <button class="tablinks" data-testid="admin_panel_bi_integration_btn" onclick="openTab('BIintegration')"><img src="{{ url_for('static', path='media/bi_integration_icon.svg') }}" style="padding-right: 10px;">Integration with BI Tools<img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
+                <button class="tablinks" data-testid="admin_panel_db_connections_btn" onclick="openTab('dbConnections')"><img src="{{ url_for('static', path='media/db.svg') }}" style="padding-right: 10px;">Database Connections <img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
+                <button class="tablinks" data-testid="admin_panel_manage_access_to_app_btn" onclick="openTabNoPreLoadManageAccessToApp('manageAccessToApp')"><img src="{{ url_for('static', path='media/ManageAccessToAppIcon.svg') }}" style="padding-right: 10px;">App Access Management <img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
+                <button class="tablinks" data-testid="admin_panel_user_management_btn" onclick="openTab('userManagement')"><img src="{{ url_for('static', path='media/user_management.svg') }}" style="padding-right: 10px;">User Management <img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
+                <button class="tablinks" data-testid="admin_panel_email_setup_btn" onclick="openTabNoPreLoadEmailSetup('emailSetup')"><img src="{{ url_for('static', path='media/emailIcon.svg') }}" style="padding-right: 10px;">Email Setup<img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
+                <button class="tablinks" data-testid="admin_panel_default_lang_all_users_btn" onclick="openTab('defaultLangAllUsers')"><img src="{{ url_for('static', path='media/langIcon.svg') }}" style="padding-right: 10px;">Default Language for All Users<img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
+                <button class="tablinks" data-testid="admin_panel_query_suggestions_btn" onclick="openTab('querySuggestionsDB')"><img src="{{ url_for('static', path='media/querySuggestionIcon.svg') }}" style="padding-right: 10px;">Query Suggestions<img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
+                <button class="tablinks" data-testid="admin_panel_performance_tuning_btn" onclick="openTabNoPreLoadPerformanceTuning('performanceTuning')"><img src="{{ url_for('static', path='media/performanceTuningIcon.svg') }}" style="padding-right: 10px;">Performance Tuning<img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
+                <button class="tablinks" data-testid="admin_panel_analytical_mode_btn" onclick="openTabNoPreLoad('analyticalMode', 'analytical-mode')"><img src="{{ url_for('static', path='media/analyticalModeIcon.svg') }}" style="padding-right: 10px;">Analytical Mode Config<img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
+                {%if bi_integration_enabled == True %}
+                <!-- <button class="tablinks" data-testid="admin_panel_schema_mode_btn" onclick="openTab('schemaModeConfig')"><img src="{{ url_for('static', path='media/schemaModeIcon.svg') }}" style="padding-right: 10px;">Schema Mode Config<img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button> -->
+                <button class="tablinks" data-testid="admin_panel_response_quality_tests_btn" onclick="openTab('responseQualityTestsSelectDB')"><img src="{{ url_for('static', path='media/responseQualityTestsIcon.svg') }}" style="padding-right: 10px;">Text-to-SQL Translation Tests<img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
+                {%endif%}
+                <!-- <button class="tablinks" data-testid="admin_panel_file_uploads_btn" onclick="openTabNoPreLoad('fileUploadsConfig', 'file-uploads-config')"><img src="{{ url_for('static', path='media/uploadIcon.svg') }}" style="padding-right: 10px;">File Uploads<img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button> -->
+                <button class="tablinks" data-testid="admin_panel_rlac_btn" onclick="openTab('rlac')"><img src="{{ url_for('static', path='media/rlac.svg') }}" style="padding-right: 10px;">Row-level Security (RLS)<img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
+                <button class="tablinks" data-testid="admin_panel_data_obf_btn" onclick="openTab('dataObfuscation')"><img src="{{ url_for('static', path='media/dataObfuscationIcon.svg') }}" style="padding-right: 10px;">Data Obfuscation <img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
+                <button class="tablinks" data-testid="admin_panel_white_labeling_btn" onclick="openTabNoPreLoadWhiteLabeling('whiteLabeling')"><img src="{{ url_for('static', path='media/whiteLabelingIcon.svg') }}" style="padding-right: 10px;">White-labeling <img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
+                <button class="tablinks" data-testid="admin_panel_misc_btn" onclick="openTab('misc')"><img src="{{ url_for('static', path='media/misc.svg') }}" style="padding-right: 10px;">Misc.<img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
+                <!-- <button class="tablinks" onclick="openTabNoPreLoadErrorLogs('errorLogs')"><img src="{{ url_for('static', path='media/errorLogsIcon.svg') }}" style="padding-right: 10px;">Error Logs<img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button> -->
+                <div id="spinnerAdminPanel" class="spinner" style="z-index: 1000; margin-top: -80%;"></div>
+            </div>
+
+                <div id="userManagement" data-testid="admin_panel_user_groups" class="tabcontent tabAdmin">
+                    <button data-testid="back-btn-userManagement" class="back-button" style="max-width: 72px; max-height: 30px; margin-bottom: 50px; margin-top:22px;" onclick="closeTab('userManagement')"><img src="{{ url_for('static', path='media/arrowBackwardIcon.svg') }}" class="back_icon">Back</button>
+                    <h3 class="settings_inner_page_title" style="justify-content: center; padding-bottom: 10px;"><img src="{{ url_for('static', path='media/user_management.svg') }}" style="padding-right: 10px;">User Management</h3>
+                    
+                    <button class="tablinks" data-testid="admin_panel_user_groups_btn" onclick="openTab('userGroups')"><img src="{{ url_for('static', path='media/user_groups.svg') }}" style="padding-right: 10px;">User Groups <img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
+                    <button class="tablinks" data-testid="admin_panel_user_group_assignment_and_access_management_btn" onclick="openTab('manageUserGroupAssignmentAndAccess')"><img src="{{ url_for('static', path='media/userGroupAssignmentAndAccessIcon.svg') }}" style="padding-right: 10px;">User Group Assignment and Access Management <img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
+                    <button class="tablinks" data-testid="admin_panel_custom_user_attributes_btn" onclick="openTab('customUserAttributes')"><img src="{{ url_for('static', path='media/customUserAttributesIcon.svg') }}" style="padding-right: 10px;">Custom User Attributes <img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
+                </div>
+
+                <div id="manageUserGroupAssignmentAndAccess" data-testid="admin_panel_user_management" class="tabcontent tabAdmin">
+                    <button data-testid="back-btn-manageUserGroupAssignmentAndAccess" class="back-button" style="max-width: 72px; max-height: 30px; margin-bottom: 50px; margin-top:22px;" onclick="closeTab('manageUserGroupAssignmentAndAccess')"><img src="{{ url_for('static', path='media/arrowBackwardIcon.svg') }}" class="back_icon">Back</button>
+                    <h3 class="settings_inner_page_title" style="justify-content: center; padding-bottom: 10px;"><img src="{{ url_for('static', path='media/userGroupAssignmentAndAccessIcon.svg') }}" style="padding-right: 10px;">User Group Assignment and Access Management </h3>
+                    <div style="display: flex; justify-content: space-between; padding: 0px 20px 0px 30px;">
+                        <div>Email (Last Login)</div>
+                        <div style="margin-right: -35px;">Groups</div>
+                        <div>Access To App</div>
+                    </div>
+                    {% for user_email, user_group_memberships, has_access, last_login in user_list %}
+                        <button class="tablinks">
+                            <div style="display: flex; flex-direction: column;">
+                                {{ user_email }} 
+                                <span style="font-size:12px">({{ last_login }})</span>
+                            </div>
+                            
+                            <input type="checkbox" class="toggle-button" id="toggle-button-user-group-{{ loop.index }}" 
+                                {% if has_access %} checked {% endif %} {% if user_email == email %} disabled {% endif %}  
+                                onclick="saveUserAccess('{{ user_email }}', this.checked )">
+                            <label for="toggle-button-user-group-{{ loop.index }}" class="toggle-label"></label>
+
+                            <div class="multi-select-dropdown" style="background-color: white; left: 50%; position: absolute; height: 35px; border-radius: 3px; display: flex; align-items: center;">
+                                <div class="multi-select-dropdown-toggle" onclick="toggleDropdown(event)" style="font-size: 14px;">Select Groups</div>
+                                <div class="multi-select-dropdown-menu" style="border-radius: 3px;">
+                                    {% for group in groups_list %}
+                                        <label class="multi-select-dropdown-item">
+                                            <input type="checkbox" emailAddress="{{user_email}}" value="{{group}}" onclick="toggleCheckmarkGroupMembership(this)" 
+                                                    {% if group in user_group_memberships %} checked {% endif %} 
+                                                    {% if user_email == email and group == 'Admins' %} checked disabled {% endif %} 
+                                                    {% if user_email.split('@')[1] != email.split('@')[1] and group == 'Admins' %} disabled {% endif %} > {{group}}
+                                        </label>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </button>
+                    {% endfor %}
+                </div>
+
+
+                <div id="userGroups" data-testid="admin_panel_user_groups" class="tabcontent tabAdmin">
+                    <button data-testid="back-btn-userGroups" class="back-button" style="max-width: 72px; max-height: 30px; margin-bottom: 50px; margin-top:22px;" onclick="closeTab('userGroups')"><img src="{{ url_for('static', path='media/arrowBackwardIcon.svg') }}" class="back_icon">Back</button>
+                    <h3 class="settings_inner_page_title" style="justify-content: center; padding-bottom: 10px;"><img src="{{ url_for('static', path='media/user_groups.svg') }}" style="padding-right: 10px;">User Groups</h3>
+                        
+                    <div id="groupsList" style="display: flex; flex-direction: column;">
+                        {% for group in groups_list %}
+                            <button id="usergroup_{{group}}" class="tablinks" onclick="openTabNoPreLoadGroupUserList('groupUserList_{{group}}')"><img src="{{ url_for('static', path='media/user_groups.svg') }}" style="padding-right: 10px;">{{group}}<img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>                                
+                        {% endfor %}
+                    </div>
+                    
+                    {% for group in groups_list %}
+                        <div id="groupUserList_{{group}}" class="tabcontent tabAdmin">
+                            <button data-testid="back-btn-groupUserList_{{group}}" class="back-button" style="max-width: 72px; max-height: 30px; margin-bottom: 50px; margin-top:22px;" onclick="closeTab('groupUserList_{{group}}')"><img src="{{ url_for('static', path='media/arrowBackwardIcon.svg') }}" class="back_icon">Back</button>
+                            <h3 class="settings_inner_page_title" style="justify-content: center; padding-bottom: 10px;"><img src="{{ url_for('static', path='media/user_groups.svg') }}" style="padding-right: 10px;">{{group}}</h3>
+                            
+                            <div id="groupUserList_{{group}}_users">
+                            </div>
+                            
+                            {% if group not in ['Admins', 'Default'] %}
+                                <div style="margin-bottom: 20px; margin-top: 30px;">
+                                    <!-- <input value="Rename Group" onclick="openPopupScreen('renameGroup', 'usergroup_{{group}}')" class="intellimenta-color-button" style="text-align: center;"> -->
+                                    <input value="Delete Group" onclick="openPopupScreen('deleteGroupConfirmation', 'usergroup_{{group}}')" class="intellimenta-color-button" style="background-color: #d82222; text-align:center;">
+                                </div>
+                            {% endif %}
+
+                            <div id="responseDeleteGroup_{{group}}" style="margin: 20px;"></div>
+                            <div id="spinnerDeleteGroup_{{group}}" class="spinner"></div>
+
+                        </div>
+                    {% endfor %}
+            
+                    <div style="margin-bottom: 20px; margin-top: 30px;">
+                        <input type="submit" value="Create Group" onclick="openPopupScreen('groupCreation')" class="intellimenta-color-button">
+                    </div>
+                    
+                    <div id="responseGroups" style="margin: 20px;"></div>
+                    <div id="spinnerGroups" class="spinner"></div>
+
+                    <!-- Group Creation Screen -->
+                    <div id="groupCreation" class="confirmation-screen">
+                        <div class="confirmation-screen-content">
+                            <input type="text" id='userProvidedgroupName' placeholder="Enter Group Name" style="margin-bottom:20px; margin-top:20px; height:25px; padding:5px;">
+                            <div style="display: flex; justify-content: center;">
+                                <button class="button" onclick="createGroup()">Create</button>
+                                <button class="button" onclick="closePopupScreen('groupCreation')">Cancel</button>
+                            </div>
+                            <div id="groupCreationErrorDiv"></div>
+                        </div>
+                    </div>
+
+                    <!-- Group Renaming Screen -->
+                    <div id="renameGroup" class="confirmation-screen">
+                        <div class="confirmation-screen-content">
+                            <input type="text" id='userProvidedNewgroupName' placeholder="Enter the New Group Name" style="margin-bottom:20px; margin-top:20px; height:25px; padding:5px;">
+                            <div style="display: flex; justify-content: center;">
+                                <button class="button" onclick="renameGroup()">Rename</button>
+                                <button class="button" onclick="closePopupScreen('renameGroup')">Cancel</button>
+                            </div>
+                            <div id="renameGroupErrorDiv"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Group Deletion Confirmation Screen -->
+                    <div id="deleteGroupConfirmation" class="confirmation-screen">
+                        <div class="confirmation-screen-content">
+                            <p>Are you sure you want to delete this group?</p>
+                            <div style="display: flex; justify-content: center;">
+                                <button class="button" onclick="deleteGroup()">Yes, Delete</button>
+                                <button class="button" onclick="closePopupScreen('deleteGroupConfirmation')">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- User Removal From Group Confirmation Screen -->
+                    <div id="removeUserFromGroupConfirmation" class="confirmation-screen">
+                        <div class="confirmation-screen-content">
+                            <p>Are you sure you want to remove this user from the group?</p>
+                            <div style="display: flex; justify-content: center;">
+                                <button class="button" onclick="removeUserFromGroup()">Yes, Remove</button>
+                                <button class="button" onclick="closePopupScreen('removeUserFromGroupConfirmation')">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="customUserAttributes" data-testid="admin_panel_custom_user_attributes" class="tabcontent tabAdmin">
+                    <button data-testid="back-btn-customUserAttributes" class="back-button" style="max-width: 72px; max-height: 30px; margin-bottom: 50px; margin-top:22px;" onclick="closeTab('customUserAttributes')"><img src="{{ url_for('static', path='media/arrowBackwardIcon.svg') }}" class="back_icon">Back</button>
+                    <h3 class="settings_inner_page_title" style="justify-content: center; padding-bottom: 10px;"><img src="{{ url_for('static', path='media/customUserAttributesIcon.svg') }}" style="padding-right: 10px;">Custom User Attributes</h3>
+                    <p style="margin: 20px;">"USER_EMAIL" and "USER_EMAIL_DOMAIN" are built-in user attributes. You can create other attributes below.</p>
+                    
+                    <div id="customUserAttributeList" style="display: flex; flex-direction: column;">
+                        {% for attribute in custom_user_attribute_list %}
+                            <button id="userAttribute_{{attribute}}" class="tablinks" onclick="openTabNoPreLoadCustomUserAttributeAssignment('{{attribute}}')"><img src="{{ url_for('static', path='media/customUserAttributesIcon.svg') }}" style="padding-right: 10px;">{{attribute}}<img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>                                
+                        {% endfor %}
+                    </div>
+
+                    <div style="margin-bottom: 20px; margin-top: 30px;">
+                        <input type="submit" value="Create Custom Attribute" onclick="openPopupScreen('customUserAttributeCreation')" class="intellimenta-color-button" style="max-width: 170px;">
+                    </div>
+
+                    <div id="spinnerAttributeAssignment" class="spinner"></div>
+
+                    <!-- Custom Attribute Creation Screen -->
+                    <div id="customUserAttributeCreation" class="confirmation-screen">
+                        <div class="confirmation-screen-content">
+                            <input type="text" id='userProvidedAttributeName' placeholder="Enter Attribute Name" style="margin-bottom:20px; margin-top:20px; height:25px; padding:5px;">
+                            <div style="display: flex; justify-content: center;">
+                                <button class="button" onclick="createCustomUserAttribute()">Create</button>
+                                <button class="button" onclick="closePopupScreen('customUserAttributeCreation')">Cancel</button>
+                            </div>
+                            <div id="customUserAttributeCreationErrorDiv"></div>
+                        </div>
+                    </div>
+
+                    <div id="customUserAttributeAssignment" class="tabcontent tabAdmin">
+                    </div>
+
+                </div>
+
+                <div id="dbConnections" data-testid="admin_panel_db_connections" class="tabcontent tabAdmin">
+                    <button data-testid="back-btn-dbConnections" class="back-button" style="max-width: 72px; max-height: 30px; margin-bottom: 50px; margin-top:22px;" onclick="closeTab('dbConnections')"><img src="{{ url_for('static', path='media/arrowBackwardIcon.svg') }}" class="back_icon">Back</button>
+                    <h3 class="settings_inner_page_title" style="justify-content: center; padding-bottom: 10px; margin-top: 20px;"><img src="{{ url_for('static', path='media/db.svg') }}" style="padding-right: 10px;">Database Connections</h3>
+                    
+                    <button class="tablinks" data-testid="admin_panel_add_new_connection_btn" onclick="openTab('addDBconnection')" style="margin: 10px 20px;"><img src="{{ url_for('static', path='media/add_db.svg') }}" style="padding-right: 10px;">Add Database Connection <img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
+                    
+                    <p style="font-weight: bold;">Manually-Added DB Connections</p>
+                    
+                    {% if has_manual_connections == True %}
+                    <button id="refresh_manual_dbs_btn" class="intellimenta-color-button" data-testid="refresh_manual_dbs_btn" style="max-width: 230px; background-color: #644883; padding: 7px 10px;; font-size: 14px; margin: 10px auto;" onclick="refreshManualDBs()">
+                        <img src="{{ url_for('static', path='media/syncIcon_white.svg') }}" style="padding-right: 5px;">Refresh Database Schemas
+                    </button>
+                    {% endif %}
+                    
+                    <div id="spinnerRefreshManualDBs" class="spinner" style="margin: 0px auto; margin-bottom: -10px; display: block; visibility: hidden;"></div>
+                    <div id="responseRefreshManualDBs" style="display: none;"></div>
+
+                    <div>
+                        <div style="padding: 0px 20px;">
+                            <table id="manualConnectionsTable">
+                                <tr>
+                                    <th style="min-width: 300px;">Name</th>
+                                    <th>Engine</th>
+                                </tr>
+                                {% for db_id, ( (engine, display_name, _), database_tables_id_name_pair_list) in db_connections_dict.items() %}
+                                    {% if db_id > 0 %}
+                                        <tr id="tr_db_ref_{{ db_id }}">
+                                            <td><a href="#" id="td_db_ref_{{ db_id }}" onclick="openTabNoPreloadDatabaseConnection({{ db_id }})">{{display_name}}</a></td>
+                                            <td>{{engine}}</td>
+                                        </tr>
+                                    {% endif %}
+                                {% endfor %}
+                            </table>
+                        </div>
+                    </div>
+
+
+                    {% if bi_integration_enabled == True or has_bi_connections == True %}
+                    <hr style="margin: 20px; margin-top: 40px; border: solid 1px;">
+                    
+                    <p style="font-weight: bold;">DB Connections from BI Tool</p>
+
+                    <button id="sync_with_bi_tool" class="intellimenta-color-button" data-testid="sync_with_mb_btn" style="max-width: 180px; background-color: #644883; padding: 7px 10px;; font-size: 14px; margin: 10px auto;" onclick="syncDBs()">
+                        <img src="{{ url_for('static', path='media/syncIcon_white.svg') }}" style="padding-right: 5px;">Sync with Metabase
+                    </button>
+                    <p style="margin:10px 20px;">The name of the Metabase connection must end with '(DataBot)' to be recognized here.</p>
+                    
+                    <div id="spinnerSyncDBs" class="spinner" style="margin: 20px auto"></div>
+                    <div id="responseSyncDBs" style="margin: 20px;">
+
+                        <div>
+                            <table>
+                                <tr>
+                                    <th style="min-width: 300px;">Name</th>
+                                    <th>Engine</th>
+                                </tr>
+                                {% for db_id, ( (engine, display_name, _), database_tables_id_name_pair_list) in db_connections_dict.items() %}
+                                    {% if db_id < 0 %}
+                                        <tr id="tr_db_ref_{{ db_id }}">
+                                            <td><a href="#" id="td_db_ref_{{ db_id }}" onclick="openTabNoPreloadDatabaseConnection({{ db_id }})">{{display_name}}</a></td>
+                                            <td>{{engine}}</td>
+                                        </tr>
+                                    {% endif %}
+                                {% endfor %}
+                            </table>
+                        </div>
+
+                    </div>
+                    {% endif %}
+
+                </div>
+
+                <div id="db_ref" class="tabcontent tabAdmin"></div>
+
+                    <div id="addDBconnection" class="tabcontent tabAdmin">
+                        <button class="back-button" style="max-width: 72px; max-height: 30px; margin-bottom: 50px; margin-top:22px;" onclick="closeTab('addDBconnection')"><img src="{{ url_for('static', path='media/arrowBackwardIcon.svg') }}" class="back_icon">Back</button>
+                        <h3 class="settings_inner_page_title" style="justify-content: center; padding-bottom: 10px; margin-top: 0px;"><img src="{{ url_for('static', path='media/add_db.svg') }}" style="padding-right: 10px;">Add Database Connection</h3>
+
+                        <form id="AddConnectionForm" onsubmit="addDBConnection(event)">
+                            <input type="hidden" name="form_type" value="add_db_connection">
+
+                            <div class="input-container">
+                                <select id="ConnectionTypesDropdown" name="connectionDropdown" class="input-with-shadow" style="padding: 10px;" onchange="showSelectedConnectionTypeFields()">
+                                    <!-- <option value="Athena">Amazon Athena</option>
+                                    <option value="Redshift">Amazon Redshift</option> -->
+                                    <option value="BigQuery">BigQuery</option> 
+                                    <!-- <option value="ClickHouse">ClickHouse</option>
+                                    <option value="MongoDB">MongoDB</option> -->
+                                    <option value="MySQL">MySQL</option>
+                                    <option value="Oracle">Oracle</option>
+                                    <!-- <option value="Oracle Autonomous Database">Oracle Autonomous Database</option> -->
+                                    <option value="PostgreSQL" selected>PostgreSQL</option>
+                                    <option value="Snowflake">Snowflake</option>
+                                    <option value="SQL Server">SQL Server</option> 
+                                </select>
+                            </div>
+
+                            <div id="PostgreSQL" class="input-group" style="display:flex">
+                                <div class="input-container">
+                                    <p class="field-title-left">Display Name</p>
+                                    <input data-testid="display_name_PostgreSQL" type="text" placeholder="" name="display_name_PostgreSQL" required class="input-with-shadow" style="padding: 10px;">
+                                </div>
+                                <div class="input-container">
+                                    <p class="field-title-left">Host</p>
+                                    <input data-testid="host_PostgreSQL" type="text" placeholder="" name="host_PostgreSQL" required class="input-with-shadow" style="padding: 10px;">
+                                </div>
+                                <div class="input-container">
+                                    <p class="field-title-left">Port</p>
+                                    <input data-testid="port_PostgreSQL" type="number" placeholder="5432" name="port_PostgreSQL" required class="input-with-shadow" style="padding: 10px;">
+                                </div>
+                                <div class="input-container">
+                                    <p class="field-title-left">Database Name</p>
+                                    <input data-testid="db_name_PostgreSQL" type="text" placeholder="" name="db_name_PostgreSQL" required class="input-with-shadow" style="padding: 10px;">
+                                </div>
+                                <div class="input-container">
+                                    <p class="field-title-left">Username</p>
+                                    <input data-testid="db_username_PostgreSQL" type="text" placeholder="" name="db_username_PostgreSQL" required class="input-with-shadow" style="padding: 10px;">
+                                </div>
+                                <div class="input-container">
+                                    <p class="field-title-left">Password</p>
+                                    <input data-testid="db_password_PostgreSQL" type="password" placeholder="" name="db_password_PostgreSQL" required class="input-with-shadow" style="padding: 10px;">
+                                </div>
+                                <div style="display: flex;flex-direction: row;align-items: center;justify-content: space-around;padding: 15px 0px;">
+                                    <div style="display: flex;align-items: center;"><img src="{{ url_for('static', path='media/sslIcon.svg') }}" style="padding-right: 5px;">Use a secure connection (SSL)</div>
+                                    <input type="checkbox" data-testid="postgresql_ssl_toggle_btn" id="toggle-button-postgres-ssl" name="use_ssl_PostgreSQL" style="transform: scale(1.4); transform-origin: center;">
+                                    <label for="toggle-button-postgres-ssl"></label>
+                                </div>
+                            </div>
+
+                            <div id="MySQL" class="input-group">
+                                <div class="input-container">
+                                    <p class="field-title-left">Display Name</p>
+                                    <input type="text" placeholder="" name="display_name_MySQL" required class="input-with-shadow" style="padding: 10px;">
+                                </div>
+                                <div class="input-container">
+                                    <p class="field-title-left">Host</p>
+                                    <input type="text" placeholder="" name="host_MySQL" required class="input-with-shadow" style="padding: 10px;">
+                                </div>
+                                <div class="input-container">
+                                    <p class="field-title-left">Port</p>
+                                    <input type="number" placeholder="3306" name="port_MySQL" required class="input-with-shadow" style="padding: 10px;">
+                                </div>
+                                <div class="input-container">
+                                    <p class="field-title-left">Database Name</p>
+                                    <input type="text" placeholder="" name="db_name_MySQL" required class="input-with-shadow" style="padding: 10px;">
+                                </div>
+                                <div class="input-container">
+                                    <p class="field-title-left">Username</p>
+                                    <input type="text" placeholder="" name="db_username_MySQL" required class="input-with-shadow" style="padding: 10px;">
+                                </div>
+                                <div class="input-container">
+                                    <p class="field-title-left">Password</p>
+                                    <input type="password" placeholder="" name="db_password_MySQL" required class="input-with-shadow" style="padding: 10px;">
+                                </div>
+                                <div style="display: flex;flex-direction: row;align-items: center;justify-content: space-around;padding: 15px 0px;">
+                                    <div style="display: flex;align-items: center;"><img src="{{ url_for('static', path='media/sslIcon.svg') }}" style="padding-right: 5px;">Use a secure connection (SSL)</div>
+                                    <input type="checkbox" data-testid="mysql_ssl_toggle_btn" id="toggle-button-mysql-ssl" name="use_ssl_MySQL" style="transform: scale(1.4); transform-origin: center;">
+                                    <label for="toggle-button-mysql-ssl"></label>
+                                </div>
+                            </div>
+
+                            <div id="SQL Server" class="input-group">
+                                <div class="input-container">
+                                    <p class="field-title-left">Display Name</p>
+                                    <input type="text" placeholder="" name="display_name_SQL Server" required class="input-with-shadow" style="padding: 10px;">
+                                </div>
+                                <div class="input-container">
+                                    <p class="field-title-left">Host</p>
+                                    <input type="text" placeholder="" name="host_SQL Server" required class="input-with-shadow" style="padding: 10px;">
+                                </div>
+                                <div class="input-container">
+                                    <p class="field-title-left">Port</p>
+                                    <input type="number" placeholder="1433" name="port_SQL Server" required class="input-with-shadow" style="padding: 10px;">
+                                </div>
+                                <div class="input-container">
+                                    <p class="field-title-left">Database Name</p>
+                                    <input type="text" placeholder="" name="db_name_SQL Server" required class="input-with-shadow" style="padding: 10px;">
+                                </div>
+                                <div class="input-container">
+                                    <p class="field-title-left">Username</p>
+                                    <input type="text" placeholder="" name="db_username_SQL Server" required class="input-with-shadow" style="padding: 10px;">
+                                </div>
+                                <div class="input-container">
+                                    <p class="field-title-left">Password</p>
+                                    <input type="password" placeholder="" name="db_password_SQL Server" required class="input-with-shadow" style="padding: 10px;">
+                                </div>
+                                <!-- <div class="input-container">
+                                    <p class="field-title-left">Additional Connection String Options</p>
+                                    <input type="text" placeholder="" name="additional_options_SQL Server" class="input-with-shadow" style="padding: 10px;">
+                                </div> -->
+                            </div>
+
+                            <div id="MongoDB" class="input-group">
+                                <div class="input-container">
+                                    <p class="field-title-left">Display Name</p>
+                                    <input type="text" placeholder="" name="display_name_MongoDB" required class="input-with-shadow" style="padding: 10px;">
+                                </div>
+                                <div class="input-container">
+                                    <p class="field-title-left">Connection String</p>
+                                    <input type="text" placeholder="" name="connection_string_MongoDB" required class="input-with-shadow" style="padding: 10px;">
+                                </div>
+                            </div>
+
+                            <div id="Oracle" class="input-group">
+                                <div class="input-container">
+                                    <p class="field-title-left">Display Name</p>
+                                    <input type="text" placeholder="" name="display_name_Oracle" required class="input-with-shadow" style="padding: 10px;">
+                                </div>
+                                <div class="input-container">
+                                    <p class="field-title-left">Host</p>
+                                    <input type="text" placeholder="" name="host_Oracle" required class="input-with-shadow" style="padding: 10px;">
+                                </div>
+                                <div class="input-container">
+                                    <p class="field-title-left">Port</p>
+                                    <input type="number" placeholder="1521" name="port_Oracle" required class="input-with-shadow" style="padding: 10px;">
+                                </div>
+                                <div class="input-container">
+                                    <p class="field-title-left">Service Name</p>
+                                    <input type="text" placeholder="" name="service_name_Oracle" required class="input-with-shadow" style="padding: 10px;">
+                                </div>
+                                <div class="input-container">
+                                    <p class="field-title-left">Username</p>
+                                    <input type="text" placeholder="" name="db_username_Oracle" required class="input-with-shadow" style="padding: 10px;">
+                                </div>
+                                <div class="input-container">
+                                    <p class="field-title-left">Password</p>
+                                    <input type="password" placeholder="" name="db_password_Oracle" required class="input-with-shadow" style="padding: 10px;">
+                                </div>
+                            </div>
+
+                            <div id="Oracle Autonomous Database" class="input-group">
+                                <div class="input-container">
+                                    <p class="field-title-left">Display Name</p>
+                                    <input type="text" placeholder="" name="display_name_Oracle Autonomous Database" required class="input-with-shadow" style="padding: 10px;">
+                                </div>
+                                <div class="input-container">
+                                    <p class="field-title-left">Username</p>
+                                    <input type="text" placeholder="" name="db_username_Oracle Autonomous Database" required class="input-with-shadow" style="padding: 10px;">
+                                </div>
+                                <div class="input-container">
+                                    <p class="field-title-left">Password</p>
+                                    <input type="password" placeholder="" name="db_password_Oracle Autonomous Database" required class="input-with-shadow" style="padding: 10px;">
+                                </div>
+                                <div class="input-container">
+                                    <p class="field-title-left">Connection String</p>
+                                    <input type="text" placeholder="(description= (retry_count ..." name="connection_string_Oracle Autonomous Database" required class="input-with-shadow" style="padding: 10px;">
+                                </div>
+                            </div>
+
+                            <div id="BigQuery" class="input-group">
+                                <div class="input-container">
+                                    <p class="field-title-left">Display Name</p>
+                                    <input type="text" placeholder="" name="display_name_BigQuery" required class="input-with-shadow" style="padding: 10px;">
+                                </div>
+                                <div class="input-container">
+                                    <p class="field-title-left">Service Account JSON</p>
+                                    <textarea type="text" placeholder="" name="service_account_json_BigQuery" required class="input-with-shadow" style="padding: 10px;"></textarea>
+                                </div>
+                            </div>
+
+                            <div id="Snowflake" class="input-group">
+                                <div class="input-container">
+                                    <p class="field-title-left">Display Name</p>
+                                    <input type="text" placeholder="" name="display_name_Snowflake" required class="input-with-shadow" style="padding: 10px;">
+                                </div>
+                                <div class="input-container">
+                                    <p class="field-title-left">Account Name</p>
+                                    <input type="text" placeholder="" name="account_Snowflake" required class="input-with-shadow" style="padding: 10px;">
+                                </div>
+                                <div class="input-container">
+                                    <p class="field-title-left">Username</p>
+                                    <input type="text" placeholder="" name="db_username_Snowflake" required class="input-with-shadow" style="padding: 10px;">
+                                </div>
+                                <div class="input-container">
+                                    <p class="field-title-left">Password</p>
+                                    <input type="password" placeholder="" name="db_password_Snowflake" required class="input-with-shadow" style="padding: 10px;">
+                                </div>
+                                <div class="input-container">
+                                    <p class="field-title-left">Warehouse</p>
+                                    <input type="text" placeholder="" name="warehouse_Snowflake" required class="input-with-shadow" style="padding: 10px;">
+                                </div>
+                                <div class="input-container">
+                                    <p class="field-title-left">Database Name (case-sensitive)</p>
+                                    <input type="text" placeholder="" name="db_name_Snowflake" required class="input-with-shadow" style="padding: 10px;">
+                                </div>
+                                <!-- <div class="input-container">
+                                    <p class="field-title-left">Additional Connection String Options</p>
+                                    <input type="text" placeholder="" name="additional_options_Snowflake" class="input-with-shadow" style="padding: 10px;">
+                                </div> -->
+                            </div>
+
+                            <div id="ClickHouse" class="input-group">
+                                <div class="input-container">
+                                    <p class="field-title-left">Display Name</p>
+                                    <input type="text" placeholder="" name="display_name_ClickHouse" required class="input-with-shadow" style="padding: 10px;">
+                                </div>
+                                <div class="input-container">
+                                    <p class="field-title-left">Host</p>
+                                    <input type="text" placeholder="" name="host_ClickHouse" required class="input-with-shadow" style="padding: 10px;">
+                                </div>
+                                <div class="input-container">
+                                    <p class="field-title-left">Port</p>
+                                    <input type="number" placeholder="8123" name="port_ClickHouse" required class="input-with-shadow" style="padding: 10px;">
+                                </div>
+                                <div class="input-container">
+                                    <p class="field-title-left">Username</p>
+                                    <input type="text" placeholder="" name="db_username_ClickHouse" required class="input-with-shadow" style="padding: 10px;">
+                                </div>
+                                <div class="input-container">
+                                    <p class="field-title-left">Password</p>
+                                    <input type="password" placeholder="" name="db_password_ClickHouse" required class="input-with-shadow" style="padding: 10px;">
+                                </div>
+                                <div class="input-container">
+                                    <p class="field-title-left">Additional Connection String Options</p>
+                                    <input type="text" placeholder="" name="additional_options_ClickHouse" class="input-with-shadow" style="padding: 10px;">
+                                </div>
+                            </div>
+
+                            <div id="Redshift" class="input-group">
+                                <div class="input-container">
+                                    <p class="field-title-left">Display Name</p>
+                                    <input type="text" placeholder="" name="display_name_Redshift" required class="input-with-shadow" style="padding: 10px;">
+                                </div>
+                                <div class="input-container">
+                                    <p class="field-title-left">Host</p>
+                                    <input type="text" placeholder="" name="host_Redshift" required class="input-with-shadow" style="padding: 10px;">
+                                </div>
+                                <div class="input-container">
+                                    <p class="field-title-left">Port</p>
+                                    <input type="number" placeholder="5439" name="port_Redshift" required class="input-with-shadow" style="padding: 10px;">
+                                </div>
+                                <div class="input-container">
+                                    <p class="field-title-left">Database Name</p>
+                                    <input type="text" placeholder="" name="db_name_Redshift" required class="input-with-shadow" style="padding: 10px;">
+                                </div>
+                                <div class="input-container">
+                                    <p class="field-title-left">Username</p>
+                                    <input type="text" placeholder="" name="db_username_Redshift" required class="input-with-shadow" style="padding: 10px;">
+                                </div>
+                                <div class="input-container">
+                                    <p class="field-title-left">Password</p>
+                                    <input type="password" placeholder="" name="db_password_Redshift" required class="input-with-shadow" style="padding: 10px;">
+                                </div>
+                                <div class="input-container">
+                                    <p class="field-title-left">Additional Connection String Options</p>
+                                    <input type="text" placeholder="" name="additional_options_Redshift" class="input-with-shadow" style="padding: 10px;">
+                                </div>                                    
+                            </div>
+
+                            <div id="Athena" class="input-group">
+                                <div class="input-container">
+                                    <p class="field-title-left">Display Name</p>
+                                    <input type="text" placeholder="" name="display_name_Athena" required class="input-with-shadow" style="padding: 10px;">
+                                </div>
+                                <div class="input-container">
+                                    <p class="field-title-left">Region</p>
+                                    <input type="text" placeholder="us-west-2" name="region_Athena" required class="input-with-shadow" style="padding: 10px;">
+                                </div>
+                                <div class="input-container">
+                                    <p class="field-title-left">Workgroup</p>
+                                    <input type="text" placeholder="" name="workgroup_Athena" required class="input-with-shadow" style="padding: 10px;">
+                                </div>
+                                <div class="input-container">
+                                    <p class="field-title-left">S3 Staging Directory</p>
+                                    <input type="text" placeholder="s3://[BUCKET NAME]/..." name="s3_staging_dir_Athena" required class="input-with-shadow" style="padding: 10px;">
+                                </div>
+                                <div class="input-container">
+                                    <p class="field-title-left">Access Key</p>
+                                    <input type="text" placeholder="" name="access_key_Athena" required class="input-with-shadow" style="padding: 10px;">
+                                </div>
+                                <div class="input-container">
+                                    <p class="field-title-left">Secret Key</p>
+                                    <input type="password" placeholder="" name="secret_key_Athena" required class="input-with-shadow" style="padding: 10px;">
+                                </div>                               
+                            </div>
+
+                            <input type="submit" value="Save" class="intellimenta-color-button" id="saveButtonDB" style="margin-bottom: 20px;">
+                            <div id="responseAddConnection" style="margin: 20px;"></div>
+                            <div id="spinnerDatabaseAdd" class="spinner"></div>
+                        </form>
+                    </div>
+
+
+                <div id="defaultLangAllUsers" class="tabcontent">
+                    <button data-testid="back-btn-defaultLangAllUsers" class="back-button" onclick="closeTab('defaultLangAllUsers')"><img src="{{ url_for('static', path='media/arrowBackwardIcon.svg') }}" class="back_icon">Back</button>
+                    <form id="languageForm" style="display: flex; flex-direction: column; width: 310px;">
+                        <h3 class="settings_inner_page_title" style="margin:50px auto 0px auto; padding-right: 15px;">
+                            <img src="{{ url_for('static', path='media/langIcon.svg') }}" style="padding-right: 10px;">Default Language for All Users
+                        </h3>
+                        <div style="margin: auto; padding-top: 20px;">
+                            <input type="radio" id="arabic" name="language" value="ar-SA" {% if default_language_for_all_users == 'ar-SA' %} checked {% endif %} onclick="saveDefaultLangForAllUsers(this.value)">
+                            <label for="arabic">Arabic</label><br>
+        
+                            <input type="radio" id="bengali" name="language" value="bn-BD" {% if default_language_for_all_users == 'bn-BD' %} checked {% endif %} onclick="saveDefaultLangForAllUsers(this.value)">
+                            <label for="bengali">Bengali</label><br>
+        
+                            <input type="radio" id="chinese_simplified" name="language" value="zh-CN" {% if default_language_for_all_users == 'zh-CN' %} checked {% endif %} onclick="saveDefaultLangForAllUsers(this.value)">
+                            <label for="chinese_simplified">Chinese (Simplified)</label><br>
+                        
+                            <input type="radio" id="chinese_traditional" name="language" value="zh-TW" {% if default_language_for_all_users == 'zh-TW' %} checked {% endif %} onclick="saveDefaultLangForAllUsers(this.value)">
+                            <label for="chinese_traditional">Chinese (Traditional)</label><br>
+        
+                            <input type="radio" id="english" name="language" value="en-US" {% if default_language_for_all_users == 'en-US' %} checked {% endif %} onclick="saveDefaultLangForAllUsers(this.value)">
+                            <label for="english">English</label><br>
+                        
+                            <input type="radio" id="french_canadian" name="language" value="fr-CA" {% if default_language_for_all_users == 'fr-CA' %} checked {% endif %} onclick="saveDefaultLangForAllUsers(this.value)">
+                            <label for="french_canadian">French (Canadian)</label><br>
+                        
+                            <input type="radio" id="french" name="language" value="fr-FR" {% if default_language_for_all_users == 'fr-FR' %} checked {% endif %} onclick="saveDefaultLangForAllUsers(this.value)">
+                            <label for="french">French</label><br>
+                            
+                            <input type="radio" id="german" name="language" value="de-DE" {% if default_language_for_all_users == 'de-DE' %} checked {% endif %} onclick="saveDefaultLangForAllUsers(this.value)">
+                            <label for="german">German</label><br>
+        
+                            <input type="radio" id="hebrew" name="language" value="he-IL" {% if default_language_for_all_users == 'he-IL' %} checked {% endif %} onclick="saveDefaultLangForAllUsers(this.value)">
+                            <label for="hebrew">Hebrew</label><br>
+
+                            <input type="radio" id="hindi" name="language" value="hi-IN" {% if default_language_for_all_users == 'hi-IN' %} checked {% endif %} onclick="saveDefaultLangForAllUsers(this.value)">
+                            <label for="hindi">Hindi</label><br>
+                            
+                            <input type="radio" id="japanese" name="language" value="ja-JP" {% if default_language_for_all_users == 'ja-JP' %} checked {% endif %} onclick="saveDefaultLangForAllUsers(this.value)">
+                            <label for="japanese">Japanese</label><br>                
+                            
+                            <input type="radio" id="persian" name="language" value="fa-IR" {% if default_language_for_all_users == 'fa-IR' %} checked {% endif %} onclick="saveDefaultLangForAllUsers(this.value)">
+                            <label for="persian">Persian (Farsi)</label><br>
+        
+                            <input type="radio" id="portuguese_brazil" name="language" value="pt-BR" {% if default_language_for_all_users == 'pt-BR' %} checked {% endif %} onclick="saveDefaultLangForAllUsers(this.value)">
+                            <label for="portuguese_brazil">Portuguese (Brazil)</label><br>
+        
+                            <input type="radio" id="russian" name="language" value="ru-RU" {% if default_language_for_all_users == 'ru-RU' %} checked {% endif %} onclick="saveDefaultLangForAllUsers(this.value)">
+                            <label for="russian">Russian</label><br>
+        
+                            <input type="radio" id="spanish" name="language" value="es-ES" {% if default_language_for_all_users == 'es-ES' %} checked {% endif %} onclick="saveDefaultLangForAllUsers(this.value)">
+                            <label for="spanish">Spanish</label><br>
+                        </div>
+                    </form>
+                </div>
+
+                
+                <div id="querySuggestionsDB" data-testid="admin_panel_query_suggestions_select_db" class="tabcontent tabAdmin">
+
+                    <button data-testid="back-btn-querySuggestionsDB" class="back-button" style="max-width: 72px; max-height: 30px; margin-bottom: 50px; margin-top:22px;" onclick="closeTab('querySuggestionsDB')"><img src="{{ url_for('static', path='media/arrowBackwardIcon.svg') }}" class="back_icon">Back</button>
+                    <h3 class="settings_inner_page_title" style="justify-content: center; padding-bottom: 10px;"><img src="{{ url_for('static', path='media/querySuggestionIcon.svg') }}" style="padding-right: 10px;">Query Suggestions</h3>
+
+                    {% if db_connections_dict != {} %}
+                        <div style="padding: 0px 20px;">
+                            <table>
+                                <tr>
+                                    <th style="min-width: 300px;">Name</th>
+                                    <th>Engine</th>
+                                </tr>
+                                {% for db_id, ( (engine, display_name, _), database_tables_id_name_pair_list) in db_connections_dict.items() %}
+                                    <tr id="query_suggestions_tr_db_ref_{{ db_id }}">
+                                        <td><a href="#" id="query_suggestions_td_db_ref_{{ db_id }}" onclick="openTabNoPreLoadQuerySuggestions('{{ db_id }}')">{{display_name}}</a></td>
+                                        <td>{{engine}}</td>
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                        </div>
+                    {% endif %}
+                </div>
+                
+                <div id="BIintegration" data-testid="admin_panel_BIintegration" class="tabcontent tabAdmin">
+
+                    <button data-testid="back-btn-BIintegration" class="back-button" style="max-width: 72px; max-height: 30px; margin-bottom: 50px; margin-top:22px;" onclick="closeTab('BIintegration')"><img src="{{ url_for('static', path='media/arrowBackwardIcon.svg') }}" class="back_icon">Back</button>
+                    <h3 class="settings_inner_page_title" style="justify-content: center; padding-bottom: 10px;"><img src="{{ url_for('static', path='media/bi_integration_icon.svg') }}" style="padding-right: 10px;">Integration with BI Tools</h3>
+                    
+                    <button class="tablinks" data-testid="admin_panel_connect_bi_tool_btn" onclick="openTab('connectBItool')" style="margin-bottom: 20px;"><img src="{{ url_for('static', path='media/connectBItoolIcon.svg') }}" style="padding-right: 10px; ">Connect a BI Tool<img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
+
+                    <button class="tablinks" data-testid="admin_panel_two_col_setup_btn" onclick="openTabNoPreLoadTwoColumnSetup('chatbotAndDashboards')"><img src="{{ url_for('static', path='media/twoColumnIcon.svg') }}" style="padding-right: 10px;">Dashboards + Chatbot Interface<img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
+                    
+                    <div style="display: flex; flex-direction: column; background-color: #64488317; padding-bottom: 10px; border-radius: 5px; margin-top: 20px;">
+                        <button class="tablinks" data-testid="admin_panel_use_dashboard_cards_as_data_source_btn" style="padding-right: 70px; margin-top: 20px;"><img src="{{ url_for('static', path='media/useDashboardCardsAsDataSourceIcon.svg') }}" style="padding-right: 10px;">Use the Dashboards Defined Above as Data Source
+                            <input type="checkbox" id="toggle-button-use-dashboard-cards-data-as-data-source" class="toggle-button" {% if use_dashboard_cards_as_data_source %} checked {% endif %} onclick="toggleRefreshCardsBtn()">
+                            <label for="toggle-button-use-dashboard-cards-data-as-data-source" class="toggle-label"></label>
+                        </button>
+                        
+                        <button id="refresh_cards_data_in_db_btn" class="intellimenta-color-button" data-testid="refresh_dashboards_cards_data_btn" onclick="refreshDashboardsCardsInDb()" style="display: {% if use_dashboard_cards_as_data_source %} flex {% else %} none {% endif %}; max-width: 290px; background-color: #644883; padding: 7px 10px;; font-size: 14px; margin: 30px auto; margin-top: 15px; margin-bottom: 15px; text-align: center;">
+                            <img src="{{ url_for('static', path='media/refreshDataIconWhite.svg') }}" style="padding-right: 5px;">Store/Refresh Dashboards Data in DB<br><span style="font-size: small; display: contents;">(Native cards only)</span>
+                        </button>
+
+                        <div id="spinnerRefreshCardData" class="spinner"></div>
+                        <div id="responseRefreshCardData" style="margin: 20px;"></div>
+                    </div>
+                
+                </div>
+
+                    <div id="connectBItool" data-testid="admin_panel_connectBItool" class="tabcontent tabAdmin">
+
+                        <button data-testid="back-btn-connectBItool" class="back-button" style="max-width: 72px; max-height: 30px; margin-bottom: 50px; margin-top:22px;" onclick="closeTab('connectBItool')"><img src="{{ url_for('static', path='media/arrowBackwardIcon.svg') }}" class="back_icon">Back</button>
+                        <h3 class="settings_inner_page_title" style="justify-content: center; padding-bottom: 10px;"><img src="{{ url_for('static', path='media/connectBItoolIcon.svg') }}" style="padding-right: 10px;">Connect BI Tool</h3>
+                        
+                        <form id="connectBItoolForm" onsubmit="handleConnectBItool(event)" style="display: flex; flex-direction: column; align-items: center;">
+                            <div class="input-container">
+                                <select id="BItoolDropdown" name="BItoolDropdown" class="input-with-shadow" style="padding: 10px;">
+                                    <option value="select a bi tool" disabled>Select a BI Tool</option>
+                                    <option value="Metabase" selected>Metabase</option>
+                                    <option value="Apache Superset" disabled>Apache Superset</option>
+                                    <option value="Redash" disabled>Redash</option>
+                                </select>
+                            </div>
+                            <div class="input-container" style="text-align: left;">
+                                <p style="margin: 0px; margin-bottom: 5px;">Domain</p>
+                                <input data-testid="mb_domain" type="text" placeholder="Domain (http...)" name="mb_domain" value="{{bi_config.get('mb_domain', '')}}" required class="input-with-shadow" style="padding: 10px;">
+                            </div>
+                            <div class="input-container" style="text-align: left;">
+                                <p style="margin: 0px; margin-bottom: 5px;">Collection ID</p>
+                                <input data-testid="mb_collection_id" type="number" placeholder="Collection ID" name="mb_collection_id" value="{{bi_config.get('mb_collection_id', '')}}" required class="input-with-shadow" style="padding: 10px;">
+                            </div>
+                            <div class="input-container" style="text-align: left;">
+                                <p style="margin: 0px; margin-bottom: 5px;">API Key</p>
+                                <input data-testid="mb_api_key" type="password" placeholder="API Key" name="mb_api_key" value="{{bi_config.get('mb_api_key', '')}}" required class="input-with-shadow" style="padding: 10px;">
+                            </div>
+                            <div class="input-container" style="text-align: left;">
+                                <p style="margin: 0px; margin-bottom: 5px;">Embedding Key</p>
+                                <input data-testid="mb_embedding_key" type="password" placeholder="Embedding Key" name="mb_embedding_key" value="{{bi_config.get('mb_embedding_key', '')}}" required class="input-with-shadow" style="padding: 10px;">
+                            </div>
+                            <div>
+                                <input data-testid="save_bi_config_button" type="submit" name="action" value="Save" class="intellimenta-color-button" style="margin-bottom: 20px;">
+                            </div>
+                            <div id="spinnerConnectBItool" class="spinner"></div>
+                            <div id="responseConnectBItool" style="margin: 20px;"></div>
+                        </form>
+                    </div>
+
+                <div id="rlac" data-testid="admin_panel_rlac" class="tabcontent tabAdmin">
+                    <button data-testid="back-btn-rlac" class="back-button" style="max-width: 72px; max-height: 30px; margin-bottom: 50px; margin-top:22px;" onclick="closeTab('rlac')"><img src="{{ url_for('static', path='media/arrowBackwardIcon.svg') }}" class="back_icon">Back</button>
+                    <h3 class="settings_inner_page_title" style="justify-content: center; padding-bottom: 10px;"><img src="{{ url_for('static', path='media/rlac.svg') }}" style="padding-right: 10px;">Row-level Security (RLS)</h3>
+                    <p style="margin-top: 0px;">Select a User Group</p>
+                    {% for group in groups_list %}
+                        <button class="tablinks" onclick="openTab('rlac_{{group}}')"><img src="{{ url_for('static', path='media/user_groups.svg') }}" style="padding-right: 10px;">{{group}} <img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>                                
+                    {% endfor %}
+
+                    {% if all_defined_rlac != [] %}
+                        <p style="margin-top: 30px;">Current RLS Configuration</p>
+                        <table style="width:93%; margin:0 auto;">
+                            </thead>    
+                                <tr>
+                                    <th>Group</th>
+                                    <th style="text-align: left;">Database</th>
+                                    <th>Table</th>
+                                    <th>Field</th>
+                                    <th>Value</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for group, db, table, field, field_value in all_defined_rlac %}
+                                    <tr>
+                                        <td>{{group}}</td>
+                                        <td style="text-align: left;">{{db}}</td>
+                                        <td>{{table}}</td>
+                                        <td>{{field}}</td>
+                                        <td>{{field_value}}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    {% endif %}
+                </div>
+
+                    {% for group in groups_list %}
+                        <div id="rlac_{{group}}" class="tabcontent tabAdmin">
+                            <button data-testid="back-btn-rlac_{{group}}" class="back-button" style="max-width: 72px; max-height: 30px; margin-bottom: 50px; margin-top:22px;" onclick="closeTab('rlac_{{group}}')"><img src="{{ url_for('static', path='media/arrowBackwardIcon.svg') }}" class="back_icon">Back</button>
+                            <h3 class="settings_inner_page_title" style="justify-content: center; padding-bottom: 10px;"><img src="{{ url_for('static', path='media/db.svg') }}" style="padding-right: 10px;">Select a Database</h3>
+                            <span style="margin-bottom: 20px;">Group: <b>{{group}}</b></span>
+                            {% if db_connections_dict != {} %}
+                                <div style="padding: 20px;">
+                                    <table>
+                                        <tr>
+                                            <th style="min-width: 300px;">Name</th>
+                                            <th>Engine</th>
+                                        </tr>
+                                        {% for db_id, ( (engine, display_name, _), database_tables_id_name_pair_list) in db_connections_dict.items() %}
+                                            <tr id="rlac_tr_db_ref_{{group}}_{{db_id}}">
+                                                <td><a href="#" id="rlac_td_db_ref_{{group}}_{{db_id}}" onclick="openTab('rlac_db_ref_{{group}}_{{db_id}}')">{{display_name}}</a></td>
+                                                <td>{{engine}}</td>
+                                            </tr>
+                                        {% endfor %}
+                                    </table>
+                                </div>
+                        
+                                    {% for db_id, ( (engine, display_name, _), database_tables_id_name_pair_list) in db_connections_dict.items() %}
+                                        <div id="rlac_db_ref_{{group}}_{{db_id}}" class="tabcontent tabAdmin">
+                                            <button class="back-button" style="max-width: 72px; max-height: 30px; margin-bottom: 50px; margin-top:22px;" onclick="closeTab('rlac_db_ref_{{group}}_{{db_id}}')"><img src="{{ url_for('static', path='media/arrowBackwardIcon.svg') }}" class="back_icon">Back</button>
+                                            <h3 class="settings_inner_page_title" style="justify-content: center; padding-bottom: 10px; margin-top: 0px;"><img src="{{ url_for('static', path='media/table.svg') }}" style="padding-right: 10px;">Select a Table</h3>
+                                            <span style="margin-bottom: 20px;">Group: <b>{{group}}</b><br>Database: <b>{{display_name}}</b></span>
+                                            <div id="spinnerrlac" class="spinner" style="position: absolute; top: 100px; left: 49%;"></div>
+                                            {%for (table_id, table_name) in database_tables_id_name_pair_list%}
+                                                <button class="tablinks" onclick="openTabNoPreLoadrlac('rlac_{{group}}_{{db_id}}_{{table_id}}')"><img src="{{ url_for('static', path='media/table.svg') }}" style="padding-right: 10px;">{{table_name}} <img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
+                                            {%endfor%}
+                                            {%for (table_id, table_name) in database_tables_id_name_pair_list%}
+                                                <div id="rlac_{{group}}_{{db_id}}_{{table_id}}" class="tabcontent tabAdmin">
+                                                    <button class="back-button" style="max-width: 72px; max-height: 30px; margin-bottom: 50px; margin-top:22px;" onclick="closeTab('rlac_{{group}}_{{db_id}}_{{table_id}}')"><img src="{{ url_for('static', path='media/arrowBackwardIcon.svg') }}" class="back_icon">Back</button>
+                                                    <h3 class="settings_inner_page_title" style="justify-content: center; padding-bottom: 10px; margin-top: 20px;"><img src="{{ url_for('static', path='media/filter.svg') }}" style="padding-right: 10px;">Select a Field and Filter Value</h3> 
+                                                    <span style="margin-bottom: 50px;">Group: <b>{{group}}</b><br>Database: <b>{{display_name}}</b><br>Table: <b>{{table_name}}</b></span>
+                                                    <div>
+                                                        <div id="rlac_{{group}}_{{db_id}}_{{table_id}}_fields" style="display: flex; align-items: center; justify-content: center; align-items: center;">
+                                                        </div>
+
+                                                        <p style="text-align: left; padding-left: 20px; margin-top:30px;">For dynamic filter values, you can use built-in user attributes (<span class="txt-bg">USER_EMAIL</span> and <span class="txt-bg">USER_EMAIL_DOMAIN</span>) as well as custom user attributes defined in the User Managaement section. Dynamic filter values must be prefixed with a colon (e.g., <span class="txt-bg">:USER_EMAIL</span>)</p>
+                                                        
+                                                        <input value="Save" class="intellimenta-color-button" style="margin-bottom: 20px; margin-top: 30px;text-align:center; width: 100px;" onclick="saverlac('{{group}}', '{{db_id}}', '{{table_id}}')" readonly>
+
+                                                        <div id="responseSaverlac_{{group}}_{{db_id}}_{{table_id}}" style="margin: 20px;"></div>
+                                                        <div id="spinnerSaverlac_{{group}}_{{db_id}}_{{table_id}}" class="spinner"></div>
+                                                    </div>
+                                                </div>
+                                            {%endfor%}
+                                        </div>
+                                    {% endfor %}
+
+                            {% endif %}
+                        </div>    
+                    {% endfor %}
+
+                <div id="dataObfuscation" data-testid="admin_panel_data_obf" class="tabcontent tabAdmin">
+                    <button data-testid="back-btn-dataObfuscation" class="back-button" style="max-width: 72px; max-height: 30px; margin-bottom: 50px; margin-top:22px;" onclick="closeTab('dataObfuscation')"><img src="{{ url_for('static', path='media/arrowBackwardIcon.svg') }}" class="back_icon">Back</button>
+                    <h3 class="settings_inner_page_title" style="justify-content: center; padding-bottom: 10px;"><img src="{{ url_for('static', path='media/dataObfuscationIcon.svg') }}" style="padding-right: 10px;">Data Obfuscation</h3>
+                    <p style="margin-top: 0px;">Select a User Group</p>
+                    {% for group in groups_list %}
+                        <button class="tablinks" onclick="openTab('dataObfuscation_{{group}}')"><img src="{{ url_for('static', path='media/user_groups.svg') }}" style="padding-right: 10px;">{{group}} <img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>                                
+                    {% endfor %}
+
+                    {% if all_defined_data_obfuscations != [] %}
+                        <p style="margin-top: 30px;">Current Data Obfuscation Configuration</p>
+                        <table style="width:93%; margin:0 auto;">
+                            </thead>    
+                                <tr>
+                                    <th>Group</th>
+                                    <th style="text-align: left;">Database</th>
+                                    <th>Table</th>
+                                    <th>Field</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for group, db, table, field in all_defined_data_obfuscations %}
+                                    <tr>
+                                        <td>{{group}}</td>
+                                        <td style="text-align: left;">{{db}}</td>
+                                        <td>{{table}}</td>
+                                        <td>{{field}}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    {% endif %}
+                </div>
+
+                    {% for group in groups_list %}
+                        <div id="dataObfuscation_{{group}}" class="tabcontent tabAdmin">
+                            <button data-testid="back-btn-dataObfuscation_{{group}}" class="back-button" style="max-width: 72px; max-height: 30px; margin-bottom: 50px; margin-top:22px;" onclick="closeTab('dataObfuscation_{{group}}')"><img src="{{ url_for('static', path='media/arrowBackwardIcon.svg') }}" class="back_icon">Back</button>
+                            <h3 class="settings_inner_page_title" style="justify-content: center; padding-bottom: 10px;"><img src="{{ url_for('static', path='media/db.svg') }}" style="padding-right: 10px;">Select a Database</h3>
+                            <span style="margin-bottom: 20px;">Group: <b>{{group}}</b></span>
+                            {% if db_connections_dict != {} %}
+                                <div style="padding: 20px;">
+                                    <table>
+                                        <tr>
+                                            <th style="min-width: 300px;">Name</th>
+                                            <th>Engine</th>
+                                        </tr>
+                                        {% for db_id, ( (engine, display_name, _), database_tables_id_name_pair_list) in db_connections_dict.items() %}
+                                            <tr id="data_obfuscation_tr_db_ref_{{group}}_{{db_id}}">
+                                                <td><a href="#" id="data_obfuscation_td_db_ref_{{group}}_{{db_id}}" onclick="openTab('data_obfuscation_db_ref_{{group}}_{{db_id}}')">{{display_name}}</a></td>
+                                                <td>{{engine}}</td>
+                                            </tr>
+                                        {% endfor %}
+                                    </table>
+                                </div>
+                        
+                                    {% for db_id, ( (engine, display_name, _), database_tables_id_name_pair_list) in db_connections_dict.items() %}
+                                        <div id="data_obfuscation_db_ref_{{group}}_{{db_id}}" class="tabcontent tabAdmin">
+                                            <button class="back-button" style="max-width: 72px; max-height: 30px; margin-bottom: 50px; margin-top:22px;" onclick="closeTab('data_obfuscation_db_ref_{{group}}_{{db_id}}')"><img src="{{ url_for('static', path='media/arrowBackwardIcon.svg') }}" class="back_icon">Back</button>
+                                            <h3 class="settings_inner_page_title" style="justify-content: center; padding-bottom: 10px; margin-top: 0px;"><img src="{{ url_for('static', path='media/table.svg') }}" style="padding-right: 10px;">Select a Table</h3>
+                                            <span style="margin-bottom: 20px;">Group: <b>{{group}}</b><br>Database: <b>{{display_name}}</b></span>
+                                            <div id="spinnerDataObfuscation" class="spinner" style="position: absolute; top: 100px; left: 49%;"></div>
+                                            {%for (table_id, table_name) in database_tables_id_name_pair_list%}
+                                                <button class="tablinks" onclick="openTabNoPreLoadDataObfuscation('dataObfuscation_{{group}}_{{db_id}}_{{table_id}}')"><img src="{{ url_for('static', path='media/table.svg') }}" style="padding-right: 10px;">{{table_name}} <img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
+                                            {%endfor%}
+                                            {%for (table_id, table_name) in database_tables_id_name_pair_list%}
+                                                <div id="dataObfuscation_{{group}}_{{db_id}}_{{table_id}}" class="tabcontent tabAdmin">
+                                                    <button class="back-button" style="max-width: 72px; max-height: 30px; margin-bottom: 50px; margin-top:22px;" onclick="closeTab('dataObfuscation_{{group}}_{{db_id}}_{{table_id}}')"><img src="{{ url_for('static', path='media/arrowBackwardIcon.svg') }}" class="back_icon">Back</button>
+                                                    <h3 class="settings_inner_page_title" style="justify-content: center; padding-bottom: 10px; margin-top: 20px;"><img src="{{ url_for('static', path='media/dataObfuscationIcon.svg') }}" style="padding-right: 10px;">Select Fields that need to be Obfuscated</h3> 
+                                                    <span style="margin-bottom: 50px;">Group: <b>{{group}}</b><br>Database: <b>{{display_name}}</b><br>Table: <b>{{table_name}}</b></span>
+                                                    <div>
+                                                        <div id="dataObfuscation_{{group}}_{{db_id}}_{{table_id}}_fields" style="display: flex; flex-direction: column;;">
+                                                        </div>
+
+                                                        <div id="responseDataObfuscation_{{group}}_{{db_id}}_{{table_id}}" style="margin: 20px;"></div>
+                                                        <div id="spinnerDataObfuscation_{{group}}_{{db_id}}_{{table_id}}" class="spinner"></div>
+                                                    </div>
+                                                </div>
+                                            {%endfor%}
+                                        </div>
+                                    {% endfor %}
+
+                            {% endif %}
+                        </div>    
+                    {% endfor %}
+
+
+                <div id="schemaModeConfig" data-testid="admin_panel_schema_mode_config" class="tabcontent tabAdmin">
+
+                    <button data-testid="back-btn-schemaModeConfig" class="back-button" style="max-width: 72px; max-height: 30px; margin-bottom: 50px; margin-top:22px;" onclick="closeTab('schemaModeConfig')"><img src="{{ url_for('static', path='media/arrowBackwardIcon.svg') }}" class="back_icon">Back</button>
+                    <h3 class="settings_inner_page_title" style="justify-content: center; padding-bottom: 10px;"><img src="{{ url_for('static', path='media/schemaModeIcon.svg') }}" style="padding-right: 10px;">Schema Mode Config</h3>
+
+                    <button class="tablinks" data-testid="admin_panel_allow_public_sharing_btn" style="padding-right: 70px;"><img src="{{ url_for('static', path='media/publicSharingIcon.svg') }}" style="padding-right: 10px;">Allow Public Sharing
+                        <input type="checkbox" id="toggle-button-public-sharing" class="toggle-button" {% if allow_public_sharing == True %} checked {% endif %} onclick="savePublicSharingPreference(this.checked)">
+                        <label for="toggle-button-public-sharing" class="toggle-label"></label>
+                    </button>
+                </div>
+
+
+                <div id="responseQualityTestsSelectDB" data-testid="admin_panel_response_quality_tests_select_db" class="tabcontent tabAdmin">
+
+                    <button data-testid="back-btn-responseQualityTestsSelectDB" class="back-button" style="max-width: 72px; max-height: 30px; margin-bottom: 50px; margin-top:22px;" onclick="closeTab('responseQualityTestsSelectDB')"><img src="{{ url_for('static', path='media/arrowBackwardIcon.svg') }}" class="back_icon">Back</button>
+                    <h3 class="settings_inner_page_title" style="justify-content: center; padding-bottom: 10px;"><img src="{{ url_for('static', path='media/responseQualityTestsIcon.svg') }}" style="padding-right: 10px;">Text-to-SQL Translation Tests</h3>
+
+                    {% if db_connections_dict != {} %}
+                        <div style="padding: 0px 20px;">
+                            <table>
+                                <tr>
+                                    <th style="min-width: 300px;">Name</th>
+                                    <th>Engine</th>
+                                </tr>
+                                {% for db_id, ( (engine, display_name, _), database_tables_id_name_pair_list) in db_connections_dict.items() %}
+                                    <tr id="response_quality_test_tr_db_ref_{{ db_id }}">
+                                        <td><a href="#" id="response_quality_test_td_db_ref_{{ db_id }}" onclick="openTabNoPreLoadResponseQualityTests('{{ db_id }}')">{{display_name}}</a></td>
+                                        <td>{{engine}}</td>
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div id="misc" data-testid="admin_panel_misc" class="tabcontent tabAdmin">
+
+                    <button data-testid="back-btn-misc" class="back-button" style="max-width: 72px; max-height: 30px; margin-bottom: 50px; margin-top:22px;" onclick="closeTab('misc')"><img src="{{ url_for('static', path='media/arrowBackwardIcon.svg') }}" class="back_icon">Back</button>
+                    <h3 class="settings_inner_page_title" style="justify-content: center; padding-bottom: 10px;"><img src="{{ url_for('static', path='media/misc.svg') }}" style="padding-right: 10px;">Misc.</h3>
+
+                    <button class="tablinks" data-testid="admin_panel_send_errors_to_databot_cloud_btn" style="padding-right: 70px;"><img src="{{ url_for('static', path='media/errorReportIcon.svg') }}" style="padding-right: 10px;">Send errors to the DataBot cloud server for analysis
+                        <input type="checkbox" data-testid="admin_panel_send_errors_to_databot_cloud_toggle" id="toggle-button-send-error-report" class="toggle-button" {% if send_error_reports == True %} checked {% endif %} onclick="saveSendErrorReportsPreference(this.checked)">
+                        <label for="toggle-button-send-error-report" class="toggle-label"></label>
+                    </button>
+                    <button class="tablinks" data-testid="admin_panel_send_anonymized_usage_data_btn" style="padding-right: 70px;"><img src="{{ url_for('static', path='media/DataIcon.svg') }}" style="padding-right: 10px;">Send anonymized usage data to the DataBot cloud server to help improve DataBot
+                        <input type="checkbox" data-testid="admin_panel_send_anonymized_usage_data_toggle" id="toggle-button-send-anonymous-usage-data" class="toggle-button" {% if send_anonymous_usage_data == True %} checked {% endif %} onclick="saveSendAnonymosUsageDataPreference(this.checked)">
+                        <label for="toggle-button-send-anonymous-usage-data" class="toggle-label"></label>
+                    </button>
+                </div>
+
+                <div id="llmConfig" data-testid="admin_panel_llm_config" class="tabcontent tabAdmin"></div>
+                <div id="manageAccessToApp" data-testid="admin_panel_manage_access_to_app" class="tabcontent tabAdmin"></div>
+                <div id="performanceTuning" data-testid="admin_panel_performance_tuning" class="tabcontent tabAdmin"></div>
+                <div id="querySuggestions" data-testid="admin_panel_query_suggestions" class="tabcontent tabAdmin"></div>
+                <div id="responseQualityTests" data-testid="admin_panel_response_quality_tests" class="tabcontent tabAdmin"></div>
+                <div id="responseQualityTestRunResults" data-testid="admin_panel_response_quality_test_run_results" class="tabcontent tabAdmin"></div>
+                <div id="chatbotAndDashboards" data-testid="admin_panel_two_col_setup" class="tabcontent tabAdmin"></div>
+                <div id="analyticalMode" data-testid="admin_panel_analytical_mode_config" class="tabcontent tabAdmin"></div>
+                <div id="emailSetup" data-testid="admin_panel_email_setup" class="tabcontent tabAdmin"></div>
+                <div id="whiteLabeling" data-testid="admin_panel_white_labeling_config" class="tabcontent tabAdmin"></div>
+                <div id="errorLogs" class="tabcontent tabAdmin"></div>
+                <div id="fileUploadsConfig" class="tabcontent tabAdmin"></div>
+                <div id="uploadFiles" class="tabcontent tabAdmin"></div>
+
+        <!-- end of admin panel -->
+        {% endif %}
+
+
+        <div id="userLanguageSettings" class="tabcontent">
+            <button class="back-button" onclick="closeTab('userLanguageSettings')"><img src="{{ url_for('static', path='media/arrowBackwardIcon.svg') }}" class="back_icon">Back</button>
+            <form id="userLanguageForm" style="display: flex; flex-direction: column;">
+                <h3 class="settings_inner_page_title" style="margin:50px auto 0px auto;">
+                    <img src="{{ url_for('static', path='media/langIcon.svg') }}" style="padding-right: 10px;">Language
+                </h3>
+                <div style="margin: auto; padding-top: 20px;">
+                    <input type="radio" id="userLang_arabic" name="language" value="ar-SA" {% if user_prefs[0] == 'ar-SA' %} checked {% endif %} onclick="saveUserPreference('langPreference', this.value)">
+                    <label for="userLang_arabic">Arabic</label><br>
+
+                    <input type="radio" id="userLang_bengali" name="language" value="bn-BD" {% if user_prefs[0] == 'bn-BD' %} checked {% endif %} onclick="saveUserPreference('langPreference', this.value)">
+                    <label for="userLang_bengali">Bengali</label><br>
+
+                    <input type="radio" id="userLang_chinese_simplified" name="language" value="zh-CN" {% if user_prefs[0] == 'zh-CN' %} checked {% endif %} onclick="saveUserPreference('langPreference', this.value)">
+                    <label for="userLang_chinese_simplified">Chinese (Simplified)</label><br>
+                
+                    <input type="radio" id="userLang_chinese_traditional" name="language" value="zh-TW" {% if user_prefs[0] == 'zh-TW' %} checked {% endif %} onclick="saveUserPreference('langPreference', this.value)">
+                    <label for="userLang_chinese_traditional">Chinese (Traditional)</label><br>
+
+                    <input type="radio" id="userLang_english" name="language" value="en-US" {% if user_prefs[0] == 'en-US' %} checked {% endif %} onclick="saveUserPreference('langPreference', this.value)">
+                    <label for="userLang_english">English</label><br>
+                
+                    <input type="radio" id="userLang_french_canadian" name="language" value="fr-CA" {% if user_prefs[0] == 'fr-CA' %} checked {% endif %} onclick="saveUserPreference('langPreference', this.value)">
+                    <label for="userLang_french_canadian">French (Canadian)</label><br>
+                
+                    <input type="radio" id="userLang_french" name="language" value="fr-FR" {% if user_prefs[0] == 'fr-FR' %} checked {% endif %} onclick="saveUserPreference('langPreference', this.value)">
+                    <label for="userLang_french">French</label><br>
+                    
+                    <input type="radio" id="userLang_german" name="language" value="de-DE" {% if user_prefs[0] == 'de-DE' %} checked {% endif %} onclick="saveUserPreference('langPreference', this.value)">
+                    <label for="userLang_german">German</label><br>
+
+                    <input type="radio" id="userLang_hebrew" name="language" value="he-IL" {% if user_prefs[0] == 'he-IL' %} checked {% endif %} onclick="saveUserPreference('langPreference', this.value)">
+                    <label for="userLang_hebrew">Hebrew</label><br>
+
+                    <input type="radio" id="userLang_hindi" name="language" value="hi-IN" {% if user_prefs[0] == 'hi-IN' %} checked {% endif %} onclick="saveUserPreference('langPreference', this.value)">
+                    <label for="userLang_hindi">Hindi</label><br>
+                    
+                    <input type="radio" id="userLang_japanese" name="language" value="ja-JP" {% if user_prefs[0] == 'ja-JP' %} checked {% endif %} onclick="saveUserPreference('langPreference', this.value)">
+                    <label for="userLang_japanese">Japanese</label><br>                
+                    
+                    <input type="radio" id="userLang_persian" name="language" value="fa-IR" {% if user_prefs[0] == 'fa-IR' %} checked {% endif %} onclick="saveUserPreference('langPreference', this.value)">
+                    <label for="userLang_persian">Persian (Farsi)</label><br>
+
+                    <input type="radio" id="userLang_portuguese_brazil" name="language" value="pt-BR" {% if user_prefs[0] == 'pt-BR' %} checked {% endif %} onclick="saveUserPreference('langPreference', this.value)">
+                    <label for="userLang_portuguese_brazil">Portuguese (Brazil)</label><br>
+
+                    <input type="radio" id="userLang_russian" name="language" value="ru-RU" {% if user_prefs[0] == 'ru-RU' %} checked {% endif %} onclick="saveUserPreference('langPreference', this.value)">
+                    <label for="userLang_russian">Russian</label><br>
+
+                    <input type="radio" id="userLang_spanish" name="language" value="es-ES" {% if user_prefs[0] == 'es-ES' %} checked {% endif %} onclick="saveUserPreference('langPreference', this.value)">
+                    <label for="userLang_spanish">Spanish</label><br>
+                </div>
+            </form>
+        </div>
+
+        <div id="CardHeightSettings" class="tabcontent">
+            <button class="back-button" onclick="closeTab('CardHeightSettings')"><img src="{{ url_for('static', path='media/arrowBackwardIcon.svg') }}" class="back_icon">Back</button>
+            <form id="cardHeightForm">
+                <h3 class="settings_inner_page_title"><img src="{{ url_for('static', path='media/cardHeightIcon.svg') }}" style="padding-right: 10px;">Result Card Height</h3>
+                <input type="radio" id="350" name="cardHeight" value="350px" {% if user_prefs[1] == '350px' %} checked {% endif %} onclick="saveUserPreference('cardHeightPreference', this.value)">
+                <label for="350">350px (default)</label><br>
+
+                <input type="radio" id="385" name="cardHeight" value="385px" {% if user_prefs[1] == '385px' %} checked {% endif %} onclick="saveUserPreference('cardHeightPreference', this.value)">
+                <label for="385">385px</label><br>
+
+                <input type="radio" id="420" name="cardHeight" value="420px" {% if user_prefs[1] == '420px' %} checked {% endif %} onclick="saveUserPreference('cardHeightPreference', this.value)">
+                <label for="420">420px</label><br>
+
+                <input type="radio" id="455" name="cardHeight" value="455px" {% if user_prefs[1] == '455px' %} checked {% endif %} onclick="saveUserPreference('cardHeightPreference', this.value)">
+                <label for="455">455px</label><br>
+                
+                <input type="radio" id="495" name="cardHeight" value="495px" {% if user_prefs[1] == '495px' %} checked {% endif %} onclick="saveUserPreference('cardHeightPreference', this.value)">
+                <label for="495">495px</label><br><br>
+            </form>
+        </div>
+
+        <div id="reportIssue" class="tabcontent">
+            <button class="back-button" onclick="closeTab('reportIssue')"><img src="{{ url_for('static', path='media/arrowBackwardIcon.svg') }}" class="back_icon">Back</button>
+            <h3 class="settings_inner_page_title" style="justify-content: center;"><img src="{{ url_for('static', path='media/reportIssueIcon.svg') }}" style="padding-right: 10px; width: 27px;">Report a Problem</h3>
+            <p>You can submit a ticket <a href="https://github.com/Intellimenta/DataBot/issues" target="_blank">here</a>.</p>
+            <p>For urgent issues, you can contact support at <b>support@intellimenta.com</b>.</p>
+        </div>
+
+        <div id="changePassword" class="tabcontent" >
+            <button class="back-button" onclick="closeTab('changePassword')"><img src="{{ url_for('static', path='media/arrowBackwardIcon.svg') }}" class="back_icon">Back</button>
+            <form id="changePasswordForm" onsubmit="changePassword(event)" style="display: flex; flex-direction: column; align-items: center;">
+                <h3 class="settings_inner_page_title"><img src="{{ url_for('static', path='media/changePasswordIcon.svg') }}" style="padding-right: 10px;">Change Password</h3>
+                <div class="input-container" style="width: 90%; max-width: 600px;">
+                    <input type="password" placeholder="Current Password" name="currentPassword" required class="input-with-shadow" style="padding: 10px; max-width: 300px;">
+                </div>
+                <div class="input-container" style="width: 90%; max-width: 600px;">
+                    <input type="password" placeholder="New Password" name="newPassword" required class="input-with-shadow" style="padding: 10px; max-width: 300px;">
+                </div>
+                <div>
+                    <input type="submit" value="Change Password" class="intellimenta-color-button" style="margin-bottom: 20px;">
+                </div>
+
+                <div id="spinnerChangePassword" class="spinner"></div>
+                <div id="responseChangePassword" style="margin: 20px;"></div>
+            </form>
+        </div>
+
+        <div id="provideInstructions" class="tabcontent">
+            <button class="back-button" onclick="closeTab('provideInstructions')"><img src="{{ url_for('static', path='media/arrowBackwardIcon.svg') }}" class="back_icon">Back</button>
+            <h3 class="settings_inner_page_title" style="justify-content: center;"><img src="{{ url_for('static', path='media/metadata.svg') }}" style="padding-right: 10px; width: 27px;">Provide instructions for the Chatbot</h3>
+            {% if is_admin %}
+                <p style="font-style: italic; padding: 20px;">This is a user-level configuration. If you want to provide general instructions that is applied for all users, you should do it in the admin panel (in 'Manage Metadata' section of each connected db).</p>
+            {% endif %}
+            <p>In the box below, you can provide instructions for the chatbot to follow when answering questions—such as the level of detail, response format, etc.</p>
+            <div style="padding: 20px;">
+                <textarea id="user-level-instructions" class="input-with-shadow" style="padding: 8px 10px; height: 150px; width:100%; min-width: 100%; ">{{user_instructions}}</textarea>
+            </div>
+
+            <div>
+                <input value="Save" class="intellimenta-color-button" style="margin-bottom: 20px; margin-top: 20px; text-align:center; width: 100px;" onclick="saveUserLevelInstructions()" readonly>
+                <div id="spinnerSaveUserLevelInstructions" class="spinner"></div>
+                <div id="responseUserLevelInstructions" style="margin: 20px;"></div>
+            <div>
+        </div>
+        
+    </div>
+</div>
+
+<script>
+    const mediaQuery = window.matchMedia('(max-width: 1000px)');
+    const logoUrl = "{{ white_labeling_config.get('logo_url') if white_labeling == True and white_labeling_config.get('logo_url') else url_for('static', path='media/DataBot_Logo_No_Name.png') }}";
+    const logoMaxWidth = "{{ white_labeling_config.get('logo_max_width') if white_labeling == True else 200 }}";
+    const demoUrl = "{{ white_labeling_config.get('demo_url') if white_labeling == True and white_labeling_config.get('demo_url') else '' }}";
+    const userGroupsIconURL = "{{ url_for('static', path='media/user_groups.svg') }}";
+    const closeIconUrl = "{{ url_for('static', path='media/X small.png') }}";
+    const arrowForwardIconURL = "{{ url_for('static', path='media/arrowForwardIcon.svg') }}";
+    const arrowBackwardIconURL = "{{ url_for('static', path='media/arrowBackwardIcon.svg') }}";
+    const modifyButtonIconURL = "{{ url_for('static', path='media/edit_icon_white.svg') }}";
+    const visualizeButtonIconURL = "{{ url_for('static', path='media/visualize_icon_white.svg') }}";
+    const shareButtonIconURL = "{{ url_for('static', path='media/share_icon_white.svg') }}";
+    const addToDashboardButtonIconURL = "{{ url_for('static', path='media/add_to_dashboard_icon_white.svg') }}";
+    const addToResponseQualityTestsButtonIconURL = "{{ url_for('static', path='media/responseQualityTestsIcon_white.svg') }}";
+    const deleteButtonURL = "{{ url_for('static', path='media/closeIcon.svg') }}";
+    const userAttributeIconURL = "{{ url_for('static', path='media/customUserAttributesIcon.svg') }}";
+    const feedbackButtonIconURL = "{{ url_for('static', path='media/thumb_down_icon_white.svg') }}";
+    const copyButtonIconURL = "{{ url_for('static', path='media/copy_button_icon_white.svg') }}";
+    const pdfButtonIconURL = "{{ url_for('static', path='media/pdf_button_icon_white.png') }}";
+    
+    const userMsgform = document.getElementById('user_message_form');
+    const conversationDiv = document.getElementById('conversation');
+    
+    const loadingOverlay = document.getElementById('loading-overlay');
+    const spinner = document.getElementById('spinner');
+    spinner.style.display = 'block';
+    const statusUpdatesDiv = document.getElementById('status-updates');
+
+    const isAdmin = "{{is_admin}}" === 'True';
+    const isFirstTimeUser = "{{is_first_time_user}}" === 'True';
+    const isSession = "{{is_session_page}}" === 'True';
+    const wla = "{{ white_labeling }}" === 'True';
+    const isChatbotAndDashboards = "{{is_two_col}}" === 'True';
+    const isAnalyticalMode = "{{analytical_mode}}" === 'True';
+    const statusUpdatesWrapper = document.getElementById("status-updates-wrapper");
+
+    const chatSession = {{ chat_session | tojson }};
+    const querySuggestions = {{ query_suggestions | tojson }};
+    const showInterimResultPref = {{ user_prefs[2] | tojson }};
+    const language = {{ language | tojson }};
+    const cardHeightPref = {{ user_prefs[1] | tojson }};
+
+    // functions that are to be triggered at page load
+    async function init() {
+
+        document.getElementById('main-body').style.visibility = 'visible';  // we wait for the page to load so it doesn't look broken for a fraction of a second
+        
+        // if there is only one database available and it's not already selected, select it automatically as the active database 
+        if (!isSession && "{{ active_db_id }}" == 0 && "{{ databases_that_user_has_access|length }}" == 1) {
+            document.getElementById('ActiveDatabaseDropdown').selectedIndex = 1;
+
+            // load query suggestions and greetings for the selected database
+            await registerActiveDB();  // this function contains clearConversationHistory() and loadGreetingsAndQuerySuggestions()
+            
+        } else {
+            await clearConversationHistory();
+
+            if (isSession != true) {
+                await loadGreetingsAndQuerySuggestions();
+            }
+        }
+        
+        // Initialize the custom tooltip
+        tippy('#newSessionIcon, #gearIcon, #personalDashboardIcon, #toggleChatbotIcon, #openInNewWindow, #micIconDark, #sidebar-toggle', {
+            delay: [0, 0], // [showDelay, hideDelay] in ms
+            placement: 'bottom',
+        });
+
+        tippy('.session-delete-button', {
+            delay: [0, 0], // [showDelay, hideDelay] in ms
+            placement: 'right',
+        });
+        
+        // position the status updates in the middle of content section on page load
+        positionStatusUpdates(statusUpdatesWrapper);
+
+        showSelectedConnectionTypeFields();
+
+    }
+    window.onload = init;
+
+    
+    // Voice recognition
+    const listeningDiv = document.getElementById('listeningDiv');
+    const SpeechRecognition =  window.SpeechRecognition || window.webkitSpeechRecognition;
+
+    // Settings
+    const popup = document.getElementById('settingsPopup_BG');
+    
+    // close the dropdown if there was a click outsie the dropdown box
+    window.addEventListener('click', function(event) {
+        const dropdownMenus = document.querySelectorAll('.multi-select-dropdown-menu');
+        dropdownMenus.forEach(menu => {
+            if (!event.target.closest('.multi-select-dropdown')) {
+                menu.style.display = 'none';
+            }
+        });
+    });
+    
+    
+    let activeNotifications = 0;
+    const sidebarStatus = 'open';
+    window.addEventListener('resize', function() {
+        const sidebar = document.getElementById('sidebar');
+        const sidebarActiveDB = document.getElementById('active-db-container');
+        const sidebarToggle = document.getElementById('sidebar-toggle');
+
+        if (window.innerWidth < 1000) {
+            if (sidebar.style.width !== '0px') {
+                sidebar.style.width = '0px';
+            }
+            sidebarActiveDB.style.display = 'block';
+            sidebarActiveDB.style.position = 'absolute';
+            sidebarActiveDB.style.top = '13px';
+            sidebarToggle.style.display = 'none';
+        } else {
+            if (sidebarStatus === 'open') {
+                sidebar.style.width = '260px';
+            }
+            sidebarActiveDB.style.position = 'relative';
+            sidebarToggle.style.display = 'block';
+            sidebarActiveDB.style.top = '0px';
+        }
+
+        ////////////////////////
+        // adjust the position of status updates on window resize
+        positionStatusUpdates(statusUpdatesWrapper);
+        
+    });
+</script>
+
+</body>
+</html>

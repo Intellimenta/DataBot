@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', path='style.css') }}?v={{ app_version }}">
+    <link rel="icon" href="{{ white_labeling_config.get('favicon_url') if white_labeling_config.get('favicon_url') else url_for('static', path='media/databot-favicon.ico') }}" type="image/x-icon">
+    <title>Loading...</title>
+    <style>
+        #preload-spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+            border-top: 4px solid #644883;
+            width: 20px;
+            height: 20px;
+            animation: spin 2s linear infinite;
+            margin: auto;
+            margin-top: 50px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body style="height:100vh">
+
+    <div class="logo-container" style="margin:auto;">
+        {% if white_labeling == True %}
+        <img src="{{ white_labeling_config.get('logo_url') if white_labeling_config.get('logo_url') else url_for('static', path='media/DataBot Logo Transparent.svg') }}" style="max-width: {{ white_labeling_config.get('logo_max_width', 200)}}px" alt="Logo" />    
+        {% else %}
+            <img src="{{ url_for('static', path='media/DataBot Logo Transparent.svg') }}" alt="Logo" />    
+            <img src="{{ url_for('static', path='media/intellimenta.svg') }}" alt="Powered by Intellimenta" onclick="window.open('https://intellimenta.com', '_blank');" />
+        {% endif %}
+        <div id="preload-spinner"></div>
+    </div>
+    
+    <script>
+        const isChatbotAndDashboards = "{{is_two_col}}" === 'True';
+
+        // Trigger the processing and redirection
+        fetch('/process')
+            .then(response => response.json())
+            .then(data => {
+            let redirectUrl = isChatbotAndDashboards ? '/main?show-chatbot-and-dashboards=true' : '/main';
+            if ("{{is_sso}}" === 'True') {
+                redirectUrl += redirectUrl.includes('?') ? '&i4o=true' : '?i4o=true';
+            }
+            window.location.href = redirectUrl;
+            });
+    </script>
+</body>
+</html>

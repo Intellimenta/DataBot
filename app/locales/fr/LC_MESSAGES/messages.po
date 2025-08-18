@@ -1,0 +1,60 @@
+# French translations for PROJECT.
+# Copyright (C) 2025 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2025-06-08 11:11-0700\n"
+"PO-Revision-Date: 2025-03-28 11:01-0700\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: fr\n"
+"Language-Team: fr <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: templates/chatbot_and_dashboards.html:123
+msgid "Toggle Chatbot"
+msgstr "Basculer le chatbot"
+
+#: templates/chatbot_and_dashboards.html:179 templates/index.html:118
+msgid "Delete Session"
+msgstr "Supprimer la session"
+
+#: templates/chatbot_and_dashboards.html:205 templates/index.html:147
+msgid "Use Voice"
+msgstr "Utiliser la voix"
+
+#: templates/chatbot_and_dashboards.html:208 templates/index.html:150
+msgid "Type ? for help"
+msgstr "Tapez '?' pour obtenir de l'aide"
+
+#: templates/chatbot_and_dashboards.html:236 templates/index.html:180
+msgid "Open Personal Dashboard"
+msgstr "Ouvrir le tableau de bord personnel"
+
+#: templates/chatbot_and_dashboards.html:238 templates/index.html:182
+msgid "New Chat"
+msgstr "Nouvelle discussion"
+
+#: templates/chatbot_and_dashboards.html:239 templates/index.html:183
+msgid "Settings"
+msgstr "Paramètres"
+
+#: templates/chatbot_and_dashboards.html:240
+msgid "Open Chatbot in Full Screen"
+msgstr "Ouvrir le chatbot en plein écran"
+
+#: templates/index.html:109
+msgid "Toggle Sidebar"
+msgstr "Basculer la barre latérale"
+
+#: templates/index.html:114
+msgid "Chat Archive"
+msgstr "Archive de discussion"
+
