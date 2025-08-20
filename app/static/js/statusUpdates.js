@@ -138,18 +138,22 @@ async function connectWebSocket() {
                         .replace(/\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;');
                 }
                 currentResponseDivForStreaming.innerHTML = formattedResponse;
+                if (autoScrollEnabled) {
+                    await scrollToBottom();
+                }
             }
 
             else if (botResponse.stream_data_type === "done") {  // end of stream
-                
+
+                await scrollToBottom();
+                autoScrollEnabled = true;
+
                 if (isAnalyticalMode && isSession == false) {
                     await addActionButtonsAnalyticalMode(currentResponseDivForStreaming);
                 }
                 
                 currentResponseDivForStreaming = null;
                 htmlBuffer = "";
-
-                await scrollToBottom();
             }
 
         } else if (botResponse.ws_msg_type === "test_run_result") {

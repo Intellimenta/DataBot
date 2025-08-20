@@ -1606,19 +1606,19 @@
       }
     });
 
-
-    // // TODO: handle section widths when window is maximized
-    // function isWindowMaximized() {
-    //     return (
-    //         screen.availWidth - window.innerWidth <= 20
-    //     );
-    //   }
-    
-    // window.addEventListener('resize', () => {
-    //     if (isWindowMaximized()) {
-    //         console.log("Window was maximized");
-    //     }
-    // });
+    ////////// streaming response auto-scroll ////////////////
+    let autoScrollEnabled = true;
+    conversationDiv.addEventListener('mousedown', function () {
+        autoScrollEnabled = false;
+    });
+    // Disable auto-scroll on mouse wheel
+    conversationDiv.addEventListener('wheel', function () {
+        autoScrollEnabled = false;
+    });
+    // Disable auto-scroll on mobile touch
+    conversationDiv.addEventListener('touchstart', function () {
+        autoScrollEnabled = false;
+    });
 
 </script>
 

@@ -1506,10 +1506,24 @@
             sidebarActiveDB.style.top = '0px';
         }
 
-        ////////////////////////
         // adjust the position of status updates on window resize
         positionStatusUpdates(statusUpdatesWrapper);
         
+    });
+
+
+    ////////// streaming response auto-scroll ////////////////
+    let autoScrollEnabled = true;
+    conversationDiv.addEventListener('mousedown', function () {
+        autoScrollEnabled = false;
+    });
+    // Disable auto-scroll on mouse wheel
+    conversationDiv.addEventListener('wheel', function () {
+        autoScrollEnabled = false;
+    });
+    // Disable auto-scroll on mobile touch
+    conversationDiv.addEventListener('touchstart', function () {
+        autoScrollEnabled = false;
     });
 </script>
 
