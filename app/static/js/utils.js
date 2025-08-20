@@ -112,7 +112,9 @@ function showNotification(message, isSuccess, timeout = 2000) {
     notification.id = notificationId;
     notification.className = 'notification';
     notification.textContent = message;
-    notification.style.backgroundColor = isSuccess ? "#44c767" : "#ff4444";
+    notification.style.background = isSuccess 
+        ? "linear-gradient(135deg, #644883 0%, #ae9bc4 100%)" 
+        : "linear-gradient(135deg, #ff4444 0%, #ff8888 100%)";
     
     document.body.appendChild(notification);
     

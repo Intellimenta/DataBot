@@ -1552,15 +1552,15 @@
     const minRightWidth = 465;
     const maxRightWidth = 800;
 
-    // Restore saved left column width
-    const savedWidth = localStorage.getItem('leftColumnWidth');
+    // Restore saved right column width
+    const savedWidth = localStorage.getItem('rightColumnWidth');
     if (savedWidth) {
-      leftColumn.style.width = savedWidth + 'px';
-      
-      //if (!isAnalyticalMode) { // in schema mode, because of iframes, we need to set the maxWidth of the conversation div
+      rightColumn.style.width = savedWidth + 'px';
+
+      if (!isAnalyticalMode) { // in schema mode, because of iframes, we need to set the maxWidth of the conversation div
         const totalWidth = window.innerWidth;
         conversationDiv.style.maxWidth = totalWidth - savedWidth - dividerWidth + 'px';
-      //}
+      }
       
     }
 
@@ -1569,7 +1569,7 @@
     if (!panelVisible) {
       rightColumn.classList.add('hidden');
       divider.classList.add('hidden');
-      leftColumn.style.width = '100%';
+      //leftColumn.style.width = '100%';
     }
 
     // Resizing logic
@@ -1586,14 +1586,15 @@
     window.addEventListener('mousemove', (e) => {
       if (!isDragging || rightColumn.classList.contains('hidden')) return;
     
-      let newLeftWidth = e.clientX;
+      const newLeftWidth = e.clientX;
       const totalWidth = window.innerWidth;
       const newRightWidth = totalWidth - newLeftWidth - dividerWidth;
       if (newRightWidth < minRightWidth || newRightWidth > maxRightWidth) return;
       leftColumn.style.width = newLeftWidth + 'px';
-      //if (!isAnalyticalMode) {
+      rightColumn.style.width = newRightWidth + 'px';
+      if (!isAnalyticalMode) {
         conversationDiv.style.maxWidth = newRightWidth + 'px';  // needed for making sure iframes widths are contained
-      //}
+      }
     });
     
     window.addEventListener('mouseup', () => {
@@ -1601,7 +1602,7 @@
         isDragging = false;
         overlay.style.display = 'none';
         document.body.style.cursor = 'default';
-        localStorage.setItem('leftColumnWidth', parseInt(leftColumn.offsetWidth));
+        localStorage.setItem('rightColumnWidth', parseInt(rightColumn.offsetWidth));
       }
     });
 

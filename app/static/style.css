@@ -676,7 +676,7 @@ th {
     transition: bottom .5s, visibility .5s;
     box-shadow: 0 2px 8px rgba(100,72,131,0.10);
     border-radius: 8px;
-    background: linear-gradient(135deg, #644883 0%, #ae9bc4 100%);
+    /* background: linear-gradient(135deg, #644883 0%, #ae9bc4 100%); */
 }
 .notification.show {
     visibility: visible;
