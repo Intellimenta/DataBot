@@ -4,6 +4,7 @@
 # **DataBot** – *Effortless Self-Service Analytics*
 - With <a href="https://intellimenta.com/products/databot" target="_blank">DataBot</a>, you can **explore**, **visualize**, **analyze**, and **forecast** your data in your **native language**.
 - It's **self-hosted** and **free** for personal use.
+- DataBot combines rich features, strong security, and affordability in one solution.
 
 <div align="center">
   <img src="media/databot-diagram-white-bg-m.png" width=700px alt="DataBot Logo">
@@ -37,6 +38,10 @@ Trying out DataBot is very easy and takes just a few minutes. Follow the instruc
 - Unstructured files (PDF, Word, TXT, ...) [Coming Soon]
 - Structured files (CSV, Excel, ...) [Coming Soon]
 - Custom Connectors (Google Sheets, AWS CloudWatch Logs, ...) [Coming Soon]
+
+## Pricing
+- **Free** for personal use. 
+- Business plans start at $12/user/month (discounts available for long-term commitments or larger user counts).
 
 ## Watch DataBot in Action
 
