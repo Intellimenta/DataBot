@@ -17,7 +17,7 @@ Trying out DataBot is very easy and takes just a few minutes. Follow the instruc
 - 📊 Data Visualization
 - 📝 Report Generation
 - 📈 Forecasting
-- 🔗 Integration with BI Tools
+- 🔗 Integration with BI Tools (currently Metabase)
 - 🌐 Multi-language Support
 - 🎤 Voice Transcription
 - 🗄️ Supporting Major SQL and NoSQL Databases
@@ -33,7 +33,7 @@ Trying out DataBot is very easy and takes just a few minutes. Follow the instruc
 
 ## Data Sources
 - Major SQL and NoSQL Databases
-- Dashboards (via Integration with BI Tools)
+- Metabase Dashboards (supoort for Superset and Redash dashboards coming soon)
 - Unstructured files (PDF, Word, TXT, ...) [Coming Soon]
 - Structured files (CSV, Excel, ...) [Coming Soon]
 - Custom Connectors (Google Sheets, AWS CloudWatch Logs, ...) [Coming Soon]
