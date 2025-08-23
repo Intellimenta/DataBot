@@ -41,7 +41,7 @@ Trying out DataBot is very easy and takes just a few minutes. Follow the instruc
 
 ## Pricing
 - **Free** for personal use. 
-- Business plans start at $12/user/month (discounts available for long-term commitments or larger user counts).
+- Business plans start at $12/user/month (discounts available for long-term commitments or large user counts).
 
 ## Watch DataBot in Action
 
