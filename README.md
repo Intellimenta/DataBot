@@ -1,5 +1,6 @@
 [![Latest Release](https://img.shields.io/github/release/intellimenta/databot.svg?label=latest%20release&color=644883)](https://github.com/intellimenta/databot/releases)
 ![Docker Pulls](https://img.shields.io/docker/pulls/intellimenta/databot?color=644883)
+[![Docs](https://img.shields.io/badge/docs-GitHub%20Pages-blue.svg?color=644883)](https://databot.intellimenta.com/)
 
 # **DataBot** – *Effortless Self-Service Analytics*
 - With <a href="https://intellimenta.com/products/databot" target="_blank">DataBot</a>, you can **explore**, **visualize**, **analyze**, and **forecast** your data in your **native language**.
