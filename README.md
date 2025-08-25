@@ -7,7 +7,7 @@
 - DataBot combines rich features, strong security, and affordability in one solution.
 
 <div align="center">
-  <img src="media/databot-diagram-white-bg-m.png" width=700px alt="DataBot Logo">
+  <img src="media/demo image.png" width=700px alt="DataBot Logo">
 </div>
 
 ## Running DataBot
