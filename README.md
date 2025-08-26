@@ -46,4 +46,4 @@ Trying out DataBot is very easy and takes just a few minutes. Follow the instruc
 
 ## Watch DataBot in Action
 
-[![Watch the video](./media/databot-video-bg2.png)](https://www.loom.com/share/d3746a993eca463eb5100ce65104cfb6)
+[![Watch the video](./media/databot-video-bg2.png)](https://www.loom.com/share/2271af6de3c04a2b8b07dbc48dfb2963)
