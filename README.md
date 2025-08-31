@@ -7,10 +7,6 @@
 - It's **self-hosted** and **free** for personal use.
 - DataBot combines rich features, strong security, and affordability in one solution.
 
-<div align="center">
-  <img src="media/demo image.png" width=700px alt="DataBot Logo">
-</div>
-
 ## Running DataBot
 Trying out DataBot is very easy and takes just a few minutes. Follow the instructions <a href="https://databot.intellimenta.com/admin_guide/getting_started" target="_blank">here</a>.
 
