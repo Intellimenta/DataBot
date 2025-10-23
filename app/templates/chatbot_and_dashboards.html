@@ -272,11 +272,12 @@
     </div>
 </div>
 
-<div id="top-right-buttons-container" style="position: absolute; display: flex; top: 8px; right: {{47 if analytical_mode == True else 80}}px; justify-content: space-around; align-items: center; width: 110px; height: 36px;">
+<div id="top-right-buttons-container" style="position: absolute; display: flex; top: 8px; right: {{80 if analytical_mode == True else 113}}px; justify-content: space-around; align-items: center; width: 110px; height: 36px;">
     {%if analytical_mode != True %}
         <img src="{{ url_for('static', path='media/personalDashboardIcon.svg') }}" id="personalDashboardIcon" alt="personalDashboardIcon" class="top-right-button" data-tippy-content="{{ _('Open Personal Dashboard') }}" onclick="loadPersonalDashboard()" style="width:32px; height: 32px;">
     {%endif%}
     <img src="{{ url_for('static', path='media/newSessionIcon.svg') }}" id="newSessionIcon" alt="newSessionIcon" class="top-right-button" data-tippy-content="{{ _('New Chat') }}" onclick="startNewSession()" style="width:32px; height: 32px; margin-top: 3px;">
+    <img src="{{ url_for('static', path='media/exportIcon.svg') }}" id="export-summary-btn" alt="Export Chat Session Summary" data-tippy-content="{{ _('Export Chat Session Summary') }}" class="top-right-button" onclick="exportSummaryToDOCX()" style="width:32px; height: 30px; padding: 4px;">
     <img src="{{ url_for('static', path='media/gearIcon.svg') }}" id="gearIcon" alt="gearIcon" class="top-right-button" data-tippy-content="{{ _('Settings') }}" onclick="togglePopup()" style="width: 28px; height: 28px; padding: 5px 3px;">
     <img src="{{ url_for('static', path='media/open_in_new_window_icon.svg') }}" id="openInNewWindow" alt="fullScreen" class="top-right-button" data-tippy-content="{{ _('Open Chatbot in Full Screen') }}" onclick="window.open(window.location.origin + window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1) + '?show-chatbot-and-dashboards=false', '_blank')" style="height: 32px; padding: 5px 3px;">
 </div>
@@ -318,7 +319,7 @@
             {% if white_labeling != True %}
             <button class="tablinks" onclick="openTab('reportIssue')" style="margin-top: 15px;"><img src="{{ url_for('static', path='media/reportIssueIcon.svg') }}" style="padding-right: 8px; width: 27px; margin-left: -1px;">Report a Problem or Request a Feature<img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
             <button class="tablinks" onclick="window.open('https://github.com/Intellimenta/DataBot/discussions', '_blank')"><img src="{{ url_for('static', path='media/discussionForumIcon.svg') }}" style="padding-right: 10px;">Ask a Question<img src="{{ url_for('static', path='media/openInNewWindowIcon.svg') }}" style="padding-left: 10px;"></button>
-            <button class="tablinks" onclick="window.open({%if analytical_mode == True %}'https://www.loom.com/share/d3746a993eca463eb5100ce65104cfb6'{%else%}'https://www.loom.com/share/d1af20ba05f94be2b9d84c5c26937463'{%endif%}, '_blank')"><img src="{{ url_for('static', path='media/demoVideoIcon.svg') }}" style="padding-right: 10px;">Watch a Demo of DataBot<img src="{{ url_for('static', path='media/openInNewWindowIcon.svg') }}" style="padding-left: 10px;"></button>
+            <button class="tablinks" onclick="window.open({%if analytical_mode == True %}'https://www.loom.com/share/2271af6de3c04a2b8b07dbc48dfb2963'{%else%}'https://www.loom.com/share/d1af20ba05f94be2b9d84c5c26937463'{%endif%}, '_blank')"><img src="{{ url_for('static', path='media/demoVideoIcon.svg') }}" style="padding-right: 10px;">Watch a Demo of DataBot<img src="{{ url_for('static', path='media/openInNewWindowIcon.svg') }}" style="padding-left: 10px;"></button>
             <!-- <button class="tablinks" onclick="window.open('https://intellimenta.com/products/databot', '_blank')"><img src="{{ url_for('static', path='media/visitProductPageIcon.svg') }}" style="padding-right: 10px;">Visit the Product Page<img src="{{ url_for('static', path='media/openInNewWindowIcon.svg') }}" style="padding-left: 10px;"></button> -->
             {% else %}
                 {% if white_labeling_config.get('demo_url') %}
@@ -353,13 +354,13 @@
                 </button> -->
                 {%endif%}
                 <button class="tablinks" data-testid="admin_panel_llm_config_btn" onclick="openTabNoPreLoad('llmConfig', 'llm-config')"><img src="{{ url_for('static', path='media/modelIcon.svg') }}" style="padding-right: 10px;">LLM Config<img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
-                <button class="tablinks" data-testid="admin_panel_bi_integration_btn" onclick="openTab('BIintegration')"><img src="{{ url_for('static', path='media/bi_integration_icon.svg') }}" style="padding-right: 10px;">Integration with BI Tools<img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
                 <button class="tablinks" data-testid="admin_panel_db_connections_btn" onclick="openTab('dbConnections')"><img src="{{ url_for('static', path='media/db.svg') }}" style="padding-right: 10px;">Database Connections <img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
                 <button class="tablinks" data-testid="admin_panel_manage_access_to_app_btn" onclick="openTabNoPreLoadManageAccessToApp('manageAccessToApp')"><img src="{{ url_for('static', path='media/ManageAccessToAppIcon.svg') }}" style="padding-right: 10px;">App Access Management <img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
                 <button class="tablinks" data-testid="admin_panel_user_management_btn" onclick="openTab('userManagement')"><img src="{{ url_for('static', path='media/user_management.svg') }}" style="padding-right: 10px;">User Management <img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
                 <button class="tablinks" data-testid="admin_panel_email_setup_btn" onclick="openTabNoPreLoadEmailSetup('emailSetup')"><img src="{{ url_for('static', path='media/emailIcon.svg') }}" style="padding-right: 10px;">Email Setup<img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
                 <button class="tablinks" data-testid="admin_panel_default_lang_all_users_btn" onclick="openTab('defaultLangAllUsers')"><img src="{{ url_for('static', path='media/langIcon.svg') }}" style="padding-right: 10px;">Default Language for All Users<img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
                 <button class="tablinks" data-testid="admin_panel_query_suggestions_btn" onclick="openTab('querySuggestionsDB')"><img src="{{ url_for('static', path='media/querySuggestionIcon.svg') }}" style="padding-right: 10px;">Query Suggestions<img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
+                <button class="tablinks" data-testid="admin_panel_bi_integration_btn" onclick="openTab('BIintegration')"><img src="{{ url_for('static', path='media/bi_integration_icon.svg') }}" style="padding-right: 10px;">Integration with BI Tools<img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
                 <button class="tablinks" data-testid="admin_panel_performance_tuning_btn" onclick="openTabNoPreLoadPerformanceTuning('performanceTuning')"><img src="{{ url_for('static', path='media/performanceTuningIcon.svg') }}" style="padding-right: 10px;">Performance Tuning<img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
                 <button class="tablinks" data-testid="admin_panel_analytical_mode_btn" onclick="openTabNoPreLoad('analyticalMode', 'analytical-mode')"><img src="{{ url_for('static', path='media/analyticalModeIcon.svg') }}" style="padding-right: 10px;">Analytical Mode Config<img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
                 {%if bi_integration_enabled == True %}
@@ -1477,6 +1478,7 @@
     const showInterimResultPref = {{ user_prefs[2] | tojson }};
     const language = {{ language | tojson }};
     const cardHeightPref = {{ user_prefs[1] | tojson }};
+    const sessionHash = "{{ chat_session_hash }}";
 
     // functions that are to be triggered at page load
     async function init() {
@@ -1499,7 +1501,7 @@
         }
 
         // Initialize the custom tooltip
-        tippy('#newSessionIcon, #gearIcon, #personalDashboardIcon, #toggleChatbotIcon, #openInNewWindow, #micIconDark', {
+        tippy('#newSessionIcon, #export-summary-btn, #gearIcon, #personalDashboardIcon, #toggleChatbotIcon, #openInNewWindow, #micIconDark', {
             delay: [0, 0], // [showDelay, hideDelay] in ms
             placement: 'bottom',
         });
@@ -1619,7 +1621,7 @@
     conversationDiv.addEventListener('touchstart', function () {
         autoScrollEnabled = false;
     });
-
+  
 </script>
 
 </body>

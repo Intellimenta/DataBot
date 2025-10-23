@@ -150,3 +150,88 @@ async function addActionButtonsAnalyticalMode(botResponseDiv) {
 
     conversationDiv.appendChild(actionButtonsContainer);
 }
+
+
+/////// functions for exporting session to docx ///////
+function collectConversation() {
+    const root = document.getElementById('conversation');
+    if (!root) return [];
+
+    const out = [];
+    const kids = Array.from(root.children);
+
+    function canvasToBase64(cv) {
+        let base64 = '';
+        try {  // Prefer Chart.js API if available for HiDPI handling
+            const chart = Chart.getChart(cv);
+            const dataUrl = chart ? chart.toBase64Image() : cv.toDataURL('image/png', 1.0);
+            base64 = dataUrl.split(',')[1]; // Strip "data:image/png;base64,"
+        } catch {
+            const dataUrl = cv.toDataURL('image/png', 1.0);
+            base64 = dataUrl.split(',')[1];
+        }
+        return base64;
+    }
+
+    kids.forEach(el => {
+        if (!(el instanceof Element)) return;
+
+        // User text
+        if (el.matches('div.user-message')) {
+            out.push({ role: 'user', content: el.innerHTML || '' });
+            return;
+        }
+
+        // Bot text
+        if (el.matches('div.bot-response')) {
+            out.push({ role: 'assistant', content: el.innerHTML || '' });
+            // Safety: ignore any canvases inside, since text and canvas are not mixed
+            return;
+        }
+
+        // Bot chart as a top-level canvas
+        if (el instanceof HTMLCanvasElement) {
+            out.push({ role: 'assistant', content: canvasToBase64(el), isImage: true });
+            return;
+        }
+    });
+
+    return out;
+}
+
+async function exportSummaryToDOCX() {
+    try {
+        const conversation = collectConversation();
+        if (conversation.length === 0) {
+            alert("No conversation found to export.");
+            return;
+        }
+        showNotification(get_translation("Generating the summary. Please wait...", language), true, 4000)
+        const res = await fetch('/export-summary', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ conversation, isFromSessionPage: isSession, sessionHash: sessionHash }),
+        });
+
+        if (!res.ok) {
+            console.log('Failed to export summary:', res.statusText);
+            const msg = await res.text().catch(() => '');
+            alert('Could not generate the summary file: ' + msg);
+            return;
+        }
+
+        const blob = await res.blob();
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        const ts = new Date().toISOString().slice(0,19).replace(/[:T]/g, '');
+        a.href = url;
+        a.download = `Chat Session Summary ${ts}.docx`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+    } catch (err) {
+        console.error(err);
+        alert('Unexpected error while exporting the summary: ' + err.message);
+    }
+}

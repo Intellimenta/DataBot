@@ -137,7 +137,8 @@ async function handleBotResponse(botResponse, onPageLoad=false, vizType='', isSi
     const conversationDiv = document.getElementById('conversation');
     
     if ( botResponse != 'NA' ) {
-        if (botResponse.startsWith('http')) {
+        if (botResponse.startsWith('http')) {  // schema mode card
+
             // If the bot's response is a link, create an iframe to display it
             await loadIframeInsideDiv(conversationDiv, botResponse);
             
@@ -679,7 +680,7 @@ async function handleBotResponse(botResponse, onPageLoad=false, vizType='', isSi
                 conversationDiv.appendChild(actionButtonsContainer);
             }
             
-        } else if (botResponse.startsWith('{')) {
+        } else if (botResponse.startsWith('{')) {  // it's a chart
             
             // remove previous action buttons 
             var actionButtonsContainer = document.getElementById('actionButtonsContainer');
@@ -723,8 +724,8 @@ async function handleBotResponse(botResponse, onPageLoad=false, vizType='', isSi
                 conversationDiv.appendChild(actionButtonsContainer);
             }
             
-        } else {
-            // If it's not a link, display it as a regular message
+        } else {  // regular message
+            
             const botResponseDiv = document.createElement('div');
             if ( language === 'ar-SA' || language === 'fa-IR' || language === 'he-IL' ) {
                 botResponseDiv.className = 'bot-response-rtl';

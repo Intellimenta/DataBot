@@ -1,4 +1,3 @@
-
 const translations = {
     "en-US": {
         "Add to Personal Dashboard": "Add to Personal Dashboard",
@@ -24,6 +23,8 @@ const translations = {
         "Failed to generate PDF": "Failed to generate PDF",
         "Sync completed.": "Sync completed.",
         "Refresh completed.": "Refresh completed.",
+        "Generating the summary. Please wait...": "Generating the summary.<br>Please wait...",
+        "Unexpected error while exporting the summary.": "Unexpected error while exporting the summary.",
     },
     "fr-CA": {
         "Add to Personal Dashboard": "Ajouter au tableau de bord personnel",
@@ -49,6 +50,8 @@ const translations = {
         "Failed to generate PDF": "Échec de la génération du PDF",
         "Sync completed.": "Synchronisation terminée.",
         "Refresh completed.": "Rafraîchissement terminé.",
+        "Generating the summary. Please wait...": "Génération du résumé. Veuillez patienter...",
+        "Unexpected error while exporting the summary.": "Erreur inattendue lors de l'exportation du résumé.",
     },
     "fr-FR": {
         "Add to Personal Dashboard": "Ajouter au tableau de bord personnel",
@@ -74,6 +77,8 @@ const translations = {
         "Failed to generate PDF": "Échec de la génération du PDF",
         "Sync completed.": "Synchronisation terminée.",
         "Refresh completed.": "Rafraîchissement terminé.",
+        "Generating the summary. Please wait...": "Génération du résumé. Veuillez patienter...",
+        "Unexpected error while exporting the summary.": "Erreur inattendue lors de l'export du résumé.",
     },
     "de-DE": {
         "Add to Personal Dashboard": "Zum persönlichen Dashboard hinzufügen",
@@ -99,6 +104,8 @@ const translations = {
         "Failed to generate PDF": "PDF konnte nicht erstellt werden",
         "Sync completed.": "Synchronisierung abgeschlossen.",
         "Refresh completed.": "Aktualisierung abgeschlossen.",
+        "Generating the summary. Please wait...": "Zusammenfassung wird erstellt. Bitte warten...",
+        "Unexpected error while exporting the summary.": "Unerwarteter Fehler beim Exportieren der Zusammenfassung.",
     },
     "hi-IN": {
         "Add to Personal Dashboard": "व्यक्तिगत डैशबोर्ड में जोड़ें",
@@ -124,6 +131,8 @@ const translations = {
         "Failed to generate PDF": "PDF बनाने में विफल",
         "Sync completed.": "सिंक पूरा हुआ।",
         "Refresh completed.": "रीफ्रेश पूरा हुआ।",
+        "Generating the summary. Please wait...": "सारांश तैयार किया जा रहा है। कृपया प्रतीक्षा करें...",
+        "Unexpected error while exporting the summary.": "सारांश निर्यात करते समय अप्रत्याशित त्रुटि।",
     },
     "ja-JP": {
         "Add to Personal Dashboard": "個人用ダッシュボードに追加",
@@ -149,6 +158,8 @@ const translations = {
         "Failed to generate PDF": "PDFの生成に失敗しました",
         "Sync completed.": "同期が完了しました。",
         "Refresh completed.": "更新が完了しました。",
+        "Generating the summary. Please wait...": "要約を生成しています。しばらくお待ちください...",
+        "Unexpected error while exporting the summary.": "要約のエクスポート中に予期しないエラーが発生しました。",
     },
     "pt-BR": {
         "Add to Personal Dashboard": "Adicionar ao painel pessoal",
@@ -174,6 +185,8 @@ const translations = {
         "Failed to generate PDF": "Falha ao gerar PDF",
         "Sync completed.": "Sincronização concluída.",
         "Refresh completed.": "Atualização concluída.",
+        "Generating the summary. Please wait...": "Gerando o resumo. Por favor, aguarde...",
+        "Unexpected error while exporting the summary.": "Erro inesperado ao exportar o resumo.",
     },
     "ru-RU": {
         "Add to Personal Dashboard": "Добавить на персональную панель",
@@ -199,13 +212,15 @@ const translations = {
         "Failed to generate PDF": "Не удалось создать PDF",
         "Sync completed.": "Синхронизация завершена.",
         "Refresh completed.": "Обновление завершено.",
+        "Generating the summary. Please wait...": "Генерируется сводка. Пожалуйста, подождите...",
+        "Unexpected error while exporting the summary.": "Неожиданная ошибка при экспорте сводки.",
     },
     "es-ES": {
         "Add to Personal Dashboard": "Agregar al panel personal",
         "Visualize": "Visualizar",
         "Share": "Compartir",
         "Modify": "Modificar",
-        "Add the query and the generated SQL as a new test case to the Text-to-SQL translation tests": "Agregar la consulta y el SQL generado como un nuevo caso de prueba a las pruebas de traducción Text-to-SQL",
+        "Add the query and the generated SQL as a new test case to the Text-to-SQL translation tests": "Agregar la consulta и el SQL generado como un nuevo caso de prueba a las pruebas de traducción Text-to-SQL",
         "Remove X-Axis Label": "Eliminar etiqueta del eje X",
         "Remove Y-Axis Label": "Eliminar etiqueta del eje Y",
         "Hide Values On Chart": "Ocultar valores en el gráfico",
@@ -224,6 +239,8 @@ const translations = {
         "Failed to generate PDF": "Error al generar el PDF",
         "Sync completed.": "Sincronización completada.",
         "Refresh completed.": "Actualización completada.",
+        "Generating the summary. Please wait...": "Generando el resumen. Por favor, espere...",
+        "Unexpected error while exporting the summary.": "Error inesperado al exportar el resumen.",
     },
     "ar-SA": {
         "Add to Personal Dashboard": "أضف إلى لوحة المعلومات الشخصية",
@@ -249,6 +266,8 @@ const translations = {
         "Failed to generate PDF": "فشل إنشاء ملف PDF",
         "Sync completed.": "اكتمل المزامنة.",
         "Refresh completed.": "اكتمل التحديث.",
+        "Generating the summary. Please wait...": "يتم الآن إنشاء الملخص. يرجى الانتظار...",
+        "Unexpected error while exporting the summary.": "حدث خطأ غير متوقع أثناء تصدير الملخص.",
     },
     "fa-IR": {
         "Add to Personal Dashboard": "افزودن به داشبورد شخصی",
@@ -274,6 +293,8 @@ const translations = {
         "Failed to generate PDF": "تولید PDF ناموفق بود",
         "Sync completed.": "همگام‌سازی تکمیل شد.",
         "Refresh completed.": "به‌روزرسانی تکمیل شد.",
+        "Generating the summary. Please wait...": "در حال تولید خلاصه. لطفاً صبر کنید...",
+        "Unexpected error while exporting the summary.": "خطای غیرمنتظره هنگام تولید خلاصه.",
     },
     "zh-CN": {
         "Add to Personal Dashboard": "添加到个人仪表板",
@@ -299,6 +320,8 @@ const translations = {
         "Failed to generate PDF": "生成PDF失败",
         "Sync completed.": "同步完成。",
         "Refresh completed.": "刷新完成。",
+        "Generating the summary. Please wait...": "正在生成摘要。请稍候...",
+        "Unexpected error while exporting the summary.": "导出摘要时发生意外错误。",
     },
     "zh-TW": {
         "Add to Personal Dashboard": "新增至個人儀表板",
@@ -324,6 +347,8 @@ const translations = {
         "Failed to generate PDF": "產生PDF失敗",
         "Sync completed.": "同步完成。",
         "Refresh completed.": "重新整理完成。",
+        "Generating the summary. Please wait...": "正在生成摘要。請稍候...",
+        "Unexpected error while exporting the summary.": "匯出摘要時發生非預期錯誤。",
     },
     "bn-BD": {
         "Add to Personal Dashboard": "ব্যক্তিগত ড্যাশবোর্ডে যোগ করুন",
@@ -349,6 +374,8 @@ const translations = {
         "Failed to generate PDF": "PDF তৈরি ব্যর্থ হয়েছে",
         "Sync completed.": "সিঙ্ক সম্পন্ন হয়েছে।",
         "Refresh completed.": "রিফ্রেশ সম্পন্ন হয়েছে।",
+        "Generating the summary. Please wait...": "সারাংশ তৈরি হচ্ছে। অনুগ্রহ করে অপেক্ষা করুন...",
+        "Unexpected error while exporting the summary.": "সারাংশ রপ্তানি করার সময় অপ্রত্যাশিত ত্রুটি।",
     },
     "he-IL": {
         "Add to Personal Dashboard": "הוסף ללוח מחוונים אישי",
@@ -374,10 +401,12 @@ const translations = {
         "Failed to generate PDF": "יצירת PDF נכשלה",
         "Sync completed.": "סנכרון הושלם.",
         "Refresh completed.": "רענון הושלם.",
+        "Generating the summary. Please wait...": "יוצר את הסיכום. נא להמתין...",
+        "Unexpected error while exporting the summary.": "שגיאה בלתי צפויה בעת ייצוא הסיכום.",
     }
 };
 
 
-function get_translation(key, locale = 'en') {
+function get_translation(key, locale = 'en-US') {
     return translations[locale]?.[key] || key;
 }

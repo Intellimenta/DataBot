@@ -111,7 +111,7 @@ function showNotification(message, isSuccess, timeout = 2000) {
     const notification = document.createElement('div');
     notification.id = notificationId;
     notification.className = 'notification';
-    notification.textContent = message;
+    notification.innerHTML = message;
     notification.style.background = isSuccess 
         ? "linear-gradient(135deg, #644883 0%, #ae9bc4 100%)" 
         : "linear-gradient(135deg, #ff4444 0%, #ff8888 100%)";
@@ -219,7 +219,7 @@ async function loadGreetingsAndQuerySuggestions() {
                 : get_translation('Hi! How can I help?', language);
         } else {
             greetingParagraph.innerHTML = isAnalyticalMode
-                ? 'For a quick overview of the app, please watch this <a href="https://www.loom.com/share/d3746a993eca463eb5100ce65104cfb6" target="_blank">demo video</a>.'
+                ? 'For a quick overview of the app, please watch this <a href="https://www.loom.com/share/2271af6de3c04a2b8b07dbc48dfb2963" target="_blank">demo video</a>.'
                 : 'For a quick overview of the app, please watch this <a href="https://www.loom.com/share/d1af20ba05f94be2b9d84c5c26937463" target="_blank">demo video</a>.';
         }
         
