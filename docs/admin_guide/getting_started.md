@@ -101,8 +101,8 @@ After creating an account and logging in as admin, it's time for configuring the
 
 - **Set the OpenAI API Key** in "LLM Config" tab.
 - **Add a Database Connection**. You can either manually add a connection or sync with your BI tool.
-    - To connect your BI tool, see [here](./bi_integration.md).
     - To manually add a database connection, click on 'Add Database Connection'.
+    - To connect your BI tool, see [here](./bi_integration.md).
 - **Managing Users Access to Database Tables/Views**
     - In DataBot, groups are used to manage table-level access; Users are assigned to groups, and groups are given access to tables. 
     - There are two built-in groups: Admins and Default. All new users are automatically added to the Default group. You can add and manage groups in Admin Panel > User Management > User Groups.
