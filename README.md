@@ -31,10 +31,13 @@ Trying out DataBot is very easy and takes just a few minutes. Follow the instruc
 
 ## Data Sources
 - Major SQL and NoSQL Databases
-- Metabase Dashboards (supoort for Superset and Redash dashboards coming soon)
-- Unstructured files (PDF, Word, TXT, ...) [Coming Soon]
-- Structured files (CSV, Excel, ...) [Coming Soon]
-- Custom Connectors (Google Sheets, AWS CloudWatch Logs, ...) [Coming Soon]
+- Dashboards from BI Tools (currently Metabase is supported)
+- Web Search
+
+We are also exploring adding the following data sources. Let us know if any of them would be helpful for your use case.
+- Unstructured files (PDF, Word, TXT, ...)
+- Structured files (CSV, Excel, ...)
+- Custom Connectors (Google Sheets, AWS CloudWatch Logs, ...)
 
 ## Pricing
 - **Free** for personal use. 
