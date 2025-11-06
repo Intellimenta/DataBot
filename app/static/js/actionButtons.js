@@ -145,7 +145,7 @@ async function addActionButtonsAnalyticalMode(botResponseDiv) {
     actionButtonsContainer.style.margin = '0px 5px';
 
     actionButtonsContainer.appendChild(copyButton);
-    actionButtonsContainer.appendChild(pdfButton);
+    //actionButtonsContainer.appendChild(pdfButton);
     actionButtonsContainer.appendChild(feedbackButton);
 
     conversationDiv.appendChild(actionButtonsContainer);
@@ -206,7 +206,7 @@ async function exportSummaryToDOCX() {
             alert("No conversation found to export.");
             return;
         }
-        showNotification(get_translation("Generating the summary. Please wait...", language), true, 4000)
+        showNotification(get_translation("Generating the summary. Please wait...", language), true, 4500);
         const res = await fetch('/export-summary', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },

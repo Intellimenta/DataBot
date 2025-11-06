@@ -1,5 +1,7 @@
 async function saveLLMconfig() {
-    const llm_openai_api_key = document.getElementById('llm_openai_api_key').value;
+    const llmOpenaiApiKey = document.getElementById('llm_openai_api_key').value;
+    const webSearchEnabled = document.getElementById('toggle-button-web-search').checked;
+    //const webSearchBlackList = document.getElementById('webSearchBlackList').value;
     const responseDiv = document.getElementById('responseLLMconfig');
     const spinner = document.getElementById('spinnerSaveLLMconfig');
 
@@ -12,7 +14,7 @@ async function saveLLMconfig() {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ llm_openai_api_key: llm_openai_api_key })
+            body: JSON.stringify({ llm_openai_api_key: llmOpenaiApiKey, web_search_is_enabled: webSearchEnabled })
         });
         const result = await response.text();
 
@@ -28,3 +30,15 @@ async function saveLLMconfig() {
         responseDiv.style.color = 'red'; 
     }
 }
+
+
+// async function toggleAllowedWebSearchBlackListDiv() {
+//     const allowedWebSearchBlackListDiv = document.getElementById('webSearchBlackListDiv');
+//     const allowedWebSearchBlackListCheckbox = document.getElementById('toggle-button-web-search');
+    
+//     if (allowedWebSearchBlackListCheckbox.checked) {
+//         allowedWebSearchBlackListDiv.style.display = 'block';
+//     } else {
+//         allowedWebSearchBlackListDiv.style.display = 'none';
+//     }
+// }

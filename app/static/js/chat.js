@@ -680,16 +680,30 @@ async function handleBotResponse(botResponse, onPageLoad=false, vizType='', isSi
                 conversationDiv.appendChild(actionButtonsContainer);
             }
             
-        } else if (botResponse.startsWith('{')) {  // it's a chart
+        } else if (botResponse.includes('<chartConfig>')) {  // contains one or more charts
             
+            // breakdown the response into text and chartConfig parts
+            const segments = botResponse.split(/(<chartConfig>[\s\S]*?<\/chartConfig>)/g);
+
+            // loop through segments and process accordingly
+            for (let segment of segments) {
+                if (segment.startsWith('<chartConfig>') && segment.endsWith('</chartConfig>')) {
+                    // strip the tags
+                    segment = segment.replace('<chartConfig>', '').replace('</chartConfig>', '');
+                    // add the chart to frontend
+                    await makeViz(segment, conversationDiv);
+                }
+                else {
+                    await addRegularMessageToChat(segment, conversationDiv);
+                }
+            }
+
             // remove previous action buttons 
             var actionButtonsContainer = document.getElementById('actionButtonsContainer');
             if (actionButtonsContainer) {
                 actionButtonsContainer.remove();
             }
-            
-            await makeViz(botResponse);
-            
+            // Add limited Action Buttons 
             if (isAnalyticalMode && isSessionPage == false) {
                 // *** feedback button ***
                 const feedbackButton = document.createElement('button');
@@ -725,39 +739,46 @@ async function handleBotResponse(botResponse, onPageLoad=false, vizType='', isSi
             }
             
         } else {  // regular message
-            
-            const botResponseDiv = document.createElement('div');
-            if ( language === 'ar-SA' || language === 'fa-IR' || language === 'he-IL' ) {
-                botResponseDiv.className = 'bot-response-rtl';
-            } else {
-                botResponseDiv.className = 'bot-response-ltr';
-            }
-            botResponseDiv.classList.add('bot-response');
-            
-            if (botResponse.includes('</table>')) {  // when tables are rendered, it moves all the <br> tags (because we replace \n with <br>) to the top of table
-                                                     // so we exclude replacing \n with <br> for the part of the response that contains the table
-                // Split around the <table>...</table> block (case-insensitive)
-                const parts = botResponse.split(/(<table[\s\S]*?<\/table>)/i);
-                for (let i = 0; i < parts.length; i++) {
-                    if (!parts[i].toLowerCase().startsWith('<table')) {
-                        parts[i] = parts[i]
-                            .replace(/\n/g, '<br>')
-                            .replace(/\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;');
-                    }
-                }
-                formattedResponse = parts.join('');
-            } else {
-                formattedResponse = botResponse
-                    .replace(/\r/g, '')   // remove carriage returns
-                    .replace(/\n/g, '<br>')
-                    .replace(/\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;');
-            }
-            botResponseDiv.innerHTML = formattedResponse;
-            conversationDiv.appendChild(botResponseDiv);
+
+            const botResponseDiv = await addRegularMessageToChat(botResponse, conversationDiv);
 
             if (isAnalyticalMode && isSessionPage == false) {
                 await addActionButtonsAnalyticalMode(botResponseDiv);
             }
         }
     }
+}
+
+
+async function addRegularMessageToChat(botResponse, parentDiv) {
+    const botResponseDiv = document.createElement('div');
+    if ( language === 'ar-SA' || language === 'fa-IR' || language === 'he-IL' ) {
+        botResponseDiv.className = 'bot-response-rtl';
+    } else {
+        botResponseDiv.className = 'bot-response-ltr';
+    }
+    botResponseDiv.classList.add('bot-response');
+    
+    if (botResponse.includes('</table>')) {  // when tables are rendered, it moves all the <br> tags (because we replace \n with <br>) to the top of table
+                                                // so we exclude replacing \n with <br> for the part of the response that contains the table
+        // Split around the <table>...</table> block (case-insensitive)
+        const parts = botResponse.split(/(<table[\s\S]*?<\/table>)/i);
+        for (let i = 0; i < parts.length; i++) {
+            if (!parts[i].toLowerCase().startsWith('<table')) {
+                parts[i] = parts[i]
+                    .replace(/\n/g, '<br>')
+                    .replace(/\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;');
+            }
+        }
+        formattedResponse = parts.join('');
+    } else {
+        formattedResponse = botResponse
+            .replace(/\r/g, '')   // remove carriage returns
+            .replace(/\n/g, '<br>')
+            .replace(/\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;');
+    }
+    botResponseDiv.innerHTML = formattedResponse;
+    parentDiv.appendChild(botResponseDiv);
+
+    return botResponseDiv;
 }

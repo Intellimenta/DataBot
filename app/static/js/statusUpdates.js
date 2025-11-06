@@ -78,31 +78,20 @@ async function connectWebSocket() {
             
             loadingOverlay.style.display = 'none';  // hide the status updates screen
 
-            if (botResponse.stream_data_type === "delete_div") {
-                // delete the div that was created for streaming
-                if (currentResponseDivForStreaming) {
-                    currentResponseDivForStreaming.remove();
-                    currentResponseDivForStreaming = null;
+            if (botResponse.create_new_div === true) { 
+                currentResponseDivForStreaming = document.createElement('div');
+                if ( language === 'ar-SA' || language === 'fa-IR' || language === 'he-IL' ) {
+                    currentResponseDivForStreaming.className = 'bot-response-rtl';
+                } else {
+                    currentResponseDivForStreaming.className = 'bot-response-ltr';
                 }
-                htmlBuffer = "";  
-                loadingOverlay.style.display = 'block'; // show the loading overlay again for viz status update
+                currentResponseDivForStreaming.classList.add('bot-response');
+                conversationDiv.appendChild(currentResponseDivForStreaming);  // add div to UI
 
-            } else if (botResponse.stream_data_type === "chunk") {
-                
-                if (!currentResponseDivForStreaming) {  // means streaming has just started
-                    
-                    // create a new div to show the streaming response
-                    currentResponseDivForStreaming = document.createElement('div');
-                    if ( language === 'ar-SA' || language === 'fa-IR' || language === 'he-IL' ) {
-                        currentResponseDivForStreaming.className = 'bot-response-rtl';
-                    } else {
-                        currentResponseDivForStreaming.className = 'bot-response-ltr';
-                    }
-                    currentResponseDivForStreaming.classList.add('bot-response');
-                    
-                    // add div to UI
-                    conversationDiv.appendChild(currentResponseDivForStreaming);
-                }
+                htmlBuffer = "";
+            }
+
+            if (botResponse.stream_data_type === "chunk") {
 
                 htmlBuffer += botResponse.stream_data_content;
                 
@@ -138,12 +127,42 @@ async function connectWebSocket() {
                         .replace(/\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;');
                 }
                 currentResponseDivForStreaming.innerHTML = formattedResponse;
+                if (autoScrollEnabled && botResponse.scroll === true) {
+                    await scrollToBottom();
+                }
+            } else if (botResponse.stream_data_type === "visualization") {  // this currently only applies when visualization is part of a combined request involding function calls and therefore uses streaming
+                try {
+                    if (autoScrollEnabled) {
+                        await scrollToBottom();
+                    }
+
+                    // remove the div with the tag <tempdiv></tempdiv>
+                    const tempDiv = conversationDiv.querySelector('tempdiv');
+                    if (tempDiv) {
+                        tempDiv.remove();
+                    }
+
+                    const canvas = document.createElement('canvas');
+                    canvas.id = 'customChart_' + performance.now();  // Date.now(); is not unique enough
+                    canvas.style.width = '100%';
+                    conversationDiv.appendChild(canvas);
+                    const chartConfig = (new Function('return (' + botResponse.chart_config + ')'))();
+                    const ctx = document.getElementById(canvas.id).getContext('2d');
+                    const customChart = new Chart(ctx, chartConfig);
+                
+                } catch (error) {
+                    const errorDiv = document.createElement('div');
+                    errorDiv.style.textAlign = 'left';
+                    errorDiv.style.padding = '5px';
+                    errorDiv.innerHTML = `An error occurred while creating the chart: ${error}`;
+                    conversationDiv.appendChild(errorDiv);
+                }
+
                 if (autoScrollEnabled) {
                     await scrollToBottom();
                 }
-            }
 
-            else if (botResponse.stream_data_type === "done") {  // end of stream
+            } else if (botResponse.stream_data_type === "done") {  // end of stream
 
                 await scrollToBottom();
                 autoScrollEnabled = true;

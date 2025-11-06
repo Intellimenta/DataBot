@@ -141,16 +141,14 @@ function showNotification(message, isSuccess, timeout = 2000) {
 }
 
 
-async function makeViz(chartConfigString) {
-    const conversationDiv = document.getElementById('conversation');
-
+async function makeViz(chartConfigString, parentDiv) {
     try {
         const canvas = document.createElement('canvas');
         canvas.id = 'customChart_' + performance.now();  // Date.now(); is not unique enough
         canvas.style.width = '100%';
-        conversationDiv.appendChild(canvas);
+        parentDiv.appendChild(canvas);
 
-        const chartConfig = (new Function('return ' + chartConfigString))();  // convert string to object
+        const chartConfig = (new Function('return (' + chartConfigString + ')'))();  // convert string to object
     
         const ctx = document.getElementById(canvas.id).getContext('2d');
         const customChart = new Chart(ctx, chartConfig);
@@ -160,7 +158,7 @@ async function makeViz(chartConfigString) {
         errorDiv.style.textAlign = 'left';
         errorDiv.style.padding = '5px';
         errorDiv.innerHTML = `An error occurred while creating the chart: ${error}`;
-        conversationDiv.appendChild(errorDiv);
+        parentDiv.appendChild(errorDiv);
     }
     
 }
