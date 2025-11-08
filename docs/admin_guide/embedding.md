@@ -65,7 +65,7 @@ You would then use the EUSI to build the iframe URL:
 
 ```html
 <!-- Replace [EUSI] with the actual session ID -->
-<iframe src="https://your-databot-url/?eusi=[EUSI] allow="microphone"></iframe>
+<iframe src="https://your-databot-url/?eusi=[EUSI]" allow="microphone"></iframe>
 
 <!-- Example -->
 <iframe src="https://your-databot-url/?eusi=eyJhbGci..." allow="microphone"></iframe>
