@@ -30,14 +30,14 @@ Trying out DataBot is very easy and takes just a few minutes. Follow the instruc
 - 🎨 White-Labelling
 
 ## Data Sources
-- Major SQL and NoSQL Databases
-- Dashboards from BI Tools (currently Metabase is supported)
-- Web Search
+- 🗄️Major SQL and NoSQL Databases
+- 📊 Dashboards from BI Tools (currently Metabase is supported)
+- 🌐Web Search
 
 We are also exploring adding the following data sources. Let us know if any of them would be helpful for your use case.
-- Unstructured files (PDF, Word, TXT, ...)
-- Structured files (CSV, Excel, ...)
-- Custom Connectors (Google Sheets, AWS CloudWatch Logs, ...)
+- 📄Unstructured files (PDF, Word, TXT, ...)
+- 🧾Structured files (CSV, Excel, ...)
+- 🔌Custom Connectors (Google Sheets, AWS CloudWatch Logs, ...)
 
 ## Pricing
 - **Free** for personal use. 
