@@ -1,4 +1,5 @@
 databot-standalone-windows
+databot-portable-windows
 venv/
 __pycache__/
 *.pyc
