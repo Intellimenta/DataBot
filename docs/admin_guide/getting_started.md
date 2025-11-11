@@ -2,15 +2,15 @@
 
 DataBot can be run in two different modes, depending on your needs:
 
-- **Standalone Mode (Windows)**: Ideal for quickly testing DataBot on your local machine without setting up any external dependencies. No installation is required—just download the bundle, and launch the app.
+- **Portable Mode (Windows)**: Ideal for quickly testing DataBot on your local machine without setting up any external dependencies. No installation is required—just download the bundle, and launch the app.
 
 - **Docker Mode**: Suitable for both advanced local testing and production deployments. This mode gives you full access to all features, but requires Docker, a PostgreSQL database, and some additional configuration.
 
 
-## Standalone Mode
+## Portable Mode
 
 ### Launch
-- Download the latest standalone version <a href="https://github.com/Intellimenta/DataBot/releases/latest" target="_blank">here</a>.
+- Download the latest portable version <a href="https://github.com/Intellimenta/DataBot/releases/latest" target="_blank">here</a>.
 - Unzip the file.
 - Click on `launch_databot.bat` to run DataBot.
 - Browse `http://127.0.0.1:5000` to access the app.
