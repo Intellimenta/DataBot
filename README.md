@@ -21,7 +21,7 @@ Trying out DataBot is very easy and takes just a few minutes. Follow the instruc
 - 🗄️ Supporting Major SQL and NoSQL Databases
 - 🧩 JSON Columns Support
 - 💻 Easy Embedding in Your Website or App
-- 📦 Standalone and Containerized Deployment
+- 📦 Portable Mode and Containerized Deployment
 - 🛡️ Fine-grained Access Control
 - 🙈 Data Obfuscation (Using Dynamic Data Masking)
 - 👥 Role-Based Access Control (RBAC)
