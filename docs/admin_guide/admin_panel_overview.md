@@ -14,7 +14,7 @@ DataBot has two modes:
 
 Here you set your OpenAI API key. Your OpenAI account needs to be at least on <a href="https://platform.openai.com/docs/guides/rate-limits/usage-tiers#usage_tiers" target="_blank">tier 1</a>, as DataBot uses some features that are not available in the free tier models. Tier 3+ is recommended for production use.
 
-Here you can also enable web search. If enabled, user queries that cannot be answered by database data, would be answered by web search.
+Here you can also configure several features for LLM. One important feature is **web search**. When web search is enabled, user queries that cannot be answered by database data, would be answered by web search.
 
 ### BI Integration
 
@@ -97,25 +97,10 @@ In this section, you have the option to choose different LLM models for differen
 
 If the schema that is sent to LLM is very big (you can use the `db schema command` to see the schema) and the response quality is affected, you can try enabling **Schema Pruning** in this section.
 
-### Analytical Mode Config
-
-In this section, you can configure Analytical Mode settings. Most options are self-explanatory.
-
-The max number of rows option, is referring to the data retrieved from running the generated SQL code or from dashboard cards.
-
-<!-- ### Schema Mode Config
-
-Here you can manage configurations affecting the schema mode.
-
-**Allow Public Sharing**: If this setting is enabled, users can use the 'Share' button to request a public link for the result of their query. They can then share this link to provide access to the result's data. 
-
-### File Uploads
-
-Uploaded files are the third data source (in addition to database and dashboard cards).
--->
+### Compliance
+If some of you clients require that their chats don't be stored in the database, you can provide their email domain in this tab.
 
 ### Text-to-SQL Translation Tests
-
 
 <figure markdown="1">
 ![Text-to-SQL Translation Tests](../assets/text-to-sql-tests.png){ width="600" }
