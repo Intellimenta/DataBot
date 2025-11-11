@@ -23,13 +23,13 @@ function toggleSidebar() {
 }
 
 
-async function deleteSession(sessionHash) {
-    const response = await fetch('/delete-session', {
+async function deleteArchivedChatSession(chatSessionHash) {
+    const response = await fetch('/delete-archived-chat-session', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({'sessionHash': sessionHash })
+        body: JSON.stringify({'chatSessionHash': chatSessionHash })
     });
     const result = await response.text();
 
@@ -37,7 +37,7 @@ async function deleteSession(sessionHash) {
         showNotification(get_translation("Session Deletion Failed!", language), false);
         console.log(result);
     } else {
-        const session = document.getElementById(`session_${sessionHash}`);
+        const session = document.getElementById(`session_${chatSessionHash}`);
         session.style.transition = 'opacity 0.5s';
         session.style.opacity = '0';
         setTimeout(() => {

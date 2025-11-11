@@ -70,38 +70,26 @@ function showFailedTestError(error) {
 }
 
 
-async function clearConversationHistory(withSpinner=true, clearSessionFromDB=false) { 
-    
-    if (isSession !== true) {  // if it is not a session page (i.e. it's the regular main page)
-        try {
-            if (withSpinner) {
-                loadingOverlay.style.display = 'block';  // show spinner
-            }
-            
-            // clear frontend
-            document.getElementById('conversation').innerHTML = '';
 
-            // clear backend
-            if (clearSessionFromDB) {
-                const botResponse = await askBot('clear_session');
-                await handleBotResponse(botResponse.main_response, true);
-            }
-
-            if (withSpinner) {
-                loadingOverlay.style.display = 'none';  // hide spinner
-            }
-
-        } catch (error) {
-            if (withSpinner) {
-                loadingOverlay.style.display = 'none';  // hide spinner
-            }
-            await handleBotResponse("An error occurred: " + error.stack); // show the error to the user
-        }
-    } else {
+async function loadArchivedChatSession(chatSession) {
+    try {
         for (const [query, response] of chatSession) {
             addToConversation(query);
             await handleBotResponse(response, false, '', false, true);
         }
+    } catch (error) {
+        await handleBotResponse("An error occurred: " + error.stack); // show the error to the user
+    }
+}
+
+async function clearConversationFromFrontend() {
+    try {
+        loadingOverlay.style.display = 'block';
+        conversationDiv.innerHTML = '';
+        loadingOverlay.style.display = 'none';
+    } catch (error) {
+        loadingOverlay.style.display = 'none';
+        await handleBotResponse("An error occurred: " + error.stack); // show the error to the user
     }
 };
 
@@ -289,7 +277,7 @@ async function handleEnter(event) {
 }
 
 
-async function registerActiveDB() {
+async function registerActiveDB(onPageLoad=false) {
 
     const initialLoadingSpinner = document.getElementById('initialLoadingSpinner');
     initialLoadingSpinner.style.display = 'block';
@@ -298,12 +286,8 @@ async function registerActiveDB() {
     const selectedOption = dropdown.options[dropdown.selectedIndex];
     const activeDbId = selectedOption.id;
     const activeDbEngine = selectedOption.getAttribute('engine');
-    
-    // // show spinner
-    // const loadingOverlay = document.getElementById('loading-overlay');  
-    // loadingOverlay.style.display = 'block';
 
-    await clearConversationHistory();
+    await clearConversationFromFrontend();
     
     const response = await fetch('/save-active-db', {
         method: 'POST',
@@ -317,7 +301,9 @@ async function registerActiveDB() {
         await handleBotResponse(result);
     }
 
-    // loadingOverlay.style.display = 'none';
+    if (!onPageLoad) {
+        await createNewChatSession();
+    }
 
     await loadGreetingsAndQuerySuggestions();
 
@@ -396,7 +382,37 @@ function startVoiceRecognition() {
 
 
 async function startNewSession() {
-    statusUpdatesDiv.innerHTML = '';  // since we show the spinner, we need to clear the previous status updates
-    await clearConversationHistory(true, true);
-    await loadGreetingsAndQuerySuggestions();
+    
+    try {
+        loadingOverlay.style.display = 'block';
+        
+        statusUpdatesDiv.innerHTML = '';  // since we show the spinner, we need to clear the previous status updates
+        
+        await clearConversationFromFrontend();
+
+        await createNewChatSession();  // this also updates the global variable chatSessionHash
+
+        loadingOverlay.style.display = 'none';
+
+        await loadGreetingsAndQuerySuggestions();
+
+    } catch (error) {
+        loadingOverlay.style.display = 'none';
+        await handleBotResponse("An error occurred: " + error.stack);
+    }
+}
+
+
+async function createNewChatSession() {
+    const response = await fetch('/create-new-chat-session', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ oldChatSessionHash: window.chatSessionHash })
+    });
+    const result = await response.text();
+    if (response.status === 200) {
+        window.chatSessionHash = result;  // update the global variable with the new chat session hash
+    } else {
+        await handleBotResponse("An error occurred while creating a new chat session: " + result);
+    }
 }

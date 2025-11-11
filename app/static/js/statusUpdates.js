@@ -149,6 +149,10 @@ async function connectWebSocket() {
                     const chartConfig = (new Function('return (' + botResponse.chart_config + ')'))();
                     const ctx = document.getElementById(canvas.id).getContext('2d');
                     const customChart = new Chart(ctx, chartConfig);
+
+                    if (autoScrollEnabled) {
+                        await scrollToBottom();
+                    }
                 
                 } catch (error) {
                     const errorDiv = document.createElement('div');
@@ -158,16 +162,12 @@ async function connectWebSocket() {
                     conversationDiv.appendChild(errorDiv);
                 }
 
-                if (autoScrollEnabled) {
-                    await scrollToBottom();
-                }
-
             } else if (botResponse.stream_data_type === "done") {  // end of stream
 
                 await scrollToBottom();
                 autoScrollEnabled = true;
 
-                if (isAnalyticalMode && isSession == false) {
+                if (isAnalyticalMode && isChatSessionArchivePage == false) {
                     await addActionButtonsAnalyticalMode(currentResponseDivForStreaming);
                 }
                 

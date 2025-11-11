@@ -1,7 +1,13 @@
 async function saveLLMconfig() {
     const llmOpenaiApiKey = document.getElementById('llm_openai_api_key').value;
     const webSearchEnabled = document.getElementById('toggle-button-web-search').checked;
-    //const webSearchBlackList = document.getElementById('webSearchBlackList').value;
+    const suggestFurtherQueriesEnabled = document.getElementById('toggle-button-suggest-further-queries').checked;
+    const rowLimitDropdown = document.getElementById('analytical-mode-row-limit-dropdown');
+    const rowLimit = rowLimitDropdown.options[rowLimitDropdown.selectedIndex].value;
+    const metadata = document.getElementById('analytical-mode-metadata').value;
+    const includeExplanation = document.getElementById('toggle-button-include-explanation').checked;
+    const includeDataSource = document.getElementById('toggle-button-include-data-source').checked;
+
     const responseDiv = document.getElementById('responseLLMconfig');
     const spinner = document.getElementById('spinnerSaveLLMconfig');
 
@@ -14,7 +20,15 @@ async function saveLLMconfig() {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ llm_openai_api_key: llmOpenaiApiKey, web_search_is_enabled: webSearchEnabled })
+            body: JSON.stringify({ 
+                llm_openai_api_key: llmOpenaiApiKey, 
+                web_search_is_enabled: webSearchEnabled, 
+                suggest_further_queries_is_enabled: suggestFurtherQueriesEnabled,
+                rowLimit: rowLimit, 
+                metadata: metadata,
+                include_explanation: includeExplanation,
+                include_data_source: includeDataSource
+            })
         });
         const result = await response.text();
 
@@ -30,15 +44,3 @@ async function saveLLMconfig() {
         responseDiv.style.color = 'red'; 
     }
 }
-
-
-// async function toggleAllowedWebSearchBlackListDiv() {
-//     const allowedWebSearchBlackListDiv = document.getElementById('webSearchBlackListDiv');
-//     const allowedWebSearchBlackListCheckbox = document.getElementById('toggle-button-web-search');
-    
-//     if (allowedWebSearchBlackListCheckbox.checked) {
-//         allowedWebSearchBlackListDiv.style.display = 'block';
-//     } else {
-//         allowedWebSearchBlackListDiv.style.display = 'none';
-//     }
-// }

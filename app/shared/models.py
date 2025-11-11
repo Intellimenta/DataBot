@@ -7,9 +7,9 @@ from sqlalchemy.sql import func
 from sqlalchemy.orm import relationship
 import os
 
-is_standalone = os.getenv("IS_STANDALONE") == 'true'
+is_portable = os.getenv("IS_PORTABLE") == 'true'
 
-if is_standalone:
+if is_portable:
     DATABASE_URL = f'postgresql+asyncpg://postgres@127.0.0.1:5432/databot'
 else:
     DATABASE_URL = f'postgresql+asyncpg://{os.getenv("DATABOT_DB_USER")}:{os.getenv("DATABOT_DB_PASS")}@{os.getenv("DATABOT_DB_HOST")}:{os.getenv("DATABOT_DB_PORT")}/{os.getenv("DATABOT_DB_DATABASE")}'
@@ -51,7 +51,6 @@ class Users(Base):
     password_hash = Column(String, nullable=False)
     reset_password_token = Column(String, unique=True)
     reset_password_token_expiration = Column(DateTime)
-
 
 class Settings(Base):
     __tablename__ = 'settings'
@@ -137,9 +136,10 @@ class Chatbot_And_Dashboards_Config(Base):
 class Chat_Sessions(Base):
     __tablename__ = 'chat_sessions'
     id = Column(Integer, primary_key=True, index=True)
+    session_hash = Column(String, nullable=False)
     user_id = Column(String, nullable=False)
-    chat_history = Column(MutableList.as_mutable(JSON))  # this should be renamed to chat_session
     last_updated = Column(DateTime(timezone=False))
+    chat_session = Column(MutableList.as_mutable(JSON)) 
 
 class Chat_Sessions_Archive(Base):
     __tablename__ = 'chat_sessions_archive'
@@ -152,6 +152,7 @@ class Chat_Sessions_Archive(Base):
 class Chat_History(Base):
     __tablename__ = 'chat_history'
     id = Column(Integer, primary_key=True, index=True)
+    session_hash = Column(String, nullable=False)
     user_id = Column(String, nullable=False)
     user_query = Column(String)
     user_query_original = Column(String)

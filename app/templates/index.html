@@ -41,14 +41,14 @@
     <script src="{{ url_for('static', path='js/adminPanel/textToSQLTransactionTests.js') }}?v={{ app_version }}"></script>
     <script src="{{ url_for('static', path='js/adminPanel/userManagement.js') }}?v={{ app_version }}"></script>
     <script src="{{ url_for('static', path='js/adminPanel/whiteLabeling.js') }}?v={{ app_version }}"></script>
-    <script src="{{ url_for('static', path='js/adminPanel/analyticalModeConfig.js') }}?v={{ app_version }}"></script>
+    <script src="{{ url_for('static', path='js/adminPanel/compliance.js') }}?v={{ app_version }}"></script>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', path='style.css') }}?v={{ app_version }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="icon" href="{{ white_labeling_config.get('favicon_url') if white_labeling_config.get('favicon_url') else url_for('static', path='media/databot-favicon.ico') }}" type="image/x-icon">
     <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/dist/tippy.css" />
     <script src="https://unpkg.com/@popperjs/core@2"></script>
     <script src="https://unpkg.com/tippy.js@6"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {%if analytical_mode == True %}
         <script src="https://cdn.jsdelivr.net/npm/luxon@3.7.2/build/global/luxon.min.js"></script>
@@ -57,6 +57,7 @@
         <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom"></script>
         <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
         <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-financial"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-geo"></script>
     {%endif%}
     <style>
         input[type=text] {
@@ -130,8 +131,7 @@
 <div id="sidebar" style="transition: width 0.5s;">
     <div id="sidebar-top" style="display: flex; flex-direction: row; align-items: center; justify-content: space-between; border-bottom: 2px solid #644883; padding: 5px;">
         
-        {%if is_session_page != True %}
-        <div id="active-db-container" style="display: flex; {% if databases_that_user_has_access | length == 1 %} visibility:hidden;{% endif %} align-items: center; margin-left: 3px">
+        <div id="active-db-container" style="display: flex; {% if databases_that_user_has_access | length == 1 or is_chat_session_archive_page == True %} visibility:hidden;{% endif %} align-items: center; margin-left: 3px">
             <span style="font-size: 15px;"> DB:&nbsp;</span>
             <select id="ActiveDatabaseDropdown" name="ActiveDBdropdown" onchange="registerActiveDB()" class="input-with-shadow" style="padding: 1px; width:140px; height: 26px; border: 2px solid #64488370;" >
                     <option id="0" value="" selected disabled>Select a Database</option>
@@ -140,7 +140,6 @@
                 {% endfor %}
             </select>
         </div>
-        {%endif%}
 
         <img id="sidebar-toggle" src="{{ url_for('static', path='media/toggleSidebarIcon.svg') }}" data-tippy-content="{{ _('Toggle Sidebar') }}" onclick="toggleSidebar()" style="width:28px;" >
     
@@ -148,10 +147,10 @@
 
     <div id="chat_session_archive" style="margin-top: 10px;">
         <p style="margin-bottom: 10px; font-weight: bold;">{{ _('Chat Archive') }}</p>
-    {% for session_hash, first_query in chat_sessions_archive %}
+    {% for chat_session_hash, first_query in chat_sessions_archive %}
         <div style="position: relative;" class="session-container">
-            <div id="session_{{session_hash}}" class="chat-session" title="{{first_query}}" onclick="window.open('/session/{{session_hash}}', '_blank')" style="direction:{{ 'rtl' if language in ['fa-IR', 'ar-SA', 'he-IL'] else 'ltr' }}; text-align:{{ 'right' if language in ['fa-IR', 'ar-SA', 'he-IL'] else 'left' }};">{{first_query}}</div>
-            <button class="session-delete-button" data-tippy-content="{{ _('Delete Session') }}" onclick="deleteSession('{{session_hash}}')">
+            <div id="session_{{chat_session_hash}}" class="chat-session" title="{{first_query}}" onclick="window.open('/session/{{chat_session_hash}}', '_blank')" style="direction:{{ 'rtl' if language in ['fa-IR', 'ar-SA', 'he-IL'] else 'ltr' }}; text-align:{{ 'right' if language in ['fa-IR', 'ar-SA', 'he-IL'] else 'left' }};">{{first_query}}</div>
+            <button class="session-delete-button" data-tippy-content="{{ _('Delete Session') }}" onclick="deleteArchivedChatSession('{{chat_session_hash}}')">
             <img src="{{ url_for('static', path='media/closeIcon.svg') }}" alt="Delete" style="width: 16px; height: 16px; vertical-align: middle;">
             </button>
         </div>
@@ -174,7 +173,7 @@
         <div id="conversation">
         </div>
         
-        {% if is_session_page != True %}   <!-- TODO: Enable resuming chat on loaded sessions-->
+        {% if is_chat_session_archive_page != True %}   
             
             <div id="footer">
                 <div id="input-area">
@@ -218,7 +217,7 @@
 </div>
 
 
-{%if is_session_page != True %}
+{%if is_chat_session_archive_page != True %}
 <div id="top-right-buttons-container" style="position: absolute; display: flex; top: 8px; right: 30px; justify-content: space-around; align-items: center; width: {{80 if analytical_mode == True else 110}}px; height: 36px;">
     {%if analytical_mode != True %}
         <img src="{{ url_for('static', path='media/personalDashboardIcon.svg') }}" id="personalDashboardIcon" alt="personalDashboardIcon" class="top-right-button" data-tippy-content="{{ _('Open Personal Dashboard') }}" onclick="loadPersonalDashboard()" style="width:32px; height: 32px;">
@@ -294,7 +293,7 @@
             <div id="adminPanel" class="tabcontent tabAdmin">
                 <button class="back-button" data-testid="back-btn-adminPanel" style="max-width: 72px; max-height: 30px; margin-bottom: 20px; margin-top:22px;" onclick="closeTab('adminPanel')"><img src="{{ url_for('static', path='media/arrowBackwardIcon.svg') }}" class="back_icon">Back</button>
                 <h3 class="settings_inner_page_title" style="justify-content: center; padding-bottom: 10px; margin-top: 0px; padding-right: 15px;"><img src="{{ url_for('static', path='media/adminPanel.svg') }}" style="padding-right: 10px;">Admin Panel</h3>
-                {%if license_is_static == True and is_standalone != True %}
+                {%if license_is_static == True and is_portable != True %}
                     <p style="margin:0px 0px 5px 0px">This instance of DataBot is licensed exclusively to {{client_name}}.<br> Redistribution or resale is not permitted.</p>
                 {%endif%}
                 <button class="tablinks" data-testid="admin_panel_admin_guide_btn" onclick="window.open('https://databot.intellimenta.com/admin_guide/admin_panel_overview', '_blank')" style="margin-bottom: 25px;"><img src="{{ url_for('static', path='media/adminGuideIcon.svg') }}" style="padding-right: 10px;">Admin Guide<img src="{{ url_for('static', path='media/openInNewWindowIcon.svg') }}" style="padding-left: 10px;"></button>
@@ -315,7 +314,7 @@
                 <button class="tablinks" data-testid="admin_panel_query_suggestions_btn" onclick="openTab('querySuggestionsDB')"><img src="{{ url_for('static', path='media/querySuggestionIcon.svg') }}" style="padding-right: 10px;">Query Suggestions<img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
                 <button class="tablinks" data-testid="admin_panel_bi_integration_btn" onclick="openTab('BIintegration')"><img src="{{ url_for('static', path='media/bi_integration_icon.svg') }}" style="padding-right: 10px;">Integration with BI Tools<img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
                 <button class="tablinks" data-testid="admin_panel_performance_tuning_btn" onclick="openTabNoPreLoadPerformanceTuning('performanceTuning')"><img src="{{ url_for('static', path='media/performanceTuningIcon.svg') }}" style="padding-right: 10px;">Performance Tuning<img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
-                <button class="tablinks" data-testid="admin_panel_analytical_mode_btn" onclick="openTabNoPreLoad('analyticalMode', 'analytical-mode')"><img src="{{ url_for('static', path='media/analyticalModeIcon.svg') }}" style="padding-right: 10px;">Analytical Mode Config<img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
+                <button class="tablinks" data-testid="admin_panel_compliance_btn" onclick="openTab('compliance')"><img src="{{ url_for('static', path='media/complianceIcon.svg') }}" style="padding-right: 10px;">Compliance<img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
                 {%if bi_integration_enabled == True %}
                 <!-- <button class="tablinks" data-testid="admin_panel_schema_mode_btn" onclick="openTab('schemaModeConfig')"><img src="{{ url_for('static', path='media/schemaModeIcon.svg') }}" style="padding-right: 10px;">Schema Mode Config<img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button> -->
                 <button class="tablinks" data-testid="admin_panel_response_quality_tests_btn" onclick="openTab('responseQualityTestsSelectDB')"><img src="{{ url_for('static', path='media/responseQualityTestsIcon.svg') }}" style="padding-right: 10px;">Text-to-SQL Translation Tests<img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
@@ -325,7 +324,6 @@
                 <button class="tablinks" data-testid="admin_panel_data_obf_btn" onclick="openTab('dataObfuscation')"><img src="{{ url_for('static', path='media/dataObfuscationIcon.svg') }}" style="padding-right: 10px;">Data Obfuscation <img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
                 <button class="tablinks" data-testid="admin_panel_white_labeling_btn" onclick="openTabNoPreLoadWhiteLabeling('whiteLabeling')"><img src="{{ url_for('static', path='media/whiteLabelingIcon.svg') }}" style="padding-right: 10px;">White-labeling <img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
                 <button class="tablinks" data-testid="admin_panel_misc_btn" onclick="openTab('misc')"><img src="{{ url_for('static', path='media/misc.svg') }}" style="padding-right: 10px;">Misc.<img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
-                <!-- <button class="tablinks" onclick="openTabNoPreLoadErrorLogs('errorLogs')"><img src="{{ url_for('static', path='media/errorLogsIcon.svg') }}" style="padding-right: 10px;">Error Logs<img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button> -->
                 <div id="spinnerAdminPanel" class="spinner" style="z-index: 1000; margin-top: -80%;"></div>
             </div>
 
@@ -956,6 +954,26 @@
                         </div>
                     {% endif %}
                 </div>
+
+                <div id="compliance" data-testid="admin_panel_compliance" class="tabcontent tabAdmin">
+
+                    <button data-testid="back-btn-compliance" class="back-button" style="max-width: 72px; max-height: 30px; margin-bottom: 50px; margin-top:22px;" onclick="closeTab('compliance')"><img src="{{ url_for('static', path='media/arrowBackwardIcon.svg') }}" class="back_icon">Back</button>
+                    <h3 class="settings_inner_page_title" style="justify-content: center; padding-bottom: 10px;"><img src="{{ url_for('static', path='media/complianceIcon.svg') }}" style="padding-right: 10px;">Compliance</h3>
+
+                    <div id="emailDomainsForComplianceDiv" style="padding: 10px 15px; text-align: left;">
+                        <p style="text-align:center">
+                            If some of you clients require that their chats don't be stored in the database, you can provide their email domain below (comman-separated).
+                            Note that for these users, their current session chat will be stored temporarily, but will be deleted once the session ends.
+                        </p>
+                        <textarea id="email-domains-for-compliance" placeholder="example.com, example2.com" class="input-with-shadow" style="padding: 8px 10px; height: 50px; width:100%; min-width: 100%; ">{{email_domains_requiring_compliance}}</textarea>
+                    </div>
+
+                    <div>
+                        <input id="save-compliance-config" value="Save" class="intellimenta-color-button" style="margin-bottom: 20px; margin-top: 30px;text-align:center; width: 100px;" onclick="saveComplianceConfig()" readonly>
+                        <div id="spinnerSaveComplianceConfig" class="spinner"></div>
+                        <div id="responseComplianceConfig" style="margin: 20px;"></div>
+                    </div>
+                </div>
                 
                 <div id="BIintegration" data-testid="admin_panel_BIintegration" class="tabcontent tabAdmin">
 
@@ -1252,7 +1270,6 @@
                 <div id="responseQualityTests" data-testid="admin_panel_response_quality_tests" class="tabcontent tabAdmin"></div>
                 <div id="responseQualityTestRunResults" data-testid="admin_panel_response_quality_test_run_results" class="tabcontent tabAdmin"></div>
                 <div id="chatbotAndDashboards" data-testid="admin_panel_two_col_setup" class="tabcontent tabAdmin"></div>
-                <div id="analyticalMode" data-testid="admin_panel_analytical_mode_config" class="tabcontent tabAdmin"></div>
                 <div id="emailSetup" data-testid="admin_panel_email_setup" class="tabcontent tabAdmin"></div>
                 <div id="whiteLabeling" data-testid="admin_panel_white_labeling_config" class="tabcontent tabAdmin"></div>
                 <div id="errorLogs" class="tabcontent tabAdmin"></div>
@@ -1416,7 +1433,7 @@
 
     const isAdmin = "{{is_admin}}" === 'True';
     const isFirstTimeUser = "{{is_first_time_user}}" === 'True';
-    const isSession = "{{is_session_page}}" === 'True';
+    const isChatSessionArchivePage = "{{is_chat_session_archive_page}}" === 'True';
     const wla = "{{ white_labeling }}" === 'True';
     const isChatbotAndDashboards = "{{is_two_col}}" === 'True';
     const isAnalyticalMode = "{{analytical_mode}}" === 'True';
@@ -1427,7 +1444,8 @@
     const showInterimResultPref = {{ user_prefs[2] | tojson }};
     const language = {{ language | tojson }};
     const cardHeightPref = {{ user_prefs[1] | tojson }};
-    const sessionHash = "{{ chat_session_hash }}";
+    const chatSessionStartedAt = "{{ chat_session_started_at }}";
+    window.chatSessionHash = "{{ chat_session_hash }}";  // global scope (will be changed in createNewChatSession() function)
 
     // functions that are to be triggered at page load
     async function init() {
@@ -1435,17 +1453,19 @@
         document.getElementById('main-body').style.visibility = 'visible';  // we wait for the page to load so it doesn't look broken for a fraction of a second
         
         // if there is only one database available and it's not already selected, select it automatically as the active database 
-        if (!isSession && "{{ active_db_id }}" == 0 && "{{ databases_that_user_has_access|length }}" == 1) {
+        if (!isChatSessionArchivePage && "{{ active_db_id }}" == 0 && "{{ databases_that_user_has_access|length }}" == 1) {
             document.getElementById('ActiveDatabaseDropdown').selectedIndex = 1;
 
             // load query suggestions and greetings for the selected database
-            await registerActiveDB();  // this function contains clearConversationHistory() and loadGreetingsAndQuerySuggestions()
+            await registerActiveDB(onPageLoad=true);  // this function contains clearConversationFromFrontend() and loadGreetingsAndQuerySuggestions()
             
         } else {
-            await clearConversationHistory();
-
-            if (isSession != true) {
+            await clearConversationFromFrontend();
+            
+            if (isChatSessionArchivePage != true) {
                 await loadGreetingsAndQuerySuggestions();
+            } else {
+                await loadArchivedChatSession(chatSession);
             }
         }
         
@@ -1519,9 +1539,6 @@
 
     ////////// streaming response auto-scroll ////////////////
     let autoScrollEnabled = true;
-    conversationDiv.addEventListener('mousedown', function () {
-        autoScrollEnabled = false;
-    });
     // Disable auto-scroll on mouse wheel
     conversationDiv.addEventListener('wheel', function () {
         autoScrollEnabled = false;
@@ -1529,6 +1546,14 @@
     // Disable auto-scroll on mobile touch
     conversationDiv.addEventListener('touchstart', function () {
         autoScrollEnabled = false;
+    });
+
+
+    // Send beacon when tab is closed to trigger archiving the chat session
+    window.addEventListener('beforeunload', function (event) {
+        navigator.sendBeacon('/tab-closed', JSON.stringify({
+            chat_session_hash: chatSessionHash,
+        }));
     });
 </script>
 </body>

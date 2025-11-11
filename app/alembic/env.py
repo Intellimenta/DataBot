@@ -7,9 +7,9 @@ from alembic import context
 from shared.models import Base
 import os
 
-is_standalone = os.getenv("IS_STANDALONE") == 'true'
+is_portable = os.getenv("IS_PORTABLE") == 'true'
 
-if is_standalone:
+if is_portable:
     DATABASE_URL = f'postgresql+pg8000://postgres@127.0.0.1:5432/databot'
 else:
     DATABASE_URL = (

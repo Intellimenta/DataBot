@@ -4,7 +4,7 @@ async function markAsBadResponse() {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ })
+        body: JSON.stringify({ chatSessionHash: window.chatSessionHash })
     });
     const result = await response.text();
 
@@ -210,7 +210,7 @@ async function exportSummaryToDOCX() {
         const res = await fetch('/export-summary', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ conversation, isFromSessionPage: isSession, sessionHash: sessionHash }),
+            body: JSON.stringify({ conversation, isFromChatSessionArchivePage: isChatSessionArchivePage, chatSessionHash: window.chatSessionHash }),
         });
 
         if (!res.ok) {

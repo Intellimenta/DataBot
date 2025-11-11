@@ -27,7 +27,7 @@ function addToConversation(message) {
     // ask user to start a new chat on high message count
     const messages = conversationDiv.getElementsByClassName('user-message');
     const messageCount = messages.length;
-    if (isSession == false && (messageCount == 5 || messageCount == 8 || messageCount == 11)) {
+    if (isChatSessionArchivePage == false && (messageCount == 5 || messageCount == 8 || messageCount == 11)) {
         showNotification(`For best results, open a new chat (click on the plus icon at the top) if your next question is on a different topic.`, true, 4500);
     }
 }
@@ -69,7 +69,7 @@ async function askBot(userQuery) {
 
     const response = await fetch('/chat', {
         method: 'POST',
-        body: new URLSearchParams({ userMessage: userQuery, activeDbId: activeDbId, activeDbEngine:activeDbEngine }),
+        body: new URLSearchParams({ userMessage: userQuery, activeDbId: activeDbId, activeDbEngine:activeDbEngine, chatSessionHash: window.chatSessionHash }),
     });
     const botResponse = await response.json();
     return botResponse;
@@ -81,17 +81,29 @@ async function askBotPipeline(userMessage) {
 
     try {
         
-        statusUpdatesDiv.innerHTML = '';
+        // // check whether chat session has expired (60 minutes of inactivity)
+        // EDIT: now we check whether session exists in chat_sessions table
+        // if (chatSessionStartedAt) {
+        //     const chatSessionStartedAtDate = new Date(chatSessionStartedAt + ' UTC');  // convert to Date object
+        //     const currentTime = new Date();
+        //     const timeDiff = currentTime - chatSessionStartedAtDate;
+        //     const threshold = 60 * 60 * 1000;  // 60 minutes in milliseconds
+        //     if (timeDiff > threshold) {
+        //         // chat session has expired
+        //         alert("Your chat session has expired. Please start a new chat either by refreshing the page or clicking the 'New Chat' button at the top-right.");
+        //         return;
+        //     }
+        // }
 
+        document.getElementById('user_message').value = ''; // Clear the input field
+
+        statusUpdatesDiv.innerHTML = '';
         loadingOverlay.style.display = 'block';  // show spinner
-        
         await removeGreetingsAndSuggestionsDivs();
         
         // addToCommandHistory(userMessage.trim());  // this is the temp command history accessed by arrow keys. 
         // [removed in favor of shift+enter functionality which requires multiple lines and therefore the up/down arrow keys cannot be used for command history]
-        
-        document.getElementById('user_message').value = ''; // Clear the input field
-        
+
         addToConversation(userMessage);  // Append user's message to the current conversation
 
         await scrollToBottom();
@@ -121,6 +133,7 @@ async function askBotPipeline(userMessage) {
             userMessage: userMessage,
             activeDbId: activeDbId,
             activeDbEngine: activeDbEngine,
+            chatSessionHash: window.chatSessionHash
         };
         
         socket.send(JSON.stringify(data));  // chat() function will be called by the /ws endpoint
@@ -132,7 +145,7 @@ async function askBotPipeline(userMessage) {
 }
 
 
-async function handleBotResponse(botResponse, onPageLoad=false, vizType='', isSingleColor=false, isSessionPage=false) {
+async function handleBotResponse(botResponse, onPageLoad=false, vizType='', isSingleColor=false, isChatSessionArchivePage=false) {
     
     const conversationDiv = document.getElementById('conversation');
     
@@ -149,7 +162,7 @@ async function handleBotResponse(botResponse, onPageLoad=false, vizType='', isSi
             }
 
             ////// Add Action Buttons //////
-            if ( onPageLoad == false && isSessionPage == false ) {  // so action buttons are not shown under personal dashboard or in chat session pages
+            if ( onPageLoad == false && isChatSessionArchivePage == false ) {  // so action buttons are not shown under personal dashboard or in chat session pages
                 
                 // *** modify button ***
                 if ( ['bar', 'line', 'row', 'combo', 'area', 'scatter', 'waterfall', 'funnel'].includes(vizType) ) {
@@ -704,7 +717,7 @@ async function handleBotResponse(botResponse, onPageLoad=false, vizType='', isSi
                 actionButtonsContainer.remove();
             }
             // Add limited Action Buttons 
-            if (isAnalyticalMode && isSessionPage == false) {
+            if (isAnalyticalMode && isChatSessionArchivePage == false) {
                 // *** feedback button ***
                 const feedbackButton = document.createElement('button');
                 feedbackButton.className = 'intellimenta-color-button action-buttons tooltip';
@@ -742,7 +755,7 @@ async function handleBotResponse(botResponse, onPageLoad=false, vizType='', isSi
 
             const botResponseDiv = await addRegularMessageToChat(botResponse, conversationDiv);
 
-            if (isAnalyticalMode && isSessionPage == false) {
+            if (isAnalyticalMode && isChatSessionArchivePage == false) {
                 await addActionButtonsAnalyticalMode(botResponseDiv);
             }
         }
