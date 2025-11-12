@@ -5,6 +5,7 @@
 # **DataBot** – *Effortless Self-Service Analytics*
 - With <a href="https://intellimenta.com/products/databot" target="_blank">DataBot</a>, you can **explore**, **visualize**, **analyze**, and **forecast** your data in your **native language**.
 - It's **self-hosted** and **free** for personal use.
+- It can be easily embedded in websites or apps (e.g. Salesforce)
 - DataBot combines rich features, strong security, and affordability in one solution.
 
 ## Running DataBot
