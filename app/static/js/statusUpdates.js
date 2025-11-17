@@ -141,12 +141,16 @@ async function connectWebSocket() {
                     if (tempDiv) {
                         tempDiv.remove();
                     }
+                    
+                    //replace 'responsive: true' with 'responsive: false' to avoid resizing issues
+                    chartConfigString = botResponse.chart_config.replace(/responsive:\s*true/g, 'responsive: false');
 
                     const canvas = document.createElement('canvas');
                     canvas.id = 'customChart_' + performance.now();  // Date.now(); is not unique enough
                     canvas.style.width = '100%';
+                    canvas.style.height = '400px';
                     conversationDiv.appendChild(canvas);
-                    const chartConfig = (new Function('return (' + botResponse.chart_config + ')'))();
+                    const chartConfig = (new Function('return (' + chartConfigString + ')'))();
                     const ctx = document.getElementById(canvas.id).getContext('2d');
                     const customChart = new Chart(ctx, chartConfig);
 

@@ -94,7 +94,7 @@ async function syncDBs() {
     spinner.style.display = 'block';
 
     try {
-        const response = await fetch('/sync-dbs', {
+        const response = await fetch('/sync-bi-dbs', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

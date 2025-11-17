@@ -52,12 +52,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {%if analytical_mode == True %}
         <script src="https://cdn.jsdelivr.net/npm/luxon@3.7.2/build/global/luxon.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1"></script>
-        <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon@1.3.1"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-geo@4.3.6/build/index.umd.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon@1.3.1/dist/chartjs-adapter-luxon.umd.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-financial@0.2.1/dist/chartjs-chart-financial.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom"></script>
         <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
-        <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-financial"></script>
-        <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-geo"></script>
     {%endif%}
     <style>
         input[type=text] {
@@ -1446,12 +1446,18 @@
     const cardHeightPref = {{ user_prefs[1] | tojson }};
     const chatSessionStartedAt = "{{ chat_session_started_at }}";
     window.chatSessionHash = "{{ chat_session_hash }}";  // global scope (will be changed in createNewChatSession() function)
+    const MAPS_PATH_URL = "{{ url_for('static', path='maps') }}";
 
     // functions that are to be triggered at page load
     async function init() {
 
         document.getElementById('main-body').style.visibility = 'visible';  // we wait for the page to load so it doesn't look broken for a fraction of a second
         
+        const initialLoadingSpinner = document.getElementById('initialLoadingSpinner');
+        initialLoadingSpinner.style.display = 'block';
+
+        await loadMaps();  // this needs to load before loadArchivedChatSession otherwise the maps wouldn't be shown in archived session pages
+
         // if there is only one database available and it's not already selected, select it automatically as the active database 
         if (!isChatSessionArchivePage && "{{ active_db_id }}" == 0 && "{{ databases_that_user_has_access|length }}" == 1) {
             document.getElementById('ActiveDatabaseDropdown').selectedIndex = 1;
@@ -1474,7 +1480,6 @@
             delay: [0, 0], // [showDelay, hideDelay] in ms
             placement: 'bottom',
         });
-
         tippy('.session-delete-button', {
             delay: [0, 0], // [showDelay, hideDelay] in ms
             placement: 'right',
@@ -1485,6 +1490,7 @@
 
         showSelectedConnectionTypeFields();
 
+        initialLoadingSpinner.style.display = 'none';
     }
     window.onload = init;
 

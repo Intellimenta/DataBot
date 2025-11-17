@@ -130,10 +130,17 @@ function showNotification(message, isSuccess, timeout = 2000) {
 
 
 async function makeViz(chartConfigString, parentDiv) {
+    // when updating this function, make sure to also update the corresponding code in statusUpdates.js
+
     try {
+
+        //replace 'responsive: true' with 'responsive: false' to avoid resizing issues
+        chartConfigString = chartConfigString.replace(/responsive:\s*true/g, 'responsive: false');
+
         const canvas = document.createElement('canvas');
         canvas.id = 'customChart_' + performance.now();  // Date.now(); is not unique enough
         canvas.style.width = '100%';
+        canvas.style.height = '400px';
         parentDiv.appendChild(canvas);
 
         const chartConfig = (new Function('return (' + chartConfigString + ')'))();  // convert string to object
@@ -280,7 +287,10 @@ async function handleEnter(event) {
 async function registerActiveDB(onPageLoad=false) {
 
     const initialLoadingSpinner = document.getElementById('initialLoadingSpinner');
-    initialLoadingSpinner.style.display = 'block';
+    
+    if (!onPageLoad) {
+        initialLoadingSpinner.style.display = 'block';  // Show the spinner
+    }
     
     const dropdown = document.getElementById('ActiveDatabaseDropdown');
     const selectedOption = dropdown.options[dropdown.selectedIndex];
@@ -307,7 +317,9 @@ async function registerActiveDB(onPageLoad=false) {
 
     await loadGreetingsAndQuerySuggestions();
 
-    initialLoadingSpinner.style.display = 'none';  // Hide the spinner
+    if (!onPageLoad) {
+        initialLoadingSpinner.style.display = 'none';
+    }
 }
 
 
@@ -415,4 +427,24 @@ async function createNewChatSession() {
     } else {
         await handleBotResponse("An error occurred while creating a new chat session: " + result);
     }
+}
+
+
+async function loadMaps() {
+
+    // world
+    const w_response = await fetch(MAPS_PATH_URL + '/world.json');
+    const world = await w_response.json();
+    window.countryFeatures = ChartGeo.topojson.feature(world, world.objects.countries).features;
+
+    // us
+    const us_response = await fetch(MAPS_PATH_URL + '/us_states.json');
+    const us = await us_response.json();
+    window.usStateFeatures = ChartGeo.topojson.feature(us, us.objects.states).features;
+
+    // canada
+    const ca_response = await fetch(MAPS_PATH_URL + '/ca_provinces.json');
+    const ca = await ca_response.json();
+    window.caProvinceFeatures = ca.features;
+
 }

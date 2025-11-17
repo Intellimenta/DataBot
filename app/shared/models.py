@@ -119,6 +119,7 @@ class DB_Table(Base):
 class DB_Field(Base):
     __tablename__ = 'db_fields'
     id = Column(Integer, primary_key=True, index=True)
+    ordinal_position = Column(Integer)
     field_name = Column(String, nullable=False)
     field_type = Column(String, nullable=False)
     db_id = Column(Integer, ForeignKey('db_connections.id'), nullable=False)
