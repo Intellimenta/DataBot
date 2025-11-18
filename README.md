@@ -46,4 +46,4 @@ We are also exploring adding the following data sources. Let us know if any of t
 
 ## Watch DataBot in Action
 
-[![Watch the video](./media/databot-video-bg2.png)](https://www.loom.com/share/2271af6de3c04a2b8b07dbc48dfb2963)
+[![Watch the video](./media/databot-video-bg2.png)](https://www.loom.com/share/a575fd6e6fd541d0ae56873db0a6b482)
