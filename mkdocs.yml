@@ -6,10 +6,10 @@ nav:
   - Home: index.md
   - Admin Guide:
       - Getting Started: admin_guide/getting_started.md
-      - Integration with BI Tools: admin_guide/bi_integration.md
       - Production Deployment: admin_guide/production_deployment.md
-      - Admin Panel Overview: admin_guide/admin_panel_overview.md
       - Embedding: admin_guide/embedding.md
+      - Admin Panel Overview: admin_guide/admin_panel_overview.md
+      - Integration with BI Tools: admin_guide/bi_integration.md
       - Upgrading: admin_guide/upgrading.md
       - Misc.: admin_guide/misc.md
   - Other Resources:
