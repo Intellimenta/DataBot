@@ -48,8 +48,8 @@ msgid "Settings"
 msgstr "الإعدادات"
 
 #: templates/chatbot_and_dashboards.html:240
-msgid "Open Chatbot in Full Screen"
-msgstr "افتح الروبوت في وضع ملء الشاشة"
+msgid "Open full page chat"
+msgstr "افتح صفحة الدردشة الكاملة"
 
 #: templates/index.html:109
 msgid "Toggle Sidebar"

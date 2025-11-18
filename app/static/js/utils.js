@@ -193,7 +193,12 @@ async function loadIframeInsideDiv(div, iframeSource, iframeType='card') {
 async function loadGreetingsAndQuerySuggestions() {
     const greetingDiv = document.createElement('div');
     greetingDiv.id = 'greetingDiv';
-    greetingDiv.style.marginTop = '23%';
+    
+    if (isWidget) {
+        greetingDiv.style.marginTop = '13%';
+    } else {
+        greetingDiv.style.marginTop = '23%';
+    }
 
     const image = document.createElement('img');
     image.src = logoUrl;

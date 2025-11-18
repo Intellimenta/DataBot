@@ -67,6 +67,17 @@
             font-family: 'Play', 'Rubik', sans-serif;
         }
 
+        #content-wrapper {
+            background: #fff;
+        }
+        .tabcontent {
+            border-radius: 12px;
+            background: #fff;
+        }
+        #greetingDiv {
+            margin-top: 23%;
+        }
+
         @media screen and (max-width: 1000px){
             #sidebar {
                 width: 0px;
@@ -89,12 +100,7 @@
                 top: 0;
                 border-radius: 0px;
             }
-            #footer {
-                border-radius: 5px;
-                margin-bottom: 2px;
-                margin-right: 1px;
-                margin-left: 1px;
-            }
+            
             #query-suggestions {
                 flex-wrap: wrap;
                 margin: 0px 10px;
@@ -105,15 +111,23 @@
                 flex: 1 1 100%;
                 max-width: 440px;
             }
+            {%if is_widget == True %}
+                #footer {
+                    border-radius: 5px;
+                    margin-right: 0.5px;
+                }
+            {%else%}
+                #footer {
+                    border-radius: 5px;
+                    margin-bottom: 2px;
+                    margin-right: 1px;
+                    margin-left: 1px;
+                }
+            {%endif%}
         }
+        
 
-        #content-wrapper {
-            background: #fff;
-        }
-        .tabcontent {
-            border-radius: 12px;
-            background: #fff;
-        }
+
     </style>
 </head>
 <body id="main-body" style="visibility: hidden; flex-direction:row; background: linear-gradient(135deg, #f5f6fa 0%, #e9e6f7 100%);">
@@ -218,13 +232,16 @@
 
 
 {%if is_chat_session_archive_page != True %}
-<div id="top-right-buttons-container" style="position: absolute; display: flex; top: 8px; right: 30px; justify-content: space-around; align-items: center; width: {{80 if analytical_mode == True else 110}}px; height: 36px;">
+<div id="top-right-buttons-container" style="position: absolute; display: flex; top: 8px; right: 30px; justify-content: space-around; align-items: center; width: {{117 if analytical_mode != True or is_widget == True else 80}}px; height: 36px;">
     {%if analytical_mode != True %}
         <img src="{{ url_for('static', path='media/personalDashboardIcon.svg') }}" id="personalDashboardIcon" alt="personalDashboardIcon" class="top-right-button" data-tippy-content="{{ _('Open Personal Dashboard') }}" onclick="loadPersonalDashboard()" style="width:32px; height: 32px;">
     {%endif%}
     <img src="{{ url_for('static', path='media/newSessionIcon.svg') }}" id="newSessionIcon" alt="newSessionIcon" data-tippy-content="{{ _('New Chat') }}" class="top-right-button" onclick="startNewSession()" style="width:32px; height: 32px; margin-top: 3px;">
     <img src="{{ url_for('static', path='media/exportIcon.svg') }}" id="export-summary-btn" alt="Export Chat Session Summary" data-tippy-content="{{ _('Export Chat Session Summary') }}" class="top-right-button" onclick="exportSummaryToDOCX()" style="width:32px; height: 30px; padding: 4px;">
     <img src="{{ url_for('static', path='media/gearIcon.svg') }}" id="gearIcon" alt="gearIcon" class="top-right-button" data-tippy-content="{{ _('Settings') }}" onclick="togglePopup()" style="width: 28px; height: 28px; padding: 5px 3px;">
+    {%if is_widget == True %}
+        <img src="{{ url_for('static', path='media/open_in_new_window_icon.svg') }}" id="openInNewWindow" alt="fullScreen" class="top-right-button" data-tippy-content="{{ _('Open full page chat') }}" onclick="window.open(window.location.origin + window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1) + '?is-widget=false', '_blank')" style="height: 32px; padding: 5px 3px;">
+    {%endif%}
 </div>
 {%else%}
 <div id="top-right-buttons-container" style="position: absolute; display: flex; top: 8px; right: 5px; justify-content: space-around; align-items: center; width: {{80 if analytical_mode == True else 110}}px; height: 36px;">
@@ -242,10 +259,10 @@
 
 <div id="settingsPopup_BG" style="position: absolute; inset: 0px; display: none; background-color: rgba(0, 0, 0, 0.5);" >
     <div id="settingsPopup">
-        <button class="close-button" onclick="closePopup()" style="margin-bottom: {{100 if white_labeling == True else 50}}px;">
+        <button class="close-button" onclick="closePopup()" style="margin-bottom: {{100 if white_labeling == True else 0 if is_widget else 50}}px;">
             <img src="{{ url_for('static', path='media/X small.png') }}" class="close_icon">Close
         </button>
-        <img src="{{ white_labeling_config.get('logo_url') if white_labeling == True and white_labeling_config.get('logo_url') else url_for('static', path='media/DataBot Logo Transparent.svg') }}" style="max-width: {{ white_labeling_config.get('logo_max_width', 200) * 0.7 if white_labeling == True else 100 }}px; padding:5px; margin-bottom: 10px; margin-top:-10px;">
+        <img src="{{ white_labeling_config.get('logo_url') if white_labeling == True and white_labeling_config.get('logo_url') else url_for('static', path='media/DataBot_Logo.svg') }}" style="max-width: {{ white_labeling_config.get('logo_max_width', 200) * 0.7 if white_labeling == True else 100 }}px; padding:5px; margin-bottom: 10px; margin-top:-10px;">
         
         <h2 style="margin:10px; margin-top:0px; text-align:center;">Settings</h2>
         {{email}}
@@ -280,7 +297,7 @@
             {% endif %}
             {% if logged_in_with_sso != True %}
             <button class="tablinks" data-testid="settings_change_password_btn" onclick="openTab('changePassword')"><img src="{{ url_for('static', path='media/changePasswordIcon.svg') }}" style="padding-right: 10px;">Change Password <img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
-            <button class="tablinks" onclick="logout('{{is_two_col}}')"><img src="{{ url_for('static', path='media/logoutIcon.svg') }}" style="padding-right: 10px;">Logout</button>
+            <button class="tablinks" onclick="logout('{{is_two_col}}', '{{is_widget}}')"><img src="{{ url_for('static', path='media/logoutIcon.svg') }}" style="padding-right: 10px;">Logout</button>
             {% endif %}
             <div style="margin-top: 25px;">
                 Version: {{app_version}}<br>
@@ -1406,7 +1423,7 @@
 <script>
     const mediaQuery = window.matchMedia('(max-width: 1000px)');
     const logoUrl = "{{ white_labeling_config.get('logo_url') if white_labeling == True and white_labeling_config.get('logo_url') else url_for('static', path='media/DataBot_Logo_No_Name.png') }}";
-    const logoMaxWidth = "{{ white_labeling_config.get('logo_max_width') if white_labeling == True else 200 }}";
+    const logoMaxWidth = "{{ white_labeling_config.get('logo_max_width') if white_labeling == True else 160 }}";
     const demoUrl = "{{ white_labeling_config.get('demo_url') if white_labeling == True and white_labeling_config.get('demo_url') else '' }}";
     const userGroupsIconURL = "{{ url_for('static', path='media/user_groups.svg') }}";
     const closeIconUrl = "{{ url_for('static', path='media/X small.png') }}";
@@ -1436,6 +1453,7 @@
     const isChatSessionArchivePage = "{{is_chat_session_archive_page}}" === 'True';
     const wla = "{{ white_labeling }}" === 'True';
     const isChatbotAndDashboards = "{{is_two_col}}" === 'True';
+    const isWidget = "{{ is_widget }}" === 'True';
     const isAnalyticalMode = "{{analytical_mode}}" === 'True';
     const statusUpdatesWrapper = document.getElementById("status-updates-wrapper");
 

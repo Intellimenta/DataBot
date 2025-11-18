@@ -22,9 +22,9 @@
     
     <div class="logo-container" >
         {% if white_labeling == True %}
-        <img src="{{ white_labeling_config.get('logo_url') if white_labeling_config.get('logo_url') else url_for('static', path='media/DataBot Logo Transparent.svg') }}" style="max-width: {{ white_labeling_config.get('logo_max_width', 200)}}px; margin-bottom: 10px;" alt="Logo" />    
+        <img src="{{ white_labeling_config.get('logo_url') if white_labeling_config.get('logo_url') else url_for('static', path='media/DataBot_Logo.svg') }}" style="max-width: {{ white_labeling_config.get('logo_max_width', 200)}}px; margin-bottom: 10px;" alt="Logo" />    
         {% else %}
-            <img src="{{ url_for('static', path='media/DataBot Logo Transparent.svg') }}" alt="Logo" />    
+            <img src="{{ url_for('static', path='media/DataBot_Logo.svg') }}" alt="Logo" style="width: {{'130px' if is_widget == True else '165px' }}"/>    
             <img src="{{ url_for('static', path='media/intellimenta.svg') }}" alt="Powered by Intellimenta" onclick="window.open('https://intellimenta.com', '_blank');" />
         {% endif %}
     </div>
@@ -38,7 +38,7 @@
     {% endif %}
 
     <form method="POST" onsubmit="showSpinner()">
-        <div class="input-container" style="padding-bottom: 0px;">
+        <div class="input-container" style="padding-bottom: 0px; {{ 'max-width: 300px;' if is_widget == True else ''  }}">
             <input type="email" placeholder="Email" id="email" name="email" required="" class="input-with-shadow">
             <svg class="input-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M1.5 8.67v8.58a3 3 0 003 3h15a3 3 0 003-3V8.67l-8.928 5.493a3 3 0 01-3.144 0L1.5 8.67z" />
@@ -46,7 +46,7 @@
             </svg>
         </div>
         <br><br>
-        <div class="input-container" style="padding-bottom: 0px;">
+        <div class="input-container" style="padding-bottom: 0px; {{ 'max-width: 300px;' if is_widget == True else ''  }}">
             <input type="password" placeholder="Password" id="password" name="password" required="" class="input-with-shadow">
             <svg class="input-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                 <path fill-rule="evenodd" d="M12 1.5a5.25 5.25 0 00-5.25 5.25v3a3 3 0 00-3 3v6.75a3 3 0 003 3h10.5a3 3 0 003-3v-6.75a3 3 0 00-3-3v-3c0-2.9-2.35-5.25-5.25-5.25zm3.75 8.25v-3a3.75 3.75 0 10-7.5 0v3h7.5z" clip-rule="evenodd" />
@@ -56,6 +56,6 @@
         <input type="submit" value="Sign Up" class="intellimenta-color-button" id="signupButton">
         <div id="spinner" class="spinner"></div>
     </form>
-    <p class="below_input_form">Already have an account? <a href="{% if is_two_col %}/login?show-chatbot-and-dashboards=true{% else %}/login{% endif %}">Log in here</a></p>
+    <p class="below_input_form">Already have an account? <a href="{% if is_two_col %}/login?show-chatbot-and-dashboards=true{% elif is_widget %}/login?is-widget=true{% else %}/login{% endif %}">Log in here</a></p>
 </body>
 </html>

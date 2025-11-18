@@ -47,8 +47,8 @@ msgid "Settings"
 msgstr "সেটিংস"
 
 #: templates/chatbot_and_dashboards.html:240
-msgid "Open Chatbot in Full Screen"
-msgstr "চ্যাটবট সম্পূর্ণ পর্দায় খুলুন"
+msgid "Open full page chat"
+msgstr "সম্পূর্ণ পৃষ্ঠার চ্যাট খুলুন"
 
 #: templates/index.html:109
 msgid "Toggle Sidebar"

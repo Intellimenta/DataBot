@@ -47,8 +47,8 @@ msgid "Settings"
 msgstr "Configurações"
 
 #: templates/chatbot_and_dashboards.html:240
-msgid "Open Chatbot in Full Screen"
-msgstr "Abrir Chatbot em Tela Cheia"
+msgid "Open full page chat"
+msgstr "Abrir chat em página inteira"
 
 #: templates/index.html:109
 msgid "Toggle Sidebar"
