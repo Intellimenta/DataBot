@@ -2,16 +2,30 @@
 
 In addition to using DataBot in a dedicated webpage—either with just the chatbot or [with both the chatbot and dashboards](./admin_panel_overview.md#bi-integration)—you can also embed it directly into your own website or application, as follows:
 
-### Embedding in a Webpage or App
+### Embedding as a Widget
+- Download `datbot-widget.js` from [here](http://intellimenta.com/files/databot-widget.js).
+- Optionally modify it by changing colors, etc.
+- Include the following code snippet in the frontend of your app or website.
 
-You can embed DataBot anywhere using an iframe. Make sure to include `allow="microphone"` so the voice button works.
 ```html
-<iframe src="https://..." allow="microphone"></iframe>
+<script
+  src="databot-widget.js"
+  defer
+  databot-url="[DATABOT URL]/?is-widget=true"
+></script>
+```
+
+![DataBot Embedding as a Widget](../assets/widget.png)
+
+### Embedding as an iframe
+
+You can also embed DataBot anywhere using an iframe. Make sure to include `allow="microphone"` so the voice button works.
+```html
+<iframe src="[DATABOT URL]" allow="microphone"></iframe>
 ```
 
 ### Single Sign-On (SSO)
-
-With SSO, you can authenticate users within your own app or website—eliminating the need to use DataBot’s built-in login. Once users log in to your platform, you can seamlessly embed DataBot in an iframe, allowing them to access it directly within your app or website.
+Whether you embed DataBot as a widget or an iframe in your platform, you can rely on SSO to authenticate users through your own app or website. This removes the need for a separate DataBot login. Once users sign in to your platform, you can pass that authentication through to DataBot so they can access it directly within your site or app without any extra steps.
 
 You can control user access levels by specifying the `group_memberships` and `custom_user_attribute_assignments` parameters.
 
