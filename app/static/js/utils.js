@@ -217,8 +217,8 @@ async function loadGreetingsAndQuerySuggestions() {
                 : get_translation('Hi! How can I help?', language);
         } else {
             greetingParagraph.innerHTML = isAnalyticalMode
-                ? 'For a quick overview of the app, please watch this <a href="https://www.loom.com/share/2271af6de3c04a2b8b07dbc48dfb2963" target="_blank">demo video</a>.'
-                : 'For a quick overview of the app, please watch this <a href="https://www.loom.com/share/d1af20ba05f94be2b9d84c5c26937463" target="_blank">demo video</a>.';
+                ? 'For a quick overview of the app, please watch this <a href="https://www.loom.com/share/a575fd6e6fd541d0ae56873db0a6b482" target="_blank">demo video</a>.'
+                : 'For a quick overview of the app, please watch this <a href="https://www.loom.com/share/a575fd6e6fd541d0ae56873db0a6b482" target="_blank">demo video</a>.';
         }
         
     } else {
