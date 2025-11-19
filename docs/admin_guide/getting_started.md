@@ -21,8 +21,8 @@ At the login screen, click on the Sign up button to create an account. After log
 
 - **Set the OpenAI API Key** in "LLM Config" tab.
 - **Add a Database Connection**. You can either manually add a connection or sync with your BI tool.
-    - To connect your BI tool, see [here](./bi_integration.md).
     - To manually add a database connection, click on 'Add Database Connection'.
+    - To connect your BI tool, see [here](./bi_integration.md).
 - **Managing Access to Database Tables/Views**
     - Click on [DB Name] > Manage Permissions
     - Select tables/views that you want to query on.
