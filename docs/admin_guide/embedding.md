@@ -29,7 +29,7 @@ If you do not control the platform where you want to place DataBot, such as a CR
 ### Single Sign-On (SSO)
 Whether you embed DataBot as a widget or an iframe, SSO lets you authenticate users through your existing identity provider. This removes the need for a separate DataBot login and creates a smooth experience.
 
-Simply use the following code to generate a jwt and use it in the embedding URL:
+Simply use the following code to generate a jwt everytime the page containing embedded DataBot loads, and use it in the embedding URL:
 
 ```py
 import jwt
