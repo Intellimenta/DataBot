@@ -1507,6 +1507,9 @@
     async function init() {
 
         document.getElementById('main-body').style.visibility = 'visible';  // we wait for the page to load so it doesn't look broken for a fraction of a second
+
+        const initialLoadingSpinner = document.getElementById('initialLoadingSpinner');
+        initialLoadingSpinner.style.display = 'block';
         
         await loadMaps();  // this needs to load before loadArchivedChatSession otherwise the maps wouldn't be shown in archived session pages
 
@@ -1537,6 +1540,12 @@
             delay: [0, 0], // [showDelay, hideDelay] in ms
             placement: 'right',
         });
+
+        if (isAdmin) {
+            showSelectedConnectionTypeFields();
+        }
+
+        initialLoadingSpinner.style.display = 'none';
 
     }
     window.onload = init;

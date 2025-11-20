@@ -43,9 +43,6 @@
             .then(response => response.json())
             .then(data => {
             let redirectUrl = isChatbotAndDashboards ? '/main?show-chatbot-and-dashboards=true' : '/main';
-            if ("{{is_sso}}" === 'True') {
-                redirectUrl += redirectUrl.includes('?') ? '&i4o=true' : '?i4o=true';
-            }
             if ("{{is_widget}}" === 'True' && !redirectUrl.includes('show-chatbot-and-dashboards=true')) {
                 redirectUrl += redirectUrl.includes('?') ? '&is-widget=true' : '?is-widget=true';
             }

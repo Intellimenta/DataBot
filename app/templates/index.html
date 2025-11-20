@@ -1505,9 +1505,11 @@
         
         // position the status updates in the middle of content section on page load
         positionStatusUpdates(statusUpdatesWrapper);
-
-        showSelectedConnectionTypeFields();
-
+        
+        if (isAdmin) {
+            showSelectedConnectionTypeFields();
+        }
+        
         initialLoadingSpinner.style.display = 'none';
     }
     window.onload = init;
