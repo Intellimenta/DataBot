@@ -29,65 +29,49 @@ If you do not control the platform where you want to place DataBot, such as a CR
 ### Single Sign-On (SSO)
 Whether you embed DataBot as a widget or an iframe, SSO lets you authenticate users through your existing identity provider. This removes the need for a separate DataBot login and creates a smooth experience.
 
-You can control user access levels by specifying the `group_memberships` and `custom_user_attribute_assignments` parameters.
-
-- `group_memberships` defines which tables or views a user can access.
-- `custom_user_attribute_assignments` is used to manage access at row level and also for dashboard cards—both when viewing dashboards and when using dashboard cards as data source.
-
-From your backend, send a request to /sso-auth to receive an *encoded user session ID* (EUSI):
+Simply use the following code to generate a jwt and use it in the embedding URL:
 
 ```py
 import jwt
 import time
-import requests
 
-base_url = 'http...'  # the databot url. E.g., "http://localhost:5000"  
 DATABOT_AUTH_KEY = ***  # this is the environment variable you provided 
                         # when deploying DataBot
 
-# Generate JWT token
 jwt_payload = {
-    "email": "user@example.com",  # replace with the actual user email
+    "sub": "user@example.com",  # replace with the actual user email
     "iat": int(time.time()),
-    "exp": int(time.time()) + 10,  # expires in 10 seconds
-    
-    # optional
-    "group_memberships": ['group1', 'group2'],  # example values
+    "exp": int(time.time()) + 30,  # expires in 30 seconds
+
+    # Optional
+    "group_memberships": ['Admins'],
     "custom_user_attribute_assignments": {  
         "attr1": "12345",  # example key-value 
         "attr2": "abcd",  # example key-value
     }
 }
 
-try:
-    # Sign the JWT using HS256
-    jwt_token = jwt.encode(jwt_payload, DATABOT_AUTH_KEY, algorithm="HS256")
-
-    # Place token in Authorization header
-    headers = {
-        "Authorization": f"Bearer {jwt_token}",
-        "Content-Type": "application/json"
-    }
-
-    response = requests.post(f"{base_url}/sso-auth", headers=headers)
-    print(response.json())  
-    # {'eusi': 'eyJhbGciOiJIUzI1NiI...'}
-except Exception:
-    print(response.text)
-    # in production, add alerts to be notified about the error
+# Sign the JWT
+jwt_token = jwt.encode(jwt_payload, DATABOT_AUTH_KEY, algorithm="HS256")
 ```
-
-You would then use the EUSI to build the iframe URL:
+You would then use the token to build the URL used in the widget or iframe:
 
 ```html
-<!-- Replace [EUSI] with the actual session ID -->
-<iframe src="https://your-databot-url/?eusi=[EUSI]" allow="microphone"></iframe>
-
-<!-- Example -->
-<iframe src="https://your-databot-url/?eusi=eyJhbGci..." allow="microphone"></iframe>
+<script
+  src="databot-widget.js"
+  defer
+  databot-url="[DATABOT URL]/sso/login?is-widget=true&token=[jwt_token]"
+></script>
+```
+```html
+<iframe src="[DATABOT URL]/sso/login?token=[jwt_token]" allow="microphone"></iframe>
 ```
 
-You can use the environment variable `SSO_SESSION_TIMEOUT_SECONDS` to specify how many seconds the iframe URL should remain valid. The default is 15 seconds, based on the assumption that your backend generates a new EUSI on each page load.
+You can control user access levels by specifying the `group_memberships` and `custom_user_attribute_assignments` parameters.
+
+- `group_memberships` defines which tables or views a user can access.
+- `custom_user_attribute_assignments` is used to manage access at row level. When BI integration is enabled, it's also used for managing access to dashboard cards (both when viewing dashboards and when using dashboard cards as data source).
+
 
 ### Embedding in Salesforce
 
