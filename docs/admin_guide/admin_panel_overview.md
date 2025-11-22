@@ -1,56 +1,10 @@
 # Admin Panel Overview
 
-<!-- ### App Mode
-
-DataBot has two modes:
-
-- **Schema Mode**: In this mode, only the database schema (table/view names, column names, and column types) is provided to the LLM as context. You can control what to share at the database level, table/view level, and row level for different user groups. The chatbot responses in this mode are Metabase cards containing data or visualizations.
-
-- **Analytical Mode** (Default): In this mode, relevant data from the database is provided to the LLM as context*. You can control what to share at the database level, table/view level, and row level for different user groups. You can also specify certain dashboards to be used as data sources for answering user questions (in addition to database tables/views). The chatbot responses in this mode are textual or visual, depending on the query. *This mode is more flexible and allows users to perform a broader range of tasks than in Schema Mode*. You can think of it as ChatGPT with access to domain-specific knowledge from your database, dashboards, or manually provided metadata.
-
-<sup>* OpenAI does NOT use the data sent through their API for training their models. By default, they retain data for 30 days for abuse monitoring purposes. You can apply for zero data retention.</sup> -->
-
 ### LLM Config
 
 Here you set your OpenAI API key. Your OpenAI account needs to be at least on <a href="https://platform.openai.com/docs/guides/rate-limits/usage-tiers#usage_tiers" target="_blank">tier 1</a>, as DataBot uses some features that are not available in the free tier models. Tier 3+ is recommended for production use.
 
 Here you can also configure several features for LLM. One important feature is **web search**. When web search is enabled, user queries that cannot be answered by database data, would be answered by web search.
-
-### BI Integration
-
-!!! note
-
-    Currently only **Metabase** is supported for BI integration. We are planning to add support for other BI tools such as **Apache Superset** and **Redash** in the near future.
-
-Connecting DataBot to your BI tool allows you to
-
-- Use the database connections defined in your BI tool for DataBot (instead of manually adding a database connection)
-- Use the dashboards created in your BI tool as a data source for answering questions in DataBot
-- Use the 'Dashboards + Chatbot' layout (explained below)
-
-![Dashboards + Chatbot Interface](../assets/two-cols.png)
-
-In the 'Dashboards + Chatbot' layout, after user login, the chatbot is shown on the right and a dashboard is shown on the left (plus a dashboard picker for selecting different dashboards). This format is ideal for **customer-facing analytics**, e.g. if you are already sharing one or more dashboards with your customers.
-
-!!! note
-
-    If there is extra empty space between the dashboards and the dashboard picker, you can set the environment variable `ADD_MARGIN_TOP_TO_DASHBOARD` to false at deployment time to remove the extra space.
-
-In this subsection you can specify which dashboards should be available to each user group.
-
-- Enable static embedding in your Metabase (Admin Panel > Settings > Embedding)
-- For each dashboard ID assigned to user groups, enable embedding for it in Metabase (Top-right section of dashboard > Sharing > Embed > Static Embedding > Publish)
-
-You can also associate user attributes with dashboard filters so the dashboards are automatically filtered (locked filters) using the user attribute value. You need to
-
-- Enable "Auto-Filter Dashboards by User Attributes" in DataBot Admin Panel > BI Integration > 'Dashboards + Chatot Interface'
-- Create a filter in your Metabase dashboard with the same name as the attribute.
-- Tie the filter to relevant cards of the dashboard. 
-- In [Top-right section of dashboard > Sharing > Embed > Static Embedding > Parameters] make the filter "Editable" and publish.
-
-To enable this layout, add the parameter `show-chatbot-and-dashboards=true` to the URL. E.g. `https://mydomain.com/?show-chatbot-and-dashboards=true`.
-
-Note that the position of the divider between the chatbot and dashboards is adjustable.
 
 ### Database Connections
 
@@ -90,6 +44,42 @@ You can set the default language which would apply to new users. Each user can s
 </figure>
 
 In this section, you can define sample queries to be displayed on the homepage. This will greatly help new users understand the types of questions they can ask.
+
+### Integration with BI Tools
+
+!!! note
+
+    Currently only **Metabase** is supported for BI integration. We are planning to add support for other BI tools such as **Apache Superset** and **Redash** in the near future.
+
+Connecting DataBot to your BI tool allows you to
+
+- Use the database connections defined in your BI tool for DataBot (instead of manually adding a database connection)
+- Use the dashboards created in your BI tool as a data source for answering questions in DataBot
+- Use the 'Dashboards + Chatbot' layout (explained below)
+
+![Dashboards + Chatbot Interface](../assets/two-cols.png)
+
+In the 'Dashboards + Chatbot' layout, after user login, the chatbot is shown on the right and a dashboard is shown on the left (plus a dashboard picker for selecting different dashboards). This format is ideal for **customer-facing analytics**, e.g. if you are already sharing one or more dashboards with your customers.
+
+!!! note
+
+    If there is extra empty space between the dashboards and the dashboard picker, you can set the environment variable `ADD_MARGIN_TOP_TO_DASHBOARD` to false at deployment time to remove the extra space.
+
+In this subsection you can specify which dashboards should be available to each user group.
+
+- Enable static embedding in your Metabase (Admin Panel > Settings > Embedding)
+- For each dashboard ID assigned to user groups, enable embedding for it in Metabase (Top-right section of dashboard > Sharing > Embed > Static Embedding > Publish)
+
+You can also associate user attributes with dashboard filters so the dashboards are automatically filtered (locked filters) using the user attribute value. You need to
+
+- Enable "Auto-Filter Dashboards by User Attributes" in DataBot Admin Panel > BI Integration > 'Dashboards + Chatot Interface'
+- Create a filter in your Metabase dashboard with the same name as the attribute.
+- Tie the filter to relevant cards of the dashboard. 
+- In [Top-right section of dashboard > Sharing > Embed > Static Embedding > Parameters] make the filter "Editable" and publish.
+
+To enable this layout, add the parameter `show-chatbot-and-dashboards=true` to the URL. E.g. `https://mydomain.com/?show-chatbot-and-dashboards=true`.
+
+Note that the position of the divider between the chatbot and dashboards is adjustable.
 
 ### Performance Tuning
 
