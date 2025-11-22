@@ -15,8 +15,8 @@ button {
 }
 
 #sidebar {
-    /* left: 0; */
-    width: 260px;
+    max-width: 230px;
+    min-width: 230px;
     height: 100%;
     background: #f9f9f9;
     overflow: hidden;

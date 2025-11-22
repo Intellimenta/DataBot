@@ -25,6 +25,9 @@ const translations = {
         "Refresh completed.": "Refresh completed.",
         "Generating the summary. Please wait...": "Generating the summary.<br>Please wait...",
         "Unexpected error while exporting the summary.": "Unexpected error while exporting the summary.",
+        "Technical Details": "Technical Details",
+        "Copy": "Copy",
+        "If your next question is on a different topic, for the best results, start a new chat by clicking the plus icon at the top.": "If your next question is on a different topic, for the best results, start a new chat by clicking the plus icon at the top.",
     },
     "fr-CA": {
         "Add to Personal Dashboard": "Ajouter au tableau de bord personnel",
@@ -52,6 +55,9 @@ const translations = {
         "Refresh completed.": "Rafraîchissement terminé.",
         "Generating the summary. Please wait...": "Génération du résumé. Veuillez patienter...",
         "Unexpected error while exporting the summary.": "Erreur inattendue lors de l'exportation du résumé.",
+        "Technical Details": "Détails techniques",
+        "Copy": "Copier",
+        "If your next question is on a different topic, for the best results, start a new chat by clicking the plus icon at the top.": "Si votre prochaine question porte sur un sujet différent, pour de meilleurs résultats, commencez une nouvelle discussion en cliquant sur l'icône plus en haut.",
     },
     "fr-FR": {
         "Add to Personal Dashboard": "Ajouter au tableau de bord personnel",
@@ -79,6 +85,9 @@ const translations = {
         "Refresh completed.": "Rafraîchissement terminé.",
         "Generating the summary. Please wait...": "Génération du résumé. Veuillez patienter...",
         "Unexpected error while exporting the summary.": "Erreur inattendue lors de l'export du résumé.",
+        "Technical Details": "Détails techniques",
+        "Copy": "Copier",
+        "If your next question is on a different topic, for the best results, start a new chat by clicking the plus icon at the top.": "Si votre prochaine question porte sur un sujet différent, pour de meilleurs résultats, commencez une nouvelle discussion en cliquant sur l'icône plus en haut.",
     },
     "de-DE": {
         "Add to Personal Dashboard": "Zum persönlichen Dashboard hinzufügen",
@@ -106,6 +115,9 @@ const translations = {
         "Refresh completed.": "Aktualisierung abgeschlossen.",
         "Generating the summary. Please wait...": "Zusammenfassung wird erstellt. Bitte warten...",
         "Unexpected error while exporting the summary.": "Unerwarteter Fehler beim Exportieren der Zusammenfassung.",
+        "Technical Details": "Technische Details",
+        "Copy": "Kopieren",
+        "If your next question is on a different topic, for the best results, start a new chat by clicking the plus icon at the top.": "Wenn Ihre nächste Frage ein anderes Thema betrifft, starten Sie für die besten Ergebnisse einen neuen Chat, indem Sie oben auf das Plus-Symbol klicken.",
     },
     "hi-IN": {
         "Add to Personal Dashboard": "व्यक्तिगत डैशबोर्ड में जोड़ें",
@@ -133,6 +145,9 @@ const translations = {
         "Refresh completed.": "रीफ्रेश पूरा हुआ।",
         "Generating the summary. Please wait...": "सारांश तैयार किया जा रहा है। कृपया प्रतीक्षा करें...",
         "Unexpected error while exporting the summary.": "सारांश निर्यात करते समय अप्रत्याशित त्रुटि।",
+        "Technical Details": "तकनीकी विवरण",
+        "Copy": "कॉपी करें",
+        "If your next question is on a different topic, for the best results, start a new chat by clicking the plus icon at the top.": "यदि आपका अगला प्रश्न किसी अन्य विषय पर है, तो सर्वोत्तम परिणामों के लिए, शीर्ष पर प्लस आइकन पर क्लिक करके एक नई चैट शुरू करें।",
     },
     "ja-JP": {
         "Add to Personal Dashboard": "個人用ダッシュボードに追加",
@@ -160,6 +175,9 @@ const translations = {
         "Refresh completed.": "更新が完了しました。",
         "Generating the summary. Please wait...": "要約を生成しています。しばらくお待ちください...",
         "Unexpected error while exporting the summary.": "要約のエクスポート中に予期しないエラーが発生しました。",
+        "Technical Details": "技術的な詳細",
+        "Copy": "コピー",
+        "If your next question is on a different topic, for the best results, start a new chat by clicking the plus icon at the top.": "次の質問が別のトピックに関する場合は、最良の結果を得るために、上部のプラスアイコンをクリックして新しいチャットを開始してください。",
     },
     "pt-BR": {
         "Add to Personal Dashboard": "Adicionar ao painel pessoal",
@@ -187,6 +205,9 @@ const translations = {
         "Refresh completed.": "Atualização concluída.",
         "Generating the summary. Please wait...": "Gerando o resumo. Por favor, aguarde...",
         "Unexpected error while exporting the summary.": "Erro inesperado ao exportar o resumo.",
+        "Technical Details": "Detalhes técnicos",
+        "Copy": "Copiar",
+        "If your next question is on a different topic, for the best results, start a new chat by clicking the plus icon at the top.": "Se sua próxima pergunta for sobre um tópico diferente, para obter os melhores resultados, inicie um novo chat clicando no ícone de mais na parte superior.",
     },
     "ru-RU": {
         "Add to Personal Dashboard": "Добавить на персональную панель",
@@ -214,6 +235,9 @@ const translations = {
         "Refresh completed.": "Обновление завершено.",
         "Generating the summary. Please wait...": "Генерируется сводка. Пожалуйста, подождите...",
         "Unexpected error while exporting the summary.": "Неожиданная ошибка при экспорте сводки.",
+        "Technical Details": "Технические детали",
+        "Copy": "Копировать",
+        "If your next question is on a different topic, for the best results, start a new chat by clicking the plus icon at the top.": "Если ваш следующий вопрос на другую тему, для достижения наилучших результатов начните новый чат, нажав на значок плюса вверху.",
     },
     "es-ES": {
         "Add to Personal Dashboard": "Agregar al panel personal",
@@ -241,6 +265,9 @@ const translations = {
         "Refresh completed.": "Actualización completada.",
         "Generating the summary. Please wait...": "Generando el resumen. Por favor, espere...",
         "Unexpected error while exporting the summary.": "Error inesperado al exportar el resumen.",
+        "Technical Details": "Detalles técnicos",
+        "Copy": "Copiar",
+        "If your next question is on a different topic, for the best results, start a new chat by clicking the plus icon at the top.": "Si su próxima pregunta es sobre un tema diferente, para obtener los mejores resultados, inicie un nuevo chat haciendo clic en el ícono de más en la parte superior.",
     },
     "ar-SA": {
         "Add to Personal Dashboard": "أضف إلى لوحة المعلومات الشخصية",
@@ -268,6 +295,9 @@ const translations = {
         "Refresh completed.": "اكتمل التحديث.",
         "Generating the summary. Please wait...": "يتم الآن إنشاء الملخص. يرجى الانتظار...",
         "Unexpected error while exporting the summary.": "حدث خطأ غير متوقع أثناء تصدير الملخص.",
+        "Technical Details": "تفاصيل تقنية",
+        "Copy": "نسخ",
+        "If your next question is on a different topic, for the best results, start a new chat by clicking the plus icon at the top.": "إذا كان سؤالك التالي حول موضوع مختلف، للحصول على أفضل النتائج، ابدأ محادثة جديدة بالنقر على أيقونة الزائد في الأعلى.",
     },
     "fa-IR": {
         "Add to Personal Dashboard": "افزودن به داشبورد شخصی",
@@ -295,6 +325,9 @@ const translations = {
         "Refresh completed.": "به‌روزرسانی تکمیل شد.",
         "Generating the summary. Please wait...": "در حال تولید خلاصه. لطفاً صبر کنید...",
         "Unexpected error while exporting the summary.": "خطای غیرمنتظره هنگام تولید خلاصه.",
+        "Technical Details": "جزئیات فنی",
+        "Copy": "کپی",
+        "If your next question is on a different topic, for the best results, start a new chat by clicking the plus icon at the top.": "اگر سوال بعدی شما در مورد موضوع دیگری است، برای بهترین نتیجه، با کلیک روی نماد مثبت در بالا، یک گفتگوی جدید را شروع کنید.",
     },
     "zh-CN": {
         "Add to Personal Dashboard": "添加到个人仪表板",
@@ -322,6 +355,9 @@ const translations = {
         "Refresh completed.": "刷新完成。",
         "Generating the summary. Please wait...": "正在生成摘要。请稍候...",
         "Unexpected error while exporting the summary.": "导出摘要时发生意外错误。",
+        "Technical Details": "技术细节",
+        "Copy": "复制",
+        "If your next question is on a different topic, for the best results, start a new chat by clicking the plus icon at the top.": "如果您的下一个问题是关于不同主题的，为获得最佳结果，请点击顶部的加号图标开始新的聊天。",
     },
     "zh-TW": {
         "Add to Personal Dashboard": "新增至個人儀表板",
@@ -349,6 +385,8 @@ const translations = {
         "Refresh completed.": "重新整理完成。",
         "Generating the summary. Please wait...": "正在生成摘要。請稍候...",
         "Unexpected error while exporting the summary.": "匯出摘要時發生非預期錯誤。",
+        "Technical Details": "技術細節",
+        "Copy": "複製",
     },
     "bn-BD": {
         "Add to Personal Dashboard": "ব্যক্তিগত ড্যাশবোর্ডে যোগ করুন",
@@ -376,6 +414,9 @@ const translations = {
         "Refresh completed.": "রিফ্রেশ সম্পন্ন হয়েছে।",
         "Generating the summary. Please wait...": "সারাংশ তৈরি হচ্ছে। অনুগ্রহ করে অপেক্ষা করুন...",
         "Unexpected error while exporting the summary.": "সারাংশ রপ্তানি করার সময় অপ্রত্যাশিত ত্রুটি।",
+        "Technical Details": "প্রযুক্তিগত বিবরণ",
+        "Copy": "কপি করুন",
+        "If your next question is on a different topic, for the best results, start a new chat by clicking the plus icon at the top.": "যদি আপনার পরবর্তী প্রশ্নটি ভিন্ন বিষয়ে হয়, সর্বোত্তম ফলাফলের জন্য, উপরে প্লাস আইকনে ক্লিক করে একটি নতুন চ্যাট শুরু করুন।",
     },
     "he-IL": {
         "Add to Personal Dashboard": "הוסף ללוח מחוונים אישי",
@@ -403,6 +444,9 @@ const translations = {
         "Refresh completed.": "רענון הושלם.",
         "Generating the summary. Please wait...": "יוצר את הסיכום. נא להמתין...",
         "Unexpected error while exporting the summary.": "שגיאה בלתי צפויה בעת ייצוא הסיכום.",
+        "Technical Details": "פרטים טכניים",
+        "Copy": "העתק",
+        "If your next question is on a different topic, for the best results, start a new chat by clicking the plus icon at the top.": "אם השאלה הבאה שלך עוסקת בנושא אחר, לקבלת התוצאות הטובות ביותר, התחל צ'אט חדש על ידי לחיצה על סמל הפלוס למעלה.",
     }
 };
 

@@ -50,12 +50,19 @@ async function downloadPDF(responseText, pdfTitle) {
 
 
 
-async function addActionButtonsAnalyticalMode(botResponseDiv) {
+async function addActionButtonsAnalyticalMode(botResponseDiv, technicalDetails='') {
     // remove previous action buttons 
     var actionButtonsContainer = document.getElementById('actionButtonsContainer');
     if (actionButtonsContainer) {
         actionButtonsContainer.remove();
     }
+
+    // container for the action buttons
+    var actionButtonsContainer = document.createElement('div');
+    actionButtonsContainer.id = 'actionButtonsContainer';
+    actionButtonsContainer.style.display = 'flex';
+    actionButtonsContainer.style.justifyContent = 'flex-start';
+    actionButtonsContainer.style.margin = '0px 5px';
     
     // *** feedback button ***
     const feedbackButton = document.createElement('button');
@@ -108,41 +115,33 @@ async function addActionButtonsAnalyticalMode(botResponseDiv) {
     copyButton.appendChild(copyButtonTooltip);
 
     
-    // *** pdf button ***
-    const pdfButton = document.createElement('button');
-    pdfButton.className = 'intellimenta-color-button action-buttons tooltip';
+    // // *** pdf button ***
+    // const pdfButton = document.createElement('button');
+    // pdfButton.className = 'intellimenta-color-button action-buttons tooltip';
     
-    pdfButton.onclick = async function() {
-        // get the text of the last div with class 'user-message'
-        const userMessages = document.querySelectorAll('.user-message');
-        const userMessageDiv = userMessages.length ? userMessages[userMessages.length - 1] : null;
-        const userMessage = userMessageDiv ? userMessageDiv.innerText : '';
-        const pdfContent = `<p class="user-message">User Message: <b>${userMessage}</b></p>
-                            Bot Response:<br>
-                            ${botResponseDiv.innerHTML}`;
+    // pdfButton.onclick = async function() {
+    //     // get the text of the last div with class 'user-message'
+    //     const userMessages = document.querySelectorAll('.user-message');
+    //     const userMessageDiv = userMessages.length ? userMessages[userMessages.length - 1] : null;
+    //     const userMessage = userMessageDiv ? userMessageDiv.innerText : '';
+    //     const pdfContent = `<p class="user-message">User Message: <b>${userMessage}</b></p>
+    //                         Bot Response:<br>
+    //                         ${botResponseDiv.innerHTML}`;
 
-        await downloadPDF(pdfContent, 'Chatbot Response');
-    };
+    //     await downloadPDF(pdfContent, 'Chatbot Response');
+    // };
 
-    const pdfButtonIcon = document.createElement('img');
-    pdfButtonIcon.src = pdfButtonIconURL;
-    pdfButtonIcon.style.width = '21px';
+    // const pdfButtonIcon = document.createElement('img');
+    // pdfButtonIcon.src = pdfButtonIconURL;
+    // pdfButtonIcon.style.width = '21px';
 
-    const pdfButtonTooltip = document.createElement('span');
-    pdfButtonTooltip.className = 'tooltiptext';
-    pdfButtonTooltip.style.whiteSpace = 'nowrap';
-    pdfButtonTooltip.textContent = get_translation('Download as PDF', language);
+    // const pdfButtonTooltip = document.createElement('span');
+    // pdfButtonTooltip.className = 'tooltiptext';
+    // pdfButtonTooltip.style.whiteSpace = 'nowrap';
+    // pdfButtonTooltip.textContent = get_translation('Download as PDF', language);
 
-    pdfButton.appendChild(pdfButtonIcon);
-    pdfButton.appendChild(pdfButtonTooltip);
-
-
-    // container for the action buttons
-    var actionButtonsContainer = document.createElement('div');
-    actionButtonsContainer.id = 'actionButtonsContainer';
-    actionButtonsContainer.style.display = 'flex';
-    actionButtonsContainer.style.justifyContent = 'flex-start';
-    actionButtonsContainer.style.margin = '0px 5px';
+    // pdfButton.appendChild(pdfButtonIcon);
+    // pdfButton.appendChild(pdfButtonTooltip);
 
     actionButtonsContainer.appendChild(copyButton);
     //actionButtonsContainer.appendChild(pdfButton);

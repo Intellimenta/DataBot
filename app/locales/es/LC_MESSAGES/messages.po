@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-06-08 11:11-0700\n"
+"POT-Creation-Date: 2025-11-21 15:35-0800\n"
 "PO-Revision-Date: 2025-03-28 11:13-0700\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: es\n"
@@ -18,43 +18,49 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
 
-#: templates/chatbot_and_dashboards.html:123
+#: templates/chatbot_and_dashboards.html:156
 msgid "Toggle Chatbot"
 msgstr "Alternar Chatbot"
 
-#: templates/chatbot_and_dashboards.html:179 templates/index.html:118
+#: templates/chatbot_and_dashboards.html:208 templates/index.html:163
+msgid "Chat Archive"
+msgstr "Archivo de chat"
+
+#: templates/chatbot_and_dashboards.html:212 templates/index.html:167
 msgid "Delete Session"
 msgstr "Eliminar sesión"
 
-#: templates/chatbot_and_dashboards.html:205 templates/index.html:147
+#: templates/chatbot_and_dashboards.html:239 templates/index.html:197
 msgid "Use Voice"
 msgstr "Usar voz"
 
-#: templates/chatbot_and_dashboards.html:208 templates/index.html:150
+#: templates/chatbot_and_dashboards.html:243 templates/index.html:201
 msgid "Type ? for help"
 msgstr "Escriba '?' para obtener ayuda"
 
-#: templates/chatbot_and_dashboards.html:236 templates/index.html:180
+#: templates/chatbot_and_dashboards.html:277 templates/index.html:237
 msgid "Open Personal Dashboard"
 msgstr "Abrir panel personal"
 
-#: templates/chatbot_and_dashboards.html:238 templates/index.html:182
+#: templates/chatbot_and_dashboards.html:279 templates/index.html:239
+#: templates/index.html:248
 msgid "New Chat"
 msgstr "Nuevo chat"
 
-#: templates/chatbot_and_dashboards.html:239 templates/index.html:183
+#: templates/chatbot_and_dashboards.html:280 templates/index.html:240
+#: templates/index.html:249
+msgid "Export Chat Session Summary"
+msgstr "Exportar resumen de la sesión de chat"
+
+#: templates/chatbot_and_dashboards.html:281 templates/index.html:241
 msgid "Settings"
 msgstr "Configuración"
 
-#: templates/chatbot_and_dashboards.html:240
+#: templates/chatbot_and_dashboards.html:282 templates/index.html:243
 msgid "Open full page chat"
 msgstr "Abrir chat de página completa"
 
-#: templates/index.html:109
+#: templates/index.html:158
 msgid "Toggle Sidebar"
 msgstr "Alternar barra lateral"
-
-#: templates/index.html:114
-msgid "Chat Archive"
-msgstr "Archivo de chat"
 

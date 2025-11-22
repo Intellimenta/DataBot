@@ -61,7 +61,7 @@ async function connectWebSocket() {
             } else {
                 // main operation
                 try {
-                    await handleBotResponse(botResponse.main_response, false, botResponse.viz_type, botResponse.is_single_color);
+                    await handleBotResponse(botResponse.main_response, false, botResponse.viz_type, botResponse.is_single_color, false, technicalDetails=botResponse.technical_details);
                 }
                 catch (error) {
                     console.error(error);
@@ -130,7 +130,8 @@ async function connectWebSocket() {
                 if (autoScrollEnabled && botResponse.scroll === true) {
                     await scrollToBottom();
                 }
-            } else if (botResponse.stream_data_type === "visualization") {  // this currently only applies when visualization is part of a combined request involding function calls and therefore uses streaming
+            } else if (botResponse.stream_data_type === "visualization") {  // this currently only applies when visualization is part of a combined request 
+                                                                            // involving function calls and therefore uses streaming
                 try {
                     if (autoScrollEnabled) {
                         await scrollToBottom();

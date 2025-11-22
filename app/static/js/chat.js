@@ -27,8 +27,8 @@ function addToConversation(message) {
     // ask user to start a new chat on high message count
     const messages = conversationDiv.getElementsByClassName('user-message');
     const messageCount = messages.length;
-    if (isChatSessionArchivePage == false && (messageCount == 5 || messageCount == 8 || messageCount == 11)) {
-        showNotification(`For best results, open a new chat (click on the plus icon at the top) if your next question is on a different topic.`, true, 4500);
+    if (isChatSessionArchivePage == false && (messageCount == 6 || messageCount == 11 || messageCount == 16)) {
+        showNotification(get_translation(`If your next question is on a different topic, for the best results, start a new chat by clicking the plus icon at the top.`, language), true, 5000);
     }
 }
 
@@ -80,20 +80,6 @@ async function askBot(userQuery) {
 async function askBotPipeline(userMessage) {
 
     try {
-        
-        // // check whether chat session has expired (60 minutes of inactivity)
-        // EDIT: now we check whether session exists in chat_sessions table
-        // if (chatSessionStartedAt) {
-        //     const chatSessionStartedAtDate = new Date(chatSessionStartedAt + ' UTC');  // convert to Date object
-        //     const currentTime = new Date();
-        //     const timeDiff = currentTime - chatSessionStartedAtDate;
-        //     const threshold = 60 * 60 * 1000;  // 60 minutes in milliseconds
-        //     if (timeDiff > threshold) {
-        //         // chat session has expired
-        //         alert("Your chat session has expired. Please start a new chat either by refreshing the page or clicking the 'New Chat' button at the top-right.");
-        //         return;
-        //     }
-        // }
 
         document.getElementById('user_message').value = ''; // Clear the input field
 
@@ -145,11 +131,32 @@ async function askBotPipeline(userMessage) {
 }
 
 
-async function handleBotResponse(botResponse, onPageLoad=false, vizType='', isSingleColor=false, isChatSessionArchivePage=false) {
+async function handleBotResponse(botResponse, onPageLoad=false, vizType='', isSingleColor=false, isChatSessionArchivePage=false, technicalDetails='') {
     
     const conversationDiv = document.getElementById('conversation');
-    
-    if ( botResponse != 'NA' ) {
+
+    if ( botResponse == 'NA') {
+        if (isAnalyticalMode && isChatSessionArchivePage == false && technicalDetails != '') {
+            // add technical details button
+            var actionButtonsContainer = document.getElementById('actionButtonsContainer');
+            const techDetailsButton = document.createElement('button');
+            techDetailsButton.className = 'intellimenta-color-button action-buttons tooltip';
+            techDetailsButton.onclick = async function() {
+                alert(technicalDetails);
+            };
+            const techDetailsButtonIcon = document.createElement('img');
+            techDetailsButtonIcon.src = technicalDetailsIconURL;
+            techDetailsButtonIcon.style.width = '21px';
+            techDetailsButton.appendChild(techDetailsButtonIcon);
+            const techDetailsButtonTooltip = document.createElement('span');
+            techDetailsButtonTooltip.className = 'tooltiptext';
+            techDetailsButtonTooltip.style.whiteSpace = 'nowrap';
+            techDetailsButtonTooltip.textContent = get_translation('Technical Details', language);
+            techDetailsButton.appendChild(techDetailsButtonTooltip);
+            actionButtonsContainer.appendChild(techDetailsButton);
+        }
+    }
+    else {
         if (botResponse.startsWith('http')) {  // schema mode card
 
             // If the bot's response is a link, create an iframe to display it
@@ -756,7 +763,7 @@ async function handleBotResponse(botResponse, onPageLoad=false, vizType='', isSi
             const botResponseDiv = await addRegularMessageToChat(botResponse, conversationDiv);
 
             if (isAnalyticalMode && isChatSessionArchivePage == false) {
-                await addActionButtonsAnalyticalMode(botResponseDiv);
+                await addActionButtonsAnalyticalMode(botResponseDiv, technicalDetails=technicalDetails);
             }
         }
     }

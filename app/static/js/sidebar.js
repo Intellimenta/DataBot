@@ -3,15 +3,17 @@ function toggleSidebar() {
     const sidebarActiveDB = document.getElementById('active-db-container');
     const sidebarToggle = document.getElementById('sidebar-toggle');
 
-    if (sidebar.style.width === '0px') {
-        sidebar.style.width = '260px';
+    if (sidebar.style.maxWidth === '0px') {
+        sidebar.style.maxWidth = '230px';
+        sidebar.style.minWidth = '230px';
         sidebarToggle.style.top = '0px';
         sidebarToggle.style.position = 'relative';
         sidebarActiveDB.style.display = 'block';
 
         sidebarStatus = 'open';
     } else {
-        sidebar.style.width = '0px';
+        sidebar.style.maxWidth = '0px';
+        sidebar.style.minWidth = '0px';
         sidebarToggle.style.position = 'absolute';
         sidebarToggle.style.top = '8px';
         
