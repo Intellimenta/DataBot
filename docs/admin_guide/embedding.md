@@ -13,7 +13,7 @@ If you control the platform where you want to place DataBot, adding it as a widg
 <script
   src="databot-widget.js"
   defer
-  databot-url="[DATABOT URL]/?is-widget=true"
+  app-url="[DATABOT URL]/?is-widget=true"
 ></script>
 ```
 
