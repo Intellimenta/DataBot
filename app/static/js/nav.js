@@ -31,6 +31,77 @@ async function openTabNoPreLoad(tabName, endpoint) {
 }
 
 
+
+async function openTabNoPreloadDatabaseConnection(dbId) {
+    
+    const spinner = document.getElementById('spinnerAdminPanel');
+    spinner.style.display = 'block';
+
+    const response = await fetch('/get-html-content-for-database-connection', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({dbId:dbId})
+    });
+    spinner.style.display = 'none';
+    const result = await response.text();
+    
+    var tab = document.getElementById('db_ref');
+    tab.innerHTML = result;
+    tab.classList.add('active');
+}
+
+
+async function openTabNoPreLoadViewPermissions(dbId, groupName) {
+    
+    const spinner = document.getElementById('spinnerAdminPanel');
+    spinner.style.display = 'block';
+    
+    const response = await fetch('/get-html-content-for-view-current-permissions', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({dbId:dbId, groupName:groupName})
+    });
+    spinner.style.display = 'none';
+    const result = await response.text();
+    
+    var tab = document.getElementById('viewCurrentPermissions');
+    tab.innerHTML = result;
+    tab.classList.add('active');
+}
+
+
+async function openTabNoPreLoadMetadata(tabName) {
+    
+    const spinner = document.getElementById('spinnerMetadataUpdate');
+    spinner.style.display = 'block';
+    
+    const nameParts = tabName.split('_');
+    const dbId = nameParts[0];
+    const tableId = nameParts[1];
+
+    const response = await fetch('/get-html-content-for-table-metadata', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({dbId:dbId, tableId:tableId})
+    });
+    spinner.style.display = 'none';
+    const result = await response.text();
+    
+    var tab = document.getElementById(tabName);
+    var fieldsDiv = document.getElementById(tabName + '_fields');
+    fieldsDiv.innerHTML = result;
+    tab.classList.add('active');
+
+    await scrollUpMetadataSection();
+}
+
+
 async function openTabNoPreLoadRunResponseQualityTests(dbId) {
     
     const spinner = document.getElementById('spinnerSaveResponseQualityTests');
@@ -83,53 +154,6 @@ async function openTabNoPreLoadCustomUserAttributeAssignment(attributeName) {
 }
 
 
-async function openTabNoPreloadDatabaseConnection(dbId) {
-    
-    const spinner = document.getElementById('spinnerAdminPanel');
-    spinner.style.display = 'block';
-
-    const response = await fetch('/get-html-content-for-database-connection', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({dbId:dbId})
-    });
-    spinner.style.display = 'none';
-    const result = await response.text();
-    
-    var tab = document.getElementById('db_ref');
-    tab.innerHTML = result;
-    tab.classList.add('active');
-}
-
-
-async function openTabNoPreLoadMetadata(tabName) {
-    
-    const spinner = document.getElementById('spinnerMetadataUpdate');
-    spinner.style.display = 'block';
-    
-    const nameParts = tabName.split('_');
-    const dbId = nameParts[0];
-    const tableId = nameParts[1];
-
-    const response = await fetch('/get-html-content-for-table-metadata', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({dbId:dbId, tableId:tableId})
-    });
-    spinner.style.display = 'none';
-    const result = await response.text();
-    
-    var tab = document.getElementById(tabName);
-    var fieldsDiv = document.getElementById(tabName + '_fields');
-    fieldsDiv.innerHTML = result;
-    tab.classList.add('active');
-
-    await scrollUpMetadataSection();
-}
 
 
 async function openTabNoPreLoadrlac(tabName) {

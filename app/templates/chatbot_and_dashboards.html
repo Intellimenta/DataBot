@@ -297,9 +297,6 @@
         
         <h2 style="margin:10px; margin-top:0px; text-align:center;">Settings</h2>
         {{email}}
-        {% if client_name %}
-            <br>{{client_name}}
-        {% endif %}
         <div class="tab">
             {% if is_admin %}
             <button class="tablinks" data-testid="settings_admin_panel_btn" onclick="openTab('adminPanel')" style="margin-bottom: 15px;"><img src="{{ url_for('static', path='media/adminPanel.svg') }}" style="padding-right: 10px;">Admin Panel <img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
@@ -341,9 +338,6 @@
             <div id="adminPanel" class="tabcontent tabAdmin">
                 <button class="back-button" data-testid="back-btn-adminPanel" style="max-width: 72px; max-height: 30px; margin-bottom: 20px; margin-top:22px;" onclick="closeTab('adminPanel')"><img src="{{ url_for('static', path='media/arrowBackwardIcon.svg') }}" class="back_icon">Back</button>
                 <h3 class="settings_inner_page_title" style="justify-content: center; padding-bottom: 10px; margin-top: 0px; padding-right: 15px;"><img src="{{ url_for('static', path='media/adminPanel.svg') }}" style="padding-right: 10px;">Admin Panel</h3>
-                {%if license_is_static == True and is_portable != True %}
-                    <p style="margin:0px 0px 5px 0px">This instance of DataBot is licensed exclusively to {{client_name}}.<br> Redistribution or resale is not permitted.</p>
-                {%endif%}
                 <button class="tablinks" data-testid="admin_panel_admin_guide_btn" onclick="window.open('https://databot.intellimenta.com/admin_guide/admin_panel_overview', '_blank')" style="margin-bottom: 25px;"><img src="{{ url_for('static', path='media/adminGuideIcon.svg') }}" style="padding-right: 10px;">Admin Guide<img src="{{ url_for('static', path='media/openInNewWindowIcon.svg') }}" style="padding-left: 10px;"></button>
                 {%if bi_integration_enabled == True %}
                 <!-- <button class="tablinks" data-testid="admin_panel_analytical_mode_btn" style="justify-content: space-between;">
