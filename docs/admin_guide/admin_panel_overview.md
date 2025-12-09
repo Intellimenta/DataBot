@@ -49,7 +49,7 @@ In this section, you can define sample queries to be displayed on the homepage. 
 
 !!! note
 
-    Currently only **Metabase** is supported for BI integration. We are planning to add support for other BI tools such as **Apache Superset** and **Redash** in the near future.
+    Currently only **Metabase** is supported for BI integration. If you require integration with other BI tools, let us know.
 
 Connecting DataBot to your BI tool allows you to
 
@@ -57,29 +57,19 @@ Connecting DataBot to your BI tool allows you to
 - Use the dashboards created in your BI tool as a data source for answering questions in DataBot
 - Use the 'Dashboards + Chatbot' layout (explained below)
 
-![Dashboards + Chatbot Interface](../assets/two-cols.png)
+When the 'Dashboards + Chatbot' layout is enabled, after user login, the dashboards that the user has access to would be shown (plus a dashboard picker for switching between dashboards), and DataBot would be shown as a widget in bottom-right corner of screen. This format is ideal for **customer-facing analytics**, e.g. if you are sharing one or more dashboards with your customers.
 
-In the 'Dashboards + Chatbot' layout, after user login, the chatbot is shown on the right and a dashboard is shown on the left (plus a dashboard picker for selecting different dashboards). This format is ideal for **customer-facing analytics**, e.g. if you are already sharing one or more dashboards with your customers.
+![Dashboards + Chatbot Interface](../assets/bi-integration-1.png)
+![Dashboards + Chatbot Interface](../assets/bi-integration-2.png)
 
-!!! note
+In "Dashboard + Chatbot Interface" tab, you can specify which dashboards should be available to each user group. For each dashboard id mentioned here, you need to enable embedding for it in Metabase (Top-right section of dashboard > Sharing > Embed > Static Embedding > Publish). If that option is not available, it means you haven't enabled static embedding in your Metabase instance (Admin Panel > Settings > Embedding).
 
-    If there is extra empty space between the dashboards and the dashboard picker, you can set the environment variable `ADD_MARGIN_TOP_TO_DASHBOARD` to false at deployment time to remove the extra space.
-
-In this subsection you can specify which dashboards should be available to each user group.
-
-- Enable static embedding in your Metabase (Admin Panel > Settings > Embedding)
-- For each dashboard ID assigned to user groups, enable embedding for it in Metabase (Top-right section of dashboard > Sharing > Embed > Static Embedding > Publish)
-
-You can also associate user attributes with dashboard filters so the dashboards are automatically filtered (locked filters) using the user attribute value. You need to
+You can also associate user attributes with dashboard filters so the dashboards are automatically filtered (locked filters) using the user attribute value. This ensures users only access the data they are meant to see. You need to:
 
 - Enable "Auto-Filter Dashboards by User Attributes" in DataBot Admin Panel > BI Integration > 'Dashboards + Chatot Interface'
-- Create a filter in your Metabase dashboard with the same name as the attribute.
+- Create a filter in your Metabase dashboard with the same name as the user attribute.
 - Tie the filter to relevant cards of the dashboard. 
 - In [Top-right section of dashboard > Sharing > Embed > Static Embedding > Parameters] make the filter "Editable" and publish.
-
-To enable this layout, add the parameter `show-chatbot-and-dashboards=true` to the URL. E.g. `https://mydomain.com/?show-chatbot-and-dashboards=true`.
-
-Note that the position of the divider between the chatbot and dashboards is adjustable.
 
 ### Performance Tuning
 
