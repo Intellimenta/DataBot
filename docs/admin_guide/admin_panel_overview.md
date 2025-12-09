@@ -61,6 +61,8 @@ When the 'Dashboards + Chatbot' layout is enabled, after user login, the dashboa
 
 ![Dashboards + Chatbot Interface](../assets/bi-integration-1.png)
 <br>
+By clicking on the widget, users can ask analytical questions.
+<br>
 ![Dashboards + Chatbot Interface](../assets/bi-integration-2.png)
 
 In "Dashboard + Chatbot Interface" tab, you can specify which dashboards should be available to each user group. For each dashboard id mentioned here, you need to enable embedding for it in Metabase (Top-right section of dashboard > Sharing > Embed > Static Embedding > Publish). If that option is not available, it means you haven't enabled static embedding in your Metabase instance (Admin Panel > Settings > Embedding).
