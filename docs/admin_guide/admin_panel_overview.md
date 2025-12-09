@@ -61,7 +61,8 @@ When the 'Dashboards + Chatbot' layout is enabled, after user login, the dashboa
 
 ![Dashboards + Chatbot Interface](../assets/bi-integration-1.png)
 <br>
-By clicking on the widget, users can ask analytical questions.
+By clicking the widget, the chat interface becomes visible.
+<br>
 <br>
 ![Dashboards + Chatbot Interface](../assets/bi-integration-2.png)
 
