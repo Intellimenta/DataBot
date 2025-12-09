@@ -1,7 +1,7 @@
 
 function addToConversation(message) {
     const messageDiv = document.createElement('div');
-    if (mediaQuery.matches || isChatbotAndDashboards) {
+    if (mediaQuery.matches) {
         messageDiv.style.cssText = 'padding: 5px; background-color: #6448833e; font-size: 15px; font-family:"Merriweather", "Rubik", sans-serif';
     } else {
         messageDiv.style.cssText = 'padding: 5px; background-color: #6448833e; font-size: 15px; font-family:"Merriweather", "Rubik", sans-serif; border-radius: 5px; margin: 10px 0px;';

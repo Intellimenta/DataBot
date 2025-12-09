@@ -279,7 +279,7 @@
     <img src="{{ url_for('static', path='media/newSessionIcon.svg') }}" id="newSessionIcon" alt="newSessionIcon" class="top-right-button" data-tippy-content="{{ _('New Chat') }}" onclick="startNewSession()" style="width:32px; height: 32px; margin-top: 3px;">
     <img src="{{ url_for('static', path='media/exportIcon.svg') }}" id="export-summary-btn" alt="Export Chat Session Summary" data-tippy-content="{{ _('Export Chat Session Summary') }}" class="top-right-button" onclick="exportSummaryToDOCX()" style="width:32px; height: 30px; padding: 4px;">
     <img src="{{ url_for('static', path='media/gearIcon.svg') }}" id="gearIcon" alt="gearIcon" class="top-right-button" data-tippy-content="{{ _('Settings') }}" onclick="togglePopup()" style="width: 28px; height: 28px; padding: 5px 3px;">
-    <img src="{{ url_for('static', path='media/open_in_new_window_icon.svg') }}" id="openInNewWindow" alt="fullScreen" class="top-right-button" data-tippy-content="{{ _('Open full page chat') }}" onclick="window.open(window.location.origin + window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1) + '?show-chatbot-and-dashboards=false', '_blank')" style="height: 32px; padding: 5px 3px;">
+    <img src="{{ url_for('static', path='media/open_in_new_window_icon.svg') }}" id="openInNewWindow" alt="fullScreen" class="top-right-button" data-tippy-content="{{ _('Open full page chat') }}" onclick="window.open(window.location.origin + window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1) + '?bi-integration=false', '_blank')" style="height: 32px; padding: 5px 3px;">
 </div>
 
 <div id="personalDashboard_BG" style="position: absolute; inset: 0px; display: none; background-color: rgba(0, 0, 0, 0.5);" >
@@ -325,7 +325,7 @@
             {% endif %}
             {% if logged_in_with_sso != True %}
             <button class="tablinks" data-testid="settings_change_password_btn" onclick="openTab('changePassword')"><img src="{{ url_for('static', path='media/changePasswordIcon.svg') }}" style="padding-right: 10px;">Change Password <img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
-            <button class="tablinks" onclick="logout('{{is_two_col}}', '{{is_widget}}')"><img src="{{ url_for('static', path='media/logoutIcon.svg') }}" style="padding-right: 10px;">Logout</button>
+            <button class="tablinks" onclick="logout('{{is_widget}}')"><img src="{{ url_for('static', path='media/logoutIcon.svg') }}" style="padding-right: 10px;">Logout</button>
             {% endif %}
             <div style="margin-top: 25px;">
                 Version: {{app_version}}<br>
@@ -1025,7 +1025,7 @@
                     
                     <button class="tablinks" data-testid="admin_panel_connect_bi_tool_btn" onclick="openTab('connectBItool')" style="margin-bottom: 20px;"><img src="{{ url_for('static', path='media/connectBItoolIcon.svg') }}" style="padding-right: 10px; ">Connect a BI Tool<img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
 
-                    <button class="tablinks" data-testid="admin_panel_two_col_setup_btn" onclick="openTabNoPreLoadTwoColumnSetup('chatbotAndDashboards')"><img src="{{ url_for('static', path='media/twoColumnIcon.svg') }}" style="padding-right: 10px;">Dashboards + Chatbot Interface<img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
+                    <button class="tablinks" data-testid="admin_panel_two_col_setup_btn" onclick="openTabNoPreLoadTwoColumnSetup('chatbotAndDashboards')"><img src="{{ url_for('static', path='media/DashboardsAndWidgetModeIcon.svg') }}" style="padding-right: 10px;">Dashboards + Chatbot Interface<img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
                     
                     <div style="display: flex; flex-direction: column; background-color: #64488317; padding-bottom: 10px; border-radius: 5px; margin-top: 20px;">
                         <button class="tablinks" data-testid="admin_panel_use_dashboard_cards_as_data_source_btn" style="padding-right: 70px; margin-top: 20px;"><img src="{{ url_for('static', path='media/useDashboardCardsAsDataSourceIcon.svg') }}" style="padding-right: 10px;">Use the Dashboards Defined Above as Data Source
@@ -1482,7 +1482,6 @@
     const isAdmin = "{{is_admin}}" === 'True';
     const isFirstTimeUser = "{{is_first_time_user}}" === 'True';
     const isChatSessionArchivePage = "{{is_chat_session_archive_page}}" === 'True';
-    const isChatbotAndDashboards = "{{is_two_col}}" === 'True';
     const isWidget = "{{ is_widget }}" === 'True';
     const wla = "{{ white_labeling }}" === 'True';
     const toggleChatbotDiv = document.getElementById('toggle-chatbot-div');

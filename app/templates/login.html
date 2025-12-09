@@ -64,8 +64,8 @@
         <div id="spinner" class="spinner"></div>
     </form>
     <p class="below_input_form">
-        Don't have an account? <a href="{% if is_two_col %}/signup?show-chatbot-and-dashboards=true{% elif is_widget %}/signup?is-widget=true{% else %}/signup{% endif %}">Sign up here</a><br>
-        Forgot your password? <a href="{% if is_two_col %}/forgot_password?show-chatbot-and-dashboards=true{% elif is_widget %}/forgot_password?is-widget=true{% else %}/forgot_password{% endif %}">Reset it here</a>
+        Don't have an account? <a href="{% if is_widget %}/signup?is-widget=true{% else %}/signup{% endif %}">Sign up here</a><br>
+        Forgot your password? <a href="{% if is_widget %}/forgot_password?is-widget=true{% else %}/forgot_password{% endif %}">Reset it here</a>
     </p>
     <br><br>Version: {{app_version}}
 </body>

@@ -162,7 +162,7 @@ async function makeViz(chartConfigString, parentDiv) {
 async function loadIframeInsideDiv(div, iframeSource, iframeType='card') {
     const iframe = document.createElement('iframe');
     iframe.src = iframeSource;
-    if (window.innerWidth < 1000 || isChatbotAndDashboards) {
+    if (window.innerWidth < 1000) {
         iframe.style.borderRadius = '0px';
     } else {
         iframe.style.borderRadius = '5px';
@@ -235,7 +235,7 @@ async function loadGreetingsAndQuerySuggestions() {
         const selectedOption = dropdown.options[dropdown.selectedIndex];
         const activeDbId = selectedOption.id;
 
-        const maxQueryLength =  (mediaQuery.matches || isChatbotAndDashboards) ? 120 : 60; 
+        const maxQueryLength =  (mediaQuery.matches) ? 100 : 60; 
         if (querySuggestions[activeDbId]) {
             querySuggestions[activeDbId].forEach(query => {
                 if (query != '') {

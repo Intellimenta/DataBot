@@ -111,7 +111,7 @@ async function saveUserPreference(preferenceName, preferenceValue) {
 
 
 
-function logout(isTwoCol, isWidget) {
+function logout(isWidget) {
     fetch('/logout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' }
@@ -119,12 +119,7 @@ function logout(isTwoCol, isWidget) {
     .then(response => {
         if (!response.ok) throw new Error('Logout failed');
         closePopup();
-        const url =
-            isTwoCol === 'True'
-                ? '/login?show-chatbot-and-dashboards=true'
-                : (isWidget === 'True'
-                    ? '/login?is-widget=true'
-                    : '/login');
+        const url = isWidget === 'True' ? '/login?is-widget=true' : '/login';
         window.location.href = url;
     })
     .catch(error => {

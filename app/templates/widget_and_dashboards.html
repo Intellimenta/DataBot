@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{app_name}}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Merriweather:100,200,300,400,500,600,700,800,900">
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@700&family=Play&display=swap" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', path='style.css') }}?v={{ app_version }}">
+    <script src="{{ url_for('static', path='js/chatbotAndDashboardInterface.js') }}?v={{ app_version }}"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{{ white_labeling_config.get('favicon_url') if white_labeling_config.get('favicon_url') else url_for('static', path='media/databot-favicon.ico') }}" type="image/x-icon">
+    <script src="https://analytics.intellimenta.com/app/iframeResizer.js"></script>
+    <style>
+        #dashboards-div {
+            width: 100%;
+            display:flex;
+            justify-content: center;
+            align-items: flex-start;
+            overflow: auto;
+            background-color: #fff;
+        }
+    </style>
+</head>
+
+<body id="main-body" style="visibility: hidden; justify-content: flex-start;">
+
+    <div id="dashboards-div">
+        <div id="dashboard_picker" style="position: absolute; left: 50px; top:20px">
+            <span style="font-size: 15px; margin-right: 5px;">Dashboard:</span>
+            <select class="input-with-shadow" style="padding: 1px; width:160px; height: 30px; border: 2px solid #64488370;" onchange="loadDashboard(this.value)">
+                <option value="0" selected disabled>Select a Dashboard</option>
+                {% for dashboard_id, dashboard_name in second_column_dashboards_info[1] %}
+                    <option value="{{ dashboard_id }}" {% if loop.index0 == 0 %}selected{% endif %}>{{ dashboard_name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        {% if second_column_dashboards_info[0].startswith('http') %}
+            <iframe id="left-column-dashboard-iframe" src="{{second_column_dashboards_info[0]}}" onload="iFrameResize({}, this)" width="100%" height="95%" frameborder="0" style="margin-top: {{iframe_margin_top}};"></iframe>
+        {% else %}
+            <p style="margin-top: 100px;">{{second_column_dashboards_info[0]}}</p>
+        {% endif %}
+    </div>
+
+    <script>
+        async function init() {
+            document.getElementById('main-body').style.visibility = 'visible';  // we wait for the page to load so it doesn't look broken for a fraction of a second
+        }
+        window.onload = init;
+    </script>
+
+    <script 
+        src="{{ url_for('static', path='js/databot-widget.js') }}?v={{ app_version }}" 
+        app-title="{{ app_name }}" 
+        app-url="{{ request.base_url }}?is-widget=true" 
+        app-icon-path="{{ url_for('static', path='media/databot-widget-icon.png') }}">
+        defer
+    </script>
+</body>
+</html>

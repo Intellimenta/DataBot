@@ -11,7 +11,7 @@ function positionStatusUpdates(statusUpdatesWrapper) {
         // Calculate left: sidebar width + half of main width (relative to sidebar's left)
         const left = sidebarRect.width + contentWrapperRect.width / 2;
         statusUpdatesWrapper.style.left = `${left}px`;
-        statusUpdatesWrapper.style.transform = "translate(-175px, -50%)";
+        statusUpdatesWrapper.style.transform = "translate(-150px, -50%)";
     };
 
     updatePosition();
