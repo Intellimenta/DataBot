@@ -49,7 +49,7 @@ In this section, you can define sample queries to be displayed on the homepage. 
 
 !!! note
 
-    Currently only **Metabase** is supported for BI integration. If you require integration with other BI tools, let us know.
+    Currently only **Metabase** is supported for BI integration. If you need integration with other BI tools, let us know.
 
 Connecting DataBot to your BI tool allows you to
 
@@ -60,6 +60,7 @@ Connecting DataBot to your BI tool allows you to
 When the 'Dashboards + Chatbot' layout is enabled, after user login, the dashboards that the user has access to would be shown (plus a dashboard picker for switching between dashboards), and DataBot would be shown as a widget in bottom-right corner of screen. This format is ideal for **customer-facing analytics**, e.g. if you are sharing one or more dashboards with your customers.
 
 ![Dashboards + Chatbot Interface](../assets/bi-integration-1.png)
+<br>
 ![Dashboards + Chatbot Interface](../assets/bi-integration-2.png)
 
 In "Dashboard + Chatbot Interface" tab, you can specify which dashboards should be available to each user group. For each dashboard id mentioned here, you need to enable embedding for it in Metabase (Top-right section of dashboard > Sharing > Embed > Static Embedding > Publish). If that option is not available, it means you haven't enabled static embedding in your Metabase instance (Admin Panel > Settings > Embedding).

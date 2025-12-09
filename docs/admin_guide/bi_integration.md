@@ -8,7 +8,7 @@ Connecting DataBot to your BI tool allows you to
 
 !!! note
 
-    Currently only **Metabase** is supported for BI integration. We are planning to add support for other BI tools such as **Apache Superset** and **Redash** in the near future.
+    Currently only **Metabase** is supported for BI integration. If you need integration with other BI tools, let us know.
 
 ### Preparations
 
