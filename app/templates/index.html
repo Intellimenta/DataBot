@@ -243,7 +243,7 @@
     <img src="{{ url_for('static', path='media/exportIcon.svg') }}" id="export-summary-btn" alt="Export Chat Session Summary" data-tippy-content="{{ _('Export Chat Session Summary') }}" class="top-right-button" onclick="exportSummaryToDOCX()" style="width:32px; height: 30px; padding: 4px;">
     <img src="{{ url_for('static', path='media/gearIcon.svg') }}" id="gearIcon" alt="gearIcon" class="top-right-button" data-tippy-content="{{ _('Settings') }}" onclick="togglePopup()" style="width: 28px; height: 28px; padding: 5px 3px;">
     {%if is_widget == True %}
-        <img src="{{ url_for('static', path='media/open_in_new_window_icon.svg') }}" id="openInNewWindow" alt="fullScreen" class="top-right-button" data-tippy-content="{{ _('Open full page chat') }}" onclick="window.open(window.location.origin + window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1) + '?full-width=true', '_blank')" style="height: 32px; padding: 5px 3px;">
+        <img src="{{ url_for('static', path='media/open_in_new_window_icon.svg') }}" id="openInNewWindow" alt="fullScreen" class="top-right-button" data-tippy-content="{{ _('Open New Chat in Full Page') }}" onclick="window.open(window.location.origin + window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1) + '?full-width=true', '_blank')" style="height: 32px; padding: 5px 3px;">
     {%endif%}
 </div>
 {%else%}
@@ -1421,7 +1421,7 @@
     const mediaQuery = window.matchMedia('(max-width: 1000px)');
     const logoUrl = "{{ white_labeling_config.get('logo_url') if white_labeling == True and white_labeling_config.get('logo_url') else url_for('static', path='media/DataBot_Logo_No_Name.png') }}";
     const logoMaxWidth = "{{ white_labeling_config.get('logo_max_width') if white_labeling == True else 160 }}";
-    const demoUrl = "{{ white_labeling_config.get('demo_url') if white_labeling == True and white_labeling_config.get('demo_url') else '' }}";
+    //const demoUrl = "{{ white_labeling_config.get('demo_url') if white_labeling == True and white_labeling_config.get('demo_url') else '' }}";
     const userGroupsIconURL = "{{ url_for('static', path='media/user_groups.svg') }}";
     const closeIconUrl = "{{ url_for('static', path='media/X small.png') }}";
     const arrowForwardIconURL = "{{ url_for('static', path='media/arrowForwardIcon.svg') }}";
@@ -1447,7 +1447,8 @@
     const statusUpdatesDiv = document.getElementById('status-updates');
 
     const isAdmin = "{{is_admin}}" === 'True';
-    const isFirstTimeUser = "{{is_first_time_user}}" === 'True';
+    //const isFirstTimeUser = "{{is_first_time_user}}" === 'True';
+    //const firstTimeUserInstructions = "{{first_time_user_instructions}}";
     const isChatSessionArchivePage = "{{is_chat_session_archive_page}}" === 'True';
     const wla = "{{ white_labeling }}" === 'True';
     const isWidget = "{{ is_widget }}" === 'True';

@@ -190,6 +190,13 @@ async function loadIframeInsideDiv(div, iframeSource, iframeType='card') {
 
 
 
+function decodeHTML(html) {
+    const div = document.createElement('div');
+    div.innerHTML = html;
+    return div.textContent;
+}
+
+
 async function loadGreetingsAndQuerySuggestions() {
     const greetingDiv = document.createElement('div');
     greetingDiv.id = 'greetingDiv';
@@ -208,22 +215,8 @@ async function loadGreetingsAndQuerySuggestions() {
 
     const greetingParagraph = document.createElement('p');
     greetingParagraph.id='greeting';
-    if ( isFirstTimeUser === true ) {
-        greetingParagraph.style.padding = '25px';
-        greetingParagraph.style.fontSize = '17px';
-        if ( wla ) {
-            greetingParagraph.innerHTML = demoUrl 
-                ? `For a quick overview of the app, please watch this <a href="${demoUrl}" target="_blank">demo video</a>.` 
-                : get_translation('Hi! How can I help?', language);
-        } else {
-            greetingParagraph.innerHTML = isAnalyticalMode
-                ? 'For a quick overview of the app, please watch this <a href="https://www.loom.com/share/a575fd6e6fd541d0ae56873db0a6b482" target="_blank">demo video</a>.'
-                : 'For a quick overview of the app, please watch this <a href="https://www.loom.com/share/a575fd6e6fd541d0ae56873db0a6b482" target="_blank">demo video</a>.';
-        }
-        
-    } else {
-        greetingParagraph.textContent  = get_translation('Hi! How can I help?', language);
-    }
+    greetingParagraph.textContent  = get_translation('Hi! How can I help?', language);
+
     greetingDiv.appendChild(greetingParagraph);
     
     if (querySuggestions && Object.keys(querySuggestions).length > 0) {

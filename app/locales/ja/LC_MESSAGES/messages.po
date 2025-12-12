@@ -57,7 +57,7 @@ msgid "Settings"
 msgstr "設定"
 
 #: templates/chatbot_and_dashboards.html:282 templates/index.html:243
-msgid "Open full page chat"
+msgid "Open New Chat in Full Page"
 msgstr "全画面チャットを開く"
 
 #: templates/index.html:158

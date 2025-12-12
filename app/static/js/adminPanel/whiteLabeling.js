@@ -3,14 +3,14 @@ async function saveWhiteLabelingConfig() {
     const clientLogoUrl = document.getElementById('client-logo-url').value;
     const clientFaviconUrl = document.getElementById('client-favicon-url').value;
     const clientLogoMaxWidth = document.getElementById('client-logo-max-width').value;
-    const clientDemoUrl = document.getElementById('client-demo-url').value;
+    //const clientDemoUrl = document.getElementById('client-demo-url').value;
 
     const response = await fetch('/save-white-labeling-config', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ 'clientAppName': clientAppName, 'clientLogoUrl': clientLogoUrl, 'clientLogoMaxWidth': clientLogoMaxWidth, 'clientFaviconUrl': clientFaviconUrl, 'clientDemoUrl': clientDemoUrl })
+        body: JSON.stringify({ 'clientAppName': clientAppName, 'clientLogoUrl': clientLogoUrl, 'clientLogoMaxWidth': clientLogoMaxWidth, 'clientFaviconUrl': clientFaviconUrl })
     });
     const result = await response.text();
 
