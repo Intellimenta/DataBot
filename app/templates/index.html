@@ -1118,7 +1118,7 @@
                                                 <button class="tablinks" onclick="openTabNoPreLoadrlac('rlac_{{group}}_{{db_id}}_{{table_id}}')"><img src="{{ url_for('static', path='media/table.svg') }}" style="padding-right: 10px;">{{table_name}} <img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
                                             {%endfor%}
                                             {%for (table_id, table_name) in database_tables_id_name_pair_list%}
-                                                <div id="rlac_{{group}}_{{db_id}}_{{table_id}}" class="tabcontent tabAdmin">
+                                                <div id="rlac_{{group}}_{{db_id}}_{{table_id}}" class="tabcontent tabAdmin" style="height:1500px;">
                                                     <button class="back-button" style="max-width: 72px; max-height: 30px; margin-bottom: 50px; margin-top:22px;" onclick="closeTab('rlac_{{group}}_{{db_id}}_{{table_id}}')"><img src="{{ url_for('static', path='media/arrowBackwardIcon.svg') }}" class="back_icon">Back</button>
                                                     <h3 class="settings_inner_page_title" style="justify-content: center; padding-bottom: 10px; margin-top: 20px;"><img src="{{ url_for('static', path='media/filter.svg') }}" style="padding-right: 10px;">Select a Field and Filter Value</h3> 
                                                     <span style="margin-bottom: 50px;">Group: <b>{{group}}</b><br>Database: <b>{{display_name}}</b><br>Table: <b>{{table_name}}</b></span>
@@ -1206,7 +1206,7 @@
                                                 <button class="tablinks" onclick="openTabNoPreLoadDataObfuscation('dataObfuscation_{{group}}_{{db_id}}_{{table_id}}')"><img src="{{ url_for('static', path='media/table.svg') }}" style="padding-right: 10px;">{{table_name}} <img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
                                             {%endfor%}
                                             {%for (table_id, table_name) in database_tables_id_name_pair_list%}
-                                                <div id="dataObfuscation_{{group}}_{{db_id}}_{{table_id}}" class="tabcontent tabAdmin">
+                                                <div id="dataObfuscation_{{group}}_{{db_id}}_{{table_id}}" class="tabcontent tabAdmin" style="height:1500px;">
                                                     <button class="back-button" style="max-width: 72px; max-height: 30px; margin-bottom: 50px; margin-top:22px;" onclick="closeTab('dataObfuscation_{{group}}_{{db_id}}_{{table_id}}')"><img src="{{ url_for('static', path='media/arrowBackwardIcon.svg') }}" class="back_icon">Back</button>
                                                     <h3 class="settings_inner_page_title" style="justify-content: center; padding-bottom: 10px; margin-top: 20px;"><img src="{{ url_for('static', path='media/dataObfuscationIcon.svg') }}" style="padding-right: 10px;">Select Fields that need to be Obfuscated</h3> 
                                                     <span style="margin-bottom: 50px;">Group: <b>{{group}}</b><br>Database: <b>{{display_name}}</b><br>Table: <b>{{table_name}}</b></span>

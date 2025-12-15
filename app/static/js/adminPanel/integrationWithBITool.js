@@ -66,13 +66,19 @@ async function saveTwoColConfig() {
         const userGroupMapping = getTableMapping('two_column_assignment_table');
         const filterDashboardsByUserAttributes = document.getElementById('toggle-button-filter-dashboards-by-user-attributes').checked;
         const useDashboardsAndWidgetMode = document.getElementById('toggle-button-use-dashboards-and-widget-mode').checked;
+        const widgetTitle = document.getElementById('widget_name_bi_integration').value;
 
         const response = await fetch('/save-two-column-config', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({userGroupMapping:userGroupMapping, filterDashboardsByUserAttributes:filterDashboardsByUserAttributes, useDashboardsAndWidgetMode:useDashboardsAndWidgetMode})
+            body: JSON.stringify({
+                userGroupMapping:userGroupMapping, 
+                filterDashboardsByUserAttributes:filterDashboardsByUserAttributes, 
+                useDashboardsAndWidgetMode:useDashboardsAndWidgetMode, 
+                widgetTitle:widgetTitle
+            })
         });
         spinner.style.display = 'none';  // Hide the spinner
         const result = await response.text();

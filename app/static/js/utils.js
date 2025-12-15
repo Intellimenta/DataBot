@@ -22,6 +22,11 @@ async function scrollUpMetadataSection() {
 }
 
 
+async function scrollToTop(elementId) {
+    document.getElementById(elementId).scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+
 function togglePopup() {
     if (popup.style.display === "none" || popup.style.display === "") {
         popup.style.display = "block";

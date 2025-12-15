@@ -207,6 +207,8 @@ async function openTabNoPreLoadDataObfuscation(tabName) {
     var fieldsDiv = document.getElementById(tabName + '_fields');
     fieldsDiv.innerHTML = result;
     tab.classList.add('active');
+
+    await scrollToTop(tabName);  // TODO: explore why this is not working
 }
 
 
