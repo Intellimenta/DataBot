@@ -1474,8 +1474,8 @@
 
         await loadMaps();  // this needs to load before loadArchivedChatSession otherwise the maps wouldn't be shown in archived session pages
 
-        // if there is only one database available and it's not already selected, select it automatically as the active database 
-        if (!isChatSessionArchivePage && "{{ active_db_id }}" == 0 && "{{ databases_that_user_has_access|length }}" == 1) {
+        // if there is only one database available select it automatically as the active database 
+        if (!isChatSessionArchivePage && "{{ databases_that_user_has_access|length }}" == 1) {
             document.getElementById('ActiveDatabaseDropdown').selectedIndex = 1;
 
             // load query suggestions and greetings for the selected database
