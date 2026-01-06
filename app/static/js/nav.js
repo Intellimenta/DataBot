@@ -102,8 +102,18 @@ async function openTabNoPreLoadMetadata(tabName) {
 }
 
 
-async function openTabNoPreLoadRunResponseQualityTests(dbId) {
-    
+
+async function openTabNoPreLoadRunResponseQualityTests(dbId, testQueryList) {
+    if (!testQueryList || testQueryList.length === 0) {
+        alert('Please enter a query to run the test.');
+        return;
+    }
+    const hasEmptyQuery = typeof(testQueryList) === 'object' && testQueryList.some(query => !query || query.trim() === '');
+    if (hasEmptyQuery) {
+        alert('Please ensure all queries are filled in.');
+        return;
+    }
+
     const spinner = document.getElementById('spinnerSaveResponseQualityTests');
     spinner.style.display = 'block';
 
@@ -112,7 +122,7 @@ async function openTabNoPreLoadRunResponseQualityTests(dbId) {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({dbId:dbId})
+        body: JSON.stringify({dbId:dbId, testQueryList:testQueryList})
     });
     spinner.style.display = 'none';
     const result = await response.text();
@@ -121,9 +131,9 @@ async function openTabNoPreLoadRunResponseQualityTests(dbId) {
     tab.innerHTML = result;
     tab.classList.add('active');
 
-    if (!result.includes('There is no test defined.')) {
-        // run the tests
-        const data = { request_type: 'run_response_quality_tests', db_id: dbId };
+    if (!result.includes('There is no test defined.') && !result.includes('There is no failed test to run.')) {
+        // run the test
+        const data = { request_type: 'run_response_quality_tests', db_id: dbId, test_query_list: testQueryList };
         socket.send(JSON.stringify(data));
     }
     else {
@@ -234,25 +244,25 @@ async function openTabNoPreLoadTwoColumnSetup(tabName) {
 
 
 
-async function openTabNoPreLoadPerformanceTuning(tabName) {
+// async function openTabNoPreLoadPerformanceTuning(tabName) {
     
-    const spinner = document.getElementById('spinnerAdminPanel');
-    spinner.style.display = 'block';
+//     const spinner = document.getElementById('spinnerAdminPanel');
+//     spinner.style.display = 'block';
     
-    const response = await fetch('/get-html-content-for-performance-tuning', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({})
-    });
-    spinner.style.display = 'none';
-    const result = await response.text();
+//     const response = await fetch('/get-html-content-for-performance-tuning', {
+//         method: 'POST',
+//         headers: {
+//             'Content-Type': 'application/json'
+//         },
+//         body: JSON.stringify({})
+//     });
+//     spinner.style.display = 'none';
+//     const result = await response.text();
     
-    var tab = document.getElementById(tabName);
-    tab.innerHTML = result;
-    tab.classList.add('active');
-}
+//     var tab = document.getElementById(tabName);
+//     tab.innerHTML = result;
+//     tab.classList.add('active');
+// }
 
 
 
@@ -344,7 +354,7 @@ async function openTabNoPreLoadWhiteLabeling(tabName) {
 }
 
 
-async function openTabNoPreLoadResponseQualityTests(dbId) {
+async function openTabNoPreLoadResponseQualityTests(dbId, dbName) {
     
     const spinner = document.getElementById('spinnerAdminPanel');
     spinner.style.display = 'block';
@@ -354,7 +364,7 @@ async function openTabNoPreLoadResponseQualityTests(dbId) {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({dbId:dbId})
+        body: JSON.stringify({dbId:dbId, dbName:dbName})
     });
     spinner.style.display = 'none';
     const result = await response.text();

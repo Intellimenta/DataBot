@@ -28,7 +28,7 @@
     <script src="{{ url_for('static', path='js/adminPanel/integrationWithBITool.js') }}?v={{ app_version }}"></script>
     <script src="{{ url_for('static', path='js/adminPanel/llmConfig.js') }}?v={{ app_version }}"></script>
     <script src="{{ url_for('static', path='js/adminPanel/misc.js') }}?v={{ app_version }}"></script>
-    <script src="{{ url_for('static', path='js/adminPanel/performanceTuning.js') }}?v={{ app_version }}"></script>
+    <!-- <script src="{{ url_for('static', path='js/adminPanel/performanceTuning.js') }}?v={{ app_version }}"></script> -->
     <script src="{{ url_for('static', path='js/adminPanel/querySuggestions.js') }}?v={{ app_version }}"></script>
     <script src="{{ url_for('static', path='js/adminPanel/rls.js') }}?v={{ app_version }}"></script>
     <script src="{{ url_for('static', path='js/adminPanel/schemaModeConfig.js') }}?v={{ app_version }}"></script>
@@ -44,15 +44,15 @@
     <script src="https://unpkg.com/tippy.js@6"></script>
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {%if analytical_mode == True %}
-        <script src="https://cdn.jsdelivr.net/npm/luxon@3.7.2/build/global/luxon.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-geo@4.3.6/build/index.umd.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon@1.3.1/dist/chartjs-adapter-luxon.umd.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-financial@0.2.1/dist/chartjs-chart-financial.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom"></script>
-        <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
-    {%endif%}
+
+    <script src="https://cdn.jsdelivr.net/npm/luxon@3.7.2/build/global/luxon.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-geo@4.3.6/build/index.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon@1.3.1/dist/chartjs-adapter-luxon.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-financial@0.2.1/dist/chartjs-chart-financial.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+
     <style>
         input[type=text] {
             font-family: 'Merriweather', 'Rubik', sans-serif;
@@ -87,7 +87,7 @@
                 position: absolute;
             }
             #content-wrapper {
-                padding: 45px 0px 0px 0px;
+                padding: 45px 0px 10px 0px;
             }
             #settingsPopup, #personalDashboardSection {
                 max-width: 900px;
@@ -106,26 +106,20 @@
                 flex: 1 1 100%;
                 max-width: 440px;
             }
-            {%if is_widget == True %}
-                #footer {
-                    border-radius: 3px;
-                    border-width: 1.5px;
+            #footer {
+                    margin: 10px 10px 0px 10px;
                 }
-            {%else%}
-                #footer {
-                    border-radius: 5px;
-                    margin-bottom: 2px;
-                    margin-right: 1px;
-                    margin-left: 1px;
-                }
-            {%endif%}
-
-            
+            #submitIcon {
+                right: 15px;
+            }
             #mic-container {
                 display: none;
             }
             #user_message {
-                margin-left: 0px;
+                margin-left: 9px;
+            }
+            #greetingDiv {
+                margin-top: 13%;
             }
         }
         
@@ -211,7 +205,6 @@
 
                         <div id="submit-container">
                             <input type="image" src="{{ url_for('static', path='media/submitIcon.svg') }}" alt="Submit" id="submitIcon">
-                            <input type="image" src="{{ url_for('static', path='media/submitIconDark.svg') }}" alt="Submit" id="submitIconDark">
                         </div>
                         
                     </form>
@@ -235,10 +228,7 @@
 
 
 {%if is_chat_session_archive_page != True %}
-<div id="top-right-buttons-container" style="position: absolute; display: flex; top: 8px; right: 30px; justify-content: space-around; align-items: center; width: {{117 if analytical_mode != True or is_widget == True else 80}}px; height: 36px;">
-    {%if analytical_mode != True %}
-        <img src="{{ url_for('static', path='media/personalDashboardIcon.svg') }}" id="personalDashboardIcon" alt="personalDashboardIcon" class="top-right-button" data-tippy-content="{{ _('Open Personal Dashboard') }}" onclick="loadPersonalDashboard()" style="width:32px; height: 32px;">
-    {%endif%}
+<div id="top-right-buttons-container" style="position: absolute; display: flex; top: 8px; right: 30px; justify-content: space-around; align-items: center; width: {{117 if is_widget == True else 80}}px; height: 36px;">
     <img src="{{ url_for('static', path='media/newSessionIcon.svg') }}" id="newSessionIcon" alt="newSessionIcon" data-tippy-content="{{ _('New Chat') }}" class="top-right-button" onclick="startNewSession()" style="width:32px; height: 32px; margin-top: 3px;">
     <img src="{{ url_for('static', path='media/exportIcon.svg') }}" id="export-summary-btn" alt="Export Chat Session Summary" data-tippy-content="{{ _('Export Chat Session Summary') }}" class="top-right-button" onclick="exportSummaryToDOCX()" style="width:32px; height: 30px; padding: 4px;">
     <img src="{{ url_for('static', path='media/gearIcon.svg') }}" id="gearIcon" alt="gearIcon" class="top-right-button" data-tippy-content="{{ _('Settings') }}" onclick="togglePopup()" style="width: 28px; height: 28px; padding: 5px 3px;">
@@ -247,7 +237,7 @@
     {%endif%}
 </div>
 {%else%}
-<div id="top-right-buttons-container" style="position: absolute; display: flex; top: 8px; right: 5px; justify-content: space-around; align-items: center; width: {{80 if analytical_mode == True else 110}}px; height: 36px;">
+<div id="top-right-buttons-container" style="position: absolute; display: flex; top: 8px; right: 5px; justify-content: space-around; align-items: center; width: 80px; height: 36px;">
     <img src="{{ url_for('static', path='media/newSessionIcon.svg') }}" id="newSessionIcon" alt="newSessionIcon" data-tippy-content="{{ _('New Chat') }}" class="top-right-button" onclick="window.location.href='/main'" style="width:32px; height: 32px; margin-top: 3px;">
     <img src="{{ url_for('static', path='media/exportIcon.svg') }}" id="export-summary-btn" alt="Export Chat Session Summary" data-tippy-content="{{ _('Export Chat Session Summary') }}" class="top-right-button" onclick="exportSummaryToDOCX()" style="width:32px; height: 30px; padding: 4px;">
 </div>
@@ -262,10 +252,9 @@
 
 <div id="settingsPopup_BG" style="position: absolute; inset: 0px; display: none; background-color: rgba(0, 0, 0, 0.5);" >
     <div id="settingsPopup">
-        <button class="close-button" onclick="closePopup()" style="margin-bottom: {{20 if is_widget else 50}}px;">
+        <button class="close-button" onclick="closePopup()" style="margin-bottom: {{30 if is_widget else 50}}px;">
             <img src="{{ url_for('static', path='media/X small.png') }}" class="close_icon">Close
         </button>
-        <img src="{{ white_labeling_config.get('logo_url') if white_labeling == True and white_labeling_config.get('logo_url') else url_for('static', path='media/DataBot_Logo.svg') }}" style="max-width: {{ white_labeling_config.get('logo_max_width', 200) * 0.7 if white_labeling == True else 100 }}px; padding:5px; margin-bottom: 10px; margin-top:-10px;">
         
         <h2 style="margin:10px; margin-top:0px; text-align:center;">Settings</h2>
         {{email}}
@@ -275,12 +264,7 @@
             {% endif %}
             
             <button class="tablinks" data-testid="settings_lang_setting_btn" onclick="openTab('userLanguageSettings')"><img src="{{ url_for('static', path='media/langIcon.svg') }}" style="padding-right: 10px;">Language<img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
-            {% if analytical_mode == True %}
             <button class="tablinks" data-testid="settings_chatbot_instructions_btn" onclick="openTab('provideInstructions')"><img src="{{ url_for('static', path='media/metadata.svg') }}" style="padding-right: 10px;">Provide instructions for the Chatbot <img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
-            {% endif %}
-            {% if analytical_mode != True %}
-            <button class="tablinks" data-testid="settings_card_height_btn" onclick="openTab('CardHeightSettings')"><img src="{{ url_for('static', path='media/cardHeightIcon.svg') }}" style="padding-right: 10px;">Result Card Height <img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
-            {% endif %}
             <button class="tablinks" data-testid="settings_show_interim_result_btn"><img src="{{ url_for('static', path='media/showInterimResultIcon.svg') }}" style="padding-right: 10px;">Continuous Voice Transcription 
                 <input type="checkbox" data-testid="settings_show_interim_result_toggle" id="toggle-button-settings-pref" class="toggle-button" {% if user_prefs[2] == True %} checked {% endif %} onclick="saveUserPreference('showInterimResult', this.checked)">
                 <label for="toggle-button-settings-pref" class="toggle-label"></label>
@@ -288,12 +272,8 @@
             {% if white_labeling != True %}
             <button class="tablinks" onclick="openTab('reportIssue')" style="margin-top: 15px;"><img src="{{ url_for('static', path='media/reportIssueIcon.svg') }}" style="padding-right: 8px; width: 27px; margin-left: -1px;">Report a Problem or Request a Feature<img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
             <button class="tablinks" onclick="window.open('https://github.com/Intellimenta/DataBot/discussions', '_blank')"><img src="{{ url_for('static', path='media/discussionForumIcon.svg') }}" style="padding-right: 10px;">Ask a Question<img src="{{ url_for('static', path='media/openInNewWindowIcon.svg') }}" style="padding-left: 10px;"></button>
-            <button class="tablinks" onclick="window.open({%if analytical_mode == True %}'https://www.loom.com/share/a575fd6e6fd541d0ae56873db0a6b482'{%else%}'https://www.loom.com/share/d1af20ba05f94be2b9d84c5c26937463'{%endif%}, '_blank')"><img src="{{ url_for('static', path='media/demoVideoIcon.svg') }}" style="padding-right: 10px;">Watch a Demo of DataBot<img src="{{ url_for('static', path='media/openInNewWindowIcon.svg') }}" style="padding-left: 10px;"></button>
+            <button class="tablinks" onclick="window.open('https://www.loom.com/share/a575fd6e6fd541d0ae56873db0a6b482', '_blank')"><img src="{{ url_for('static', path='media/demoVideoIcon.svg') }}" style="padding-right: 10px;">Watch a Demo of DataBot<img src="{{ url_for('static', path='media/openInNewWindowIcon.svg') }}" style="padding-left: 10px;"></button>
             <!-- <button class="tablinks" onclick="window.open('https://intellimenta.com/products/databot', '_blank')"><img src="{{ url_for('static', path='media/visitProductPageIcon.svg') }}" style="padding-right: 10px;">Visit the Product Page<img src="{{ url_for('static', path='media/openInNewWindowIcon.svg') }}" style="padding-left: 10px;"></button> -->
-            {% else %}
-                {% if white_labeling_config.get('demo_url') %}
-                    <button class="tablinks" onclick="window.open('{{ white_labeling_config.get("demo_url") }}', '_blank')"><img src="{{ url_for('static', path='media/demoVideoIcon.svg') }}" style="padding-right: 10px;">Watch a Demo of the App<img src="{{ url_for('static', path='media/openInNewWindowIcon.svg') }}" style="padding-left: 10px;"></button>
-                {% endif %}
             {% endif %}
             {% if logged_in_with_sso != True %}
             <button class="tablinks" data-testid="settings_change_password_btn" onclick="openTab('changePassword')"><img src="{{ url_for('static', path='media/changePasswordIcon.svg') }}" style="padding-right: 10px;">Change Password <img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
@@ -311,14 +291,6 @@
                 <button class="back-button" data-testid="back-btn-adminPanel" style="max-width: 72px; max-height: 30px; margin-bottom: 20px; margin-top:22px;" onclick="closeTab('adminPanel')"><img src="{{ url_for('static', path='media/arrowBackwardIcon.svg') }}" class="back_icon">Back</button>
                 <h3 class="settings_inner_page_title" style="justify-content: center; padding-bottom: 10px; margin-top: 0px; padding-right: 15px;"><img src="{{ url_for('static', path='media/adminPanel.svg') }}" style="padding-right: 10px;">Admin Panel</h3>
                 <button class="tablinks" data-testid="admin_panel_admin_guide_btn" onclick="window.open('https://databot.intellimenta.com/admin_guide/admin_panel_overview', '_blank')" style="margin-bottom: 25px;"><img src="{{ url_for('static', path='media/adminGuideIcon.svg') }}" style="padding-right: 10px;">Admin Guide<img src="{{ url_for('static', path='media/openInNewWindowIcon.svg') }}" style="padding-left: 10px;"></button>
-                {%if bi_integration_enabled == True %}
-                <!-- <button class="tablinks" data-testid="admin_panel_analytical_mode_btn" style="justify-content: space-between;">
-                    <div id="schema-mode-text" {% if analytical_mode != True %} style="font-weight:bold" {% endif %}>Schema Mode</div>
-                    <input type="checkbox" id="toggle-button-analytical-mode" class="toggle-button" {% if analytical_mode == True %} checked {% endif %} onclick="saveAppMode(this.checked)" >
-                    <label for="toggle-button-analytical-mode" class="toggle-label toggle-label-secondary-color" style="left: calc(50% - 25px);"></label>
-                    <div id="analytical-mode-text" {% if analytical_mode == True %} style="font-weight:bold" {% endif %}>Analytical Mode</div>
-                </button> -->
-                {%endif%}
                 <button class="tablinks" data-testid="admin_panel_llm_config_btn" onclick="openTabNoPreLoad('llmConfig', 'llm-config')"><img src="{{ url_for('static', path='media/modelIcon.svg') }}" style="padding-right: 10px;">LLM Config<img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
                 <button class="tablinks" data-testid="admin_panel_db_connections_btn" onclick="openTab('dbConnections')"><img src="{{ url_for('static', path='media/db.svg') }}" style="padding-right: 10px;">Database Connections <img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
                 <button class="tablinks" data-testid="admin_panel_manage_access_to_app_btn" onclick="openTabNoPreLoadManageAccessToApp('manageAccessToApp')"><img src="{{ url_for('static', path='media/ManageAccessToAppIcon.svg') }}" style="padding-right: 10px;">App Access Management <img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
@@ -326,17 +298,14 @@
                 <button class="tablinks" data-testid="admin_panel_email_setup_btn" onclick="openTabNoPreLoadEmailSetup('emailSetup')"><img src="{{ url_for('static', path='media/emailIcon.svg') }}" style="padding-right: 10px;">Email Setup<img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
                 <button class="tablinks" data-testid="admin_panel_default_lang_all_users_btn" onclick="openTab('defaultLangAllUsers')"><img src="{{ url_for('static', path='media/langIcon.svg') }}" style="padding-right: 10px;">Default Language for All Users<img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
                 <button class="tablinks" data-testid="admin_panel_query_suggestions_btn" onclick="openTab('querySuggestionsDB')"><img src="{{ url_for('static', path='media/querySuggestionIcon.svg') }}" style="padding-right: 10px;">Query Suggestions<img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
-                <button class="tablinks" data-testid="admin_panel_bi_integration_btn" onclick="openTab('BIintegration')"><img src="{{ url_for('static', path='media/bi_integration_icon.svg') }}" style="padding-right: 10px;">Integration with BI Tools<img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
-                <button class="tablinks" data-testid="admin_panel_performance_tuning_btn" onclick="openTabNoPreLoadPerformanceTuning('performanceTuning')"><img src="{{ url_for('static', path='media/performanceTuningIcon.svg') }}" style="padding-right: 10px;">Performance Tuning<img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
-                <button class="tablinks" data-testid="admin_panel_compliance_btn" onclick="openTab('compliance')"><img src="{{ url_for('static', path='media/complianceIcon.svg') }}" style="padding-right: 10px;">Compliance<img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
-                {%if bi_integration_enabled == True %}
-                <!-- <button class="tablinks" data-testid="admin_panel_schema_mode_btn" onclick="openTab('schemaModeConfig')"><img src="{{ url_for('static', path='media/schemaModeIcon.svg') }}" style="padding-right: 10px;">Schema Mode Config<img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button> -->
                 <button class="tablinks" data-testid="admin_panel_response_quality_tests_btn" onclick="openTab('responseQualityTestsSelectDB')"><img src="{{ url_for('static', path='media/responseQualityTestsIcon.svg') }}" style="padding-right: 10px;">Text-to-SQL Translation Tests<img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
-                {%endif%}
+                <button class="tablinks" data-testid="admin_panel_bi_integration_btn" onclick="openTab('BIintegration')"><img src="{{ url_for('static', path='media/bi_integration_icon.svg') }}" style="padding-right: 10px;">Integration with BI Tools<img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
+                <!-- <button class="tablinks" data-testid="admin_panel_performance_tuning_btn" onclick="openTabNoPreLoadPerformanceTuning('performanceTuning')"><img src="{{ url_for('static', path='media/performanceTuningIcon.svg') }}" style="padding-right: 10px;">Performance Tuning<img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button> -->
                 <!-- <button class="tablinks" data-testid="admin_panel_file_uploads_btn" onclick="openTabNoPreLoad('fileUploadsConfig', 'file-uploads-config')"><img src="{{ url_for('static', path='media/uploadIcon.svg') }}" style="padding-right: 10px;">File Uploads<img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button> -->
                 <button class="tablinks" data-testid="admin_panel_rlac_btn" onclick="openTab('rlac')"><img src="{{ url_for('static', path='media/rlac.svg') }}" style="padding-right: 10px;">Row-level Security (RLS)<img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
                 <button class="tablinks" data-testid="admin_panel_data_obf_btn" onclick="openTab('dataObfuscation')"><img src="{{ url_for('static', path='media/dataObfuscationIcon.svg') }}" style="padding-right: 10px;">Data Obfuscation <img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
                 <button class="tablinks" data-testid="admin_panel_white_labeling_btn" onclick="openTabNoPreLoadWhiteLabeling('whiteLabeling')"><img src="{{ url_for('static', path='media/whiteLabelingIcon.svg') }}" style="padding-right: 10px;">White-labeling <img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
+                <button class="tablinks" data-testid="admin_panel_compliance_btn" onclick="openTab('compliance')"><img src="{{ url_for('static', path='media/complianceIcon.svg') }}" style="padding-right: 10px;">Compliance<img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
                 <button class="tablinks" data-testid="admin_panel_misc_btn" onclick="openTab('misc')"><img src="{{ url_for('static', path='media/misc.svg') }}" style="padding-right: 10px;">Misc.<img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
                 <div id="spinnerAdminPanel" class="spinner" style="z-index: 1000; margin-top: -80%;"></div>
             </div>
@@ -976,8 +945,8 @@
 
                     <div id="emailDomainsForComplianceDiv" style="padding: 10px 15px; text-align: left;">
                         <p style="text-align:center">
-                            If some of you clients require that their chats don't be stored in the database, you can provide their email domain below (comman-separated).
-                            Note that for these users, their current session chat will be stored temporarily, but will be deleted once the session ends.
+                            If you are using this app in a customer-facing environment and some of your customers require that their chats not be stored in your database, you can provide their email domains below (comma-separated).
+                            Note that for these users, their active chat session will be stored temporarily but will be deleted once the chat session ends.
                         </p>
                         <textarea id="email-domains-for-compliance" placeholder="example.com, example2.com" class="input-with-shadow" style="padding: 8px 10px; height: 50px; width:100%; min-width: 100%; ">{{email_domains_requiring_compliance}}</textarea>
                     </div>
@@ -1253,7 +1222,7 @@
                                 </tr>
                                 {% for db_id, ( (engine, display_name, _), database_tables_id_name_pair_list) in db_connections_dict.items() %}
                                     <tr id="response_quality_test_tr_db_ref_{{ db_id }}">
-                                        <td><a href="#" id="response_quality_test_td_db_ref_{{ db_id }}" onclick="openTabNoPreLoadResponseQualityTests('{{ db_id }}')">{{display_name}}</a></td>
+                                        <td><a href="#" id="response_quality_test_td_db_ref_{{ db_id }}" onclick="openTabNoPreLoadResponseQualityTests('{{ db_id }}', '{{ display_name }}')">{{display_name}}</a></td>
                                         <td>{{engine}}</td>
                                     </tr>
                                 {% endfor %}
@@ -1279,7 +1248,7 @@
 
                 <div id="llmConfig" data-testid="admin_panel_llm_config" class="tabcontent tabAdmin"></div>
                 <div id="manageAccessToApp" data-testid="admin_panel_manage_access_to_app" class="tabcontent tabAdmin"></div>
-                <div id="performanceTuning" data-testid="admin_panel_performance_tuning" class="tabcontent tabAdmin"></div>
+                <!-- <div id="performanceTuning" data-testid="admin_panel_performance_tuning" class="tabcontent tabAdmin"></div> -->
                 <div id="querySuggestions" data-testid="admin_panel_query_suggestions" class="tabcontent tabAdmin"></div>
                 <div id="responseQualityTests" data-testid="admin_panel_response_quality_tests" class="tabcontent tabAdmin"></div>
                 <div id="responseQualityTestRunResults" data-testid="admin_panel_response_quality_test_run_results" class="tabcontent tabAdmin"></div>
@@ -1400,7 +1369,7 @@
             <button class="back-button" onclick="closeTab('provideInstructions')"><img src="{{ url_for('static', path='media/arrowBackwardIcon.svg') }}" class="back_icon">Back</button>
             <h3 class="settings_inner_page_title" style="justify-content: center;"><img src="{{ url_for('static', path='media/metadata.svg') }}" style="padding-right: 10px; width: 27px;">Provide instructions for the Chatbot</h3>
             {% if is_admin %}
-                <p style="font-style: italic; padding: 20px;">This is a user-level configuration. If you want to provide general instructions that is applied for all users, you should do it in the admin panel (in 'Manage Metadata' section of each connected db).</p>
+                <p style="font-style: italic; padding: 20px;">This is a user-level configuration. If you want to provide general instructions that is applied for all users, you should do it in the admin panel (in 'Semantic Layer & Metadata Management' section of each connected db).</p>
             {% endif %}
             <p>In the box below, you can provide instructions for the chatbot to follow when answering questions—such as the level of detail, response format, etc.</p>
             <div style="padding: 20px;">
@@ -1432,11 +1401,13 @@
     const addToDashboardButtonIconURL = "{{ url_for('static', path='media/add_to_dashboard_icon_white.svg') }}";
     const addToResponseQualityTestsButtonIconURL = "{{ url_for('static', path='media/responseQualityTestsIcon_white.svg') }}";
     const deleteButtonURL = "{{ url_for('static', path='media/closeIcon.svg') }}";
+    const runTestButtonURL = "{{ url_for('static', path='media/runAllTestsIcon.svg') }}";
     const userAttributeIconURL = "{{ url_for('static', path='media/customUserAttributesIcon.svg') }}";
     const feedbackButtonIconURL = "{{ url_for('static', path='media/thumb_down_icon_white.svg') }}";
     const copyButtonIconURL = "{{ url_for('static', path='media/copy_button_icon_white.svg') }}";
     const pdfButtonIconURL = "{{ url_for('static', path='media/pdf_button_icon_white.png') }}";
     const technicalDetailsIconURL = "{{ url_for('static', path='media/technicalDetailsIconWhite.svg') }}";
+    const InfoIconURL = "{{ url_for('static', path='media/questionMarkIcon.svg') }}";
     
     const userMsgform = document.getElementById('user_message_form');
     const conversationDiv = document.getElementById('conversation');
@@ -1452,7 +1423,6 @@
     const isChatSessionArchivePage = "{{is_chat_session_archive_page}}" === 'True';
     const wla = "{{ white_labeling }}" === 'True';
     const isWidget = "{{ is_widget }}" === 'True';
-    const isAnalyticalMode = "{{analytical_mode}}" === 'True';
     const statusUpdatesWrapper = document.getElementById("status-updates-wrapper");
 
     const chatSession = {{ chat_session | tojson }};

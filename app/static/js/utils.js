@@ -74,6 +74,12 @@ function showFailedTestError(error) {
     document.getElementById('failed_test_results_popup_screen_div').style.display = 'block';
 }
 
+function showFailureReason(error) {
+    const failedTestScreen = document.getElementById('test_result_failure_reason_popup_screen');
+    failedTestScreen.value = error;
+    document.getElementById('test_result_failure_reason_popup_screen_div').style.display = 'block';
+}
+
 
 
 async function loadArchivedChatSession(chatSession) {
@@ -205,12 +211,6 @@ function decodeHTML(html) {
 async function loadGreetingsAndQuerySuggestions() {
     const greetingDiv = document.createElement('div');
     greetingDiv.id = 'greetingDiv';
-    
-    if (isWidget) {
-        greetingDiv.style.marginTop = '13%';
-    } else {
-        greetingDiv.style.marginTop = '23%';
-    }
 
     const image = document.createElement('img');
     image.src = logoUrl;

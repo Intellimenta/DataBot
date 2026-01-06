@@ -172,7 +172,7 @@ async function connectWebSocket() {
                 await scrollToBottom();
                 autoScrollEnabled = true;
 
-                if (isAnalyticalMode && isChatSessionArchivePage == false) {
+                if (isChatSessionArchivePage == false) {
                     await addActionButtonsAnalyticalMode(currentResponseDivForStreaming);
                 }
                 
@@ -186,6 +186,9 @@ async function connectWebSocket() {
             const testResultsRow = document.getElementById('test_run_result_tr_' + testIndex);
             const testResult = botResponse.main_response;
             const stopSpinnerFlag = botResponse.stop_spinner;
+
+            const textCasecontainers = document.querySelectorAll('#responseQualityTestCases .response-quality-test-container');  // in parent page
+            const textCaseTitle = textCasecontainers[testIndex].querySelector('input[type="text"]');
             
             if ( stopSpinnerFlag == true ) {
                 const spinnerTestRunResults = document.getElementById('spinnerTestRunResults');
@@ -198,6 +201,9 @@ async function connectWebSocket() {
             } else if (testResult.startsWith('Passed')) {
                 testResultsRow.cells[1].style.color = 'green';
                 testResultsRow.cells[1].innerHTML = testResult;
+                if (textCaseTitle) {
+                    textCaseTitle.style.color = "green";
+                }
             } else {
                 const error = botResponse.error;
                 testResultsRow.cells[1].style.color = 'red';
@@ -205,6 +211,30 @@ async function connectWebSocket() {
                 testResultsRow.cells[1].onclick = function() {
                     showFailedTestError(error);
                 };
+                if (textCaseTitle) {
+                    textCaseTitle.style.color = "red";
+                }
+                
+                const imgParent = document.querySelectorAll('#responseQualityTestCases .response-quality-test-icons-container')[testIndex];
+                const hasInfoButton = imgParent.querySelector(
+                    'img[onclick^="showFailureReason"]'
+                ) !== null;
+                if (!hasInfoButton) {
+                    // add info icon for showing failure reason
+                    const img = document.createElement("img");
+                    img.src = InfoIconURL;
+                    img.title = "View Failure Reason";
+                    img.dataset.reason = botResponse.error;
+                    img.addEventListener("click", function () {showFailureReason(this.dataset.reason);});
+                    imgParent.prepend(img);
+                } else {
+                    // update existing info icon's data-reason
+                    const existingImg = imgParent.querySelector(
+                        'img[onclick^="showFailureReason"]'
+                    );
+                    existingImg.dataset.reason = botResponse.error;
+                }
+                
             }
             
         } else {

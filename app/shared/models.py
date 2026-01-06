@@ -174,8 +174,8 @@ class Error_Logs(Base):
     error_msg = Column(String)
     error_code = Column(Integer)
 
-class Analytical_Mode_Dashboards_Data(Base):
-    __tablename__ = 'analytical_mode_dashboards_data'
+class BI_Dashboards_Data(Base):
+    __tablename__ = 'bi_dashboards_data'
     id = Column(Integer, primary_key=True, index=True)
     dashboard_id = Column(Integer, nullable=False)
     tab_id = Column(Integer)

@@ -136,7 +136,7 @@ async function handleBotResponse(botResponse, onPageLoad=false, vizType='', isSi
     const conversationDiv = document.getElementById('conversation');
 
     if ( botResponse == 'NA') {
-        if (isAnalyticalMode && isChatSessionArchivePage == false && technicalDetails != '') {
+        if (isChatSessionArchivePage == false && technicalDetails != '') {
             // add technical details button
             var actionButtonsContainer = document.getElementById('actionButtonsContainer');
             const techDetailsButton = document.createElement('button');
@@ -724,7 +724,7 @@ async function handleBotResponse(botResponse, onPageLoad=false, vizType='', isSi
                 actionButtonsContainer.remove();
             }
             // Add limited Action Buttons 
-            if (isAnalyticalMode && isChatSessionArchivePage == false) {
+            if (isChatSessionArchivePage == false) {
                 // *** feedback button ***
                 const feedbackButton = document.createElement('button');
                 feedbackButton.className = 'intellimenta-color-button action-buttons tooltip';
@@ -762,7 +762,7 @@ async function handleBotResponse(botResponse, onPageLoad=false, vizType='', isSi
 
             const botResponseDiv = await addRegularMessageToChat(botResponse, conversationDiv);
 
-            if (isAnalyticalMode && isChatSessionArchivePage == false) {
+            if (isChatSessionArchivePage == false) {
                 await addActionButtonsAnalyticalMode(botResponseDiv, technicalDetails=technicalDetails);
             }
         }
