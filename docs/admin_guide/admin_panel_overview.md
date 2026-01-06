@@ -75,12 +75,6 @@ You can also associate user attributes with dashboard filters so the dashboards 
 - Tie the filter to relevant cards of the dashboard. 
 - In [Top-right section of dashboard > Sharing > Embed > Static Embedding > Parameters] make the filter "Editable" and publish.
 
-### Performance Tuning
-
-In this section, you have the option to choose different LLM models for different tasks. Although this is rarely necessary as the default values should work the best in most cases.
-
-If the schema that is sent to LLM is very big (you can use the `db schema command` to see the schema) and the response quality is affected, you can try enabling **Schema Pruning** in this section.
-
 ### Compliance
 If some of you clients require that their chats don't be stored in the database, you can provide their email domain in this tab.
 
@@ -90,11 +84,7 @@ If some of you clients require that their chats don't be stored in the database,
 ![Text-to-SQL Translation Tests](../assets/text-to-sql-tests.png){ width="600" }
 </figure>
 
-In this section, you can define test cases along with their expected SQL queries. You can then run these tests to verify if they all pass. If a test fails, you can see the reason for the failure. Sometimes the order of columns is different and it's in fact a false negative. If there are true failed cases, you can try one or more of the following changes and re-run the tests until all tests pass:
-
-- Modifying the metadata (descriptions of the database, tables, and fields) (Admin Panel > Database Connections > [DB] > Manage Metadata)
-- Choosing a different LLM model (Admin Panel > Performance Tuning)
-- Enabling schema pruning (Admin Panel > Performance Tuning)
+In this section, you can define test cases along with their expected SQL queries. You can then run these tests to verify if they all pass. If a test fails, you can see the reason for the failure and add/modify the metadata accordingly (descriptions of the database, tables, and fields) (Admin Panel > Database Connections > [DB Name] > Semantic Layer and Metadata Management).
 
 ### Row-level Security (RLS)
 

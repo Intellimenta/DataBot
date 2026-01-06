@@ -33,8 +33,8 @@ At the login screen, click on the Sign up button to create an account. After log
         - Filter out rows that are redundant.
         - Perform renaming, type conversion, or any other transformations that can help make the data cleaner.
 
-- **Managing Metadata**
-    - You can provide domain-knowledge and descriptions at database, table and column-level (Admin Panel > Database Connections > [DB Name] > Manage Metadata).
+- **Managing Semantic Layer and Metadata**
+    - You can provide business metrics, domain-knowledge and descriptions at database, table and column-level (Admin Panel > Database Connections > [DB Name] > Semantic Layer and Metadata Management).
     - It’s recommended to add descriptions only when it's actually helpful. For example, the column sale_date does not need a description, but a column like abc23 would. 
     - The db schema command shows you what metadata is shared with the LLM when you ask a question.
 
@@ -114,8 +114,8 @@ After creating an account and logging in as admin, it's time for configuring the
         - Filter out rows that are redundant.
         - Perform renaming, type conversion, or any other transformations that can help make the data cleaner.
 
-- **Managing Metadata**
-    - You can provide domain-knowledge and descriptions at database, table and column-level (Admin Panel > Database Connections > [DB Name] > Manage Metadata).
+- **Managing Semantic Layer and Metadata**
+    - You can provide business metrics, domain-knowledge and descriptions at database, table and column-level (Admin Panel > Database Connections > [DB Name] > Semantic Layer and Metadata Management).
     - It’s recommended to add descriptions only when it's actually helpful. For example, the column sale_date does not need a description, but a column like abc23 would. 
     - The db schema command shows you what data is shared with the LLM when you ask a question.
 - **Email Setup**
