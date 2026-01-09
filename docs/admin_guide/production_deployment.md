@@ -20,19 +20,19 @@ If you are using a Load Balancer, the healthcheck endpoint is `/healthcheck`.
   - Allow **5432/tcp** from the vm to database host
   - If Database host is private, VM should be in the same VPC.
 
-### Install Dependencies
+### Step 1: Install Dependencies
 SSH into the server and run the following command:
 ```sh
 sudo apt-get update
 sudo apt-get install -y unzip ca-certificates curl
 ```
-### Check if Docker is already installed
+### Step 2: Check if Docker is already installed
 ```sh
 docker --version
 ```
-If Docker is installed, you’ll see something like `Docker version 24.x.x, build …`.  In this case **skip the next step**.
+If Docker is installed, you’ll see something like `Docker version 24.x.x, build …`.  In this case **skip step 3**.
 
-### Install Docker 
+### Step 3: Install Docker 
 ```sh
 curl -fsSL https://get.docker.com | sudo sh
 ```
@@ -46,7 +46,7 @@ Allow running Docker without sudo:
 sudo usermod -aG docker $USER
 newgrp docker
 ```
-### Download the DataBot installation bundle on the server
+### Step 4: Download the DataBot installation bundle on the server
 ```
 curl -L https://databot-downloads.s3.us-west-2.amazonaws.com/databot-deployment.zip -o databot.zip
 unzip databot.zip
@@ -98,11 +98,11 @@ databot.yourdomain.com {
   reverse_proxy databot:5000
 }
 ```
-### Replace the example values with your own:  
+### Step 5: Replace the example values with your own:  
 - In `env_vars` provide values. 
 - In `Caddyfile` replace "databot.yourdomain.com" with the domain name you have pointed to the VM.
 - (Recommended) In `docker-compose.yaml`, in the line `image: intellimenta/databot:latest`, instead of `latest` use a specific image tag (e.g. `image: intellimenta/databot:v3.8.6`).
-### Deploy
+### Step 6: Deploy
 - Start DataBot + Caddy: `docker compose up -d`  
 - Check Status: `docker compose ps -a`  
 - If the DataBot container status is "Exited", you can use `docker compose logs databot` to see the logs and troubleshoot the issue.
@@ -122,12 +122,12 @@ services:
       - ./env_vars
     restart: unless-stopped
 ```
-If DataBot is meant to be accessed only from the client’s private network, then:
+If DataBot is meant to be accessed only from the client’s private network, then:  
 - No public DNS record required (or use internal DNS)
 - No public 80/443 exposure
 - Access through VPN, Direct Connect, site-to-site, or corporate network routing
 
-If DataBot needs to be accessed from outside the private network, then:
+If DataBot needs to be accessed from outside the private network, then:  
 - The simplest solution is to put a load balancer in front of the private VM and create a CNAME record pointing to the DNS name of the load balancer (or create an alias if DNS provider is internal, e.g., Route 53) 
 - Another solution is to install Caddy on a public "ingress" (bastion) host, and create an A record pointing your domain (example: databot.yourcompany.com) to the Caddy server's public IP
 
