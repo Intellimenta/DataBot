@@ -105,5 +105,5 @@ Setup email (Settings > Admin Panel > Email Setup) so new users can verify their
 - **Query Suggestions**
 New users usually don't know what type of questions they can ask. Adding query suggestions (Settings > Admin Panel > Query Suggestions) can greatly help with that. Users would see the query suggestions in the main page when they login.
 - **Add Text-to-SQL Translation Tests**  
-When the AI assistant answers users’ analytical questions, it goes through a series of steps. One of the most critical steps is the text-to-SQL translation. If this step is not performed correctly, the insights provided to users may be unreliable.  
+When DataBot answers users' analytical questions, it goes through a series of steps. One of the most critical steps is the text-to-SQL translation. If this step is not performed correctly, the insights provided to users may be unreliable.  
 For this reason, it is crucial to ensure that the text-to-SQL translation is working correctly. See [here](./admin_panel_overview.md#text-to-sql-translation-tests) for more details.

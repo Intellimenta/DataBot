@@ -6,7 +6,7 @@ For serving the app over HTTPS, you can use a load balancer, or a reverse proxy 
 If you are using a Load Balancer, the healthcheck endpoint is `/healthcheck`.
 
 ## Deployment on a VM with Public IP Using Reverse-Proxy
-### Prerequisites
+### Step 0: Prerequisites
 - **A Linux server with a public IP** (recommended: Ubuntu 22.04+)
 - **A domain name** you control
 - **DNS record set**
@@ -98,7 +98,7 @@ databot.yourdomain.com {
   reverse_proxy databot:5000
 }
 ```
-### Step 5: Replace the example values with your own:  
+### Step 5: Replace the example values with your own  
 - In `env_vars` provide values. 
 - In `Caddyfile` replace "databot.yourdomain.com" with the domain name you have pointed to the VM.
 - (Recommended) In `docker-compose.yaml`, in the line `image: intellimenta/databot:latest`, instead of `latest` use a specific image tag (e.g. `image: intellimenta/databot:v3.8.6`).
@@ -122,13 +122,15 @@ services:
       - ./env_vars
     restart: unless-stopped
 ```
-If DataBot is meant to be accessed only from the client’s private network, then:  
+If DataBot is meant to be accessed only from the client’s private network, then:
+
 - No public DNS record required (or use internal DNS)
 - No public 80/443 exposure
 - Access through VPN, Direct Connect, site-to-site, or corporate network routing
 
-If DataBot needs to be accessed from outside the private network, then:  
-- The simplest solution is to put a load balancer in front of the private VM and create a CNAME record pointing to the DNS name of the load balancer (or create an alias if DNS provider is internal, e.g., Route 53) 
+If DataBot needs to be accessed from outside the private network, then:
+
+- The simplest solution is to put a load balancer in front of the private VM and create a CNAME record pointing to the DNS name of the load balancer (or create an alias if DNS provider is internal, e.g., Route 53)
 - Another solution is to install Caddy on a public "ingress" (bastion) host, and create an A record pointing your domain (example: databot.yourcompany.com) to the Caddy server's public IP
 
 ## Deployment using Managed Docker Services
