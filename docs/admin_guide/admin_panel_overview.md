@@ -45,6 +45,14 @@ You can set the default language which would apply to new users. Each user can s
 
 In this section, you can define sample queries to be displayed on the homepage. This will greatly help new users understand the types of questions they can ask.
 
+### Text-to-SQL Translation Tests
+
+<figure markdown="1">
+![Text-to-SQL Translation Tests](../assets/text-to-sql-tests.png){ width="600" }
+</figure>
+
+In this section, you can define test cases along with their expected SQL query. You can then run these tests to verify if they all pass. If a test fails, you can see the reason for the failure. You can modify the semantic layer and metadata (business metrics, descriptions of the database, tables, and fields) (Admin Panel > Database Connections > [DB Name] > Semantic Layer and Metadata Management) accordingly to fix the errors and run the tests again.
+
 ### Integration with BI Tools
 
 !!! note
@@ -75,17 +83,6 @@ You can also associate user attributes with dashboard filters so the dashboards 
 - Tie the filter to relevant cards of the dashboard. 
 - In [Top-right section of dashboard > Sharing > Embed > Static Embedding > Parameters] make the filter "Editable" and publish.
 
-### Compliance
-If some of you clients require that their chats don't be stored in the database, you can provide their email domain in this tab.
-
-### Text-to-SQL Translation Tests
-
-<figure markdown="1">
-![Text-to-SQL Translation Tests](../assets/text-to-sql-tests.png){ width="600" }
-</figure>
-
-In this section, you can define test cases along with their expected SQL queries. You can then run these tests to verify if they all pass. If a test fails, you can see the reason for the failure and add/modify the metadata accordingly (descriptions of the database, tables, and fields) (Admin Panel > Database Connections > [DB Name] > Semantic Layer and Metadata Management).
-
 ### Row-level Security (RLS)
 
 While the Database Connections tab manages table-level access for user groups, this section allows you to manage row-level access for user groups.
@@ -101,6 +98,9 @@ You can specify which columns' data should be obfuscated for each user group. Ob
 In this section you can replace the DataBot name and logo, and provide your own demo link (which will be shown to new users).
 
 The configurations in this section will take effect only if white-labeling is enabled in your license key.
+
+### Compliance
+If some of you clients require that their chats don't be stored in the database, you can provide their email domain in this tab.
 
 ### Misc.
 

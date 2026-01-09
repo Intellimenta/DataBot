@@ -44,7 +44,7 @@ At the login screen, click on the Sign up button to create an account. After log
 ### Preparations
 Create a PostgreSQL database to be used as the internal database for the app. There is no need to add any tables; DataBot will create those on startup. Note down the following info: `host name`, `database name`, `port`, `username` and `password`.
 
-### Deployment
+### Deployment (Test)
 Official Docker image is available via <a href="https://hub.docker.com/r/intellimenta/databot/tags" target="_blank">DataBot's Dockerhub repository</a>. It can be deployed on any system that is running Docker.
 
 Create a file for storing environment variables:
@@ -64,31 +64,13 @@ DATABOT_LICENCE_KEY=***  # The License key provided to you by the DataBot team.
 DATABOT_ALLOW_HTTP=true  # remove in production
 ```
 
-#### Local
-Pull the latest docker image:
+Run the DataBot container (assuming the environment variables are stored in the file `env_vars`):
 ```sh
-docker pull intellimenta/databot:latest
+docker run -d -p 5000:5000 --name databot --env-file ./env_vars intellimenta/databot:latest
 ```
-Then run the DataBot container (assuming the environment variables are stored in the file `env_vars`):
-```sh
-docker run -d -p 5000:5000 --name databot --env-file ./env_vars intellimenta/databot
-```
-This will start a local DataBot server on port 5000. You can then access the app at `http://localhost:5000`.
-
-#### In the Cloud (over HTTP)
-
-Use a service that can run containers, such as compute services (e.g., AWS EC2, GCP Compute Engine, Azure Virtual Machines) or managed container services (e.g., AWS ECS, GCP Cloud Run, Azure Container Apps). Below, we provide instructions for AWS EC2:
-
-- Create an EC2 instance with public internet access
-- SSH to the EC2 instance
-- Create a file called env_vars containing the environment variables
-- Pull the latest DataBot docker image: 
-`docker pull intellimenta/databot:latest`
-- Run the DataBot container:
-`docker run -d -p 80:5000 --env-file env_vars intellimenta/databot`
-- You can use the command `docker ps -a` to check if the container is running and see the container id.
-- If the container status is "Exited", you can use `docker logs <container-id>` to see the logs and troubleshoot the issue.
-- Once the container is running, you can access the app by browsing the public IP address of the EC2 instance. E.g. if the public IP address is 172.30.40.243, then you should browse http://172.30.40.243
+You can use the command `docker ps -a` to check if the container is running and see the container id.  
+If the container status is "Exited", you can use `docker logs <container-id>` to see the logs and troubleshoot the issue.  
+Once the container is running, you can access the app at `http://[instance-public-ip]:5000` (`http://127.0.0.1:5000` if deployed locally).
 
 #### Production
 For production deployment (over HTTPS), see [here](./production_deployment.md).
@@ -103,7 +85,7 @@ After creating an account and logging in as admin, it's time for configuring the
 - **Add a Database Connection**. You can either manually add a connection or sync with your BI tool.
     - To manually add a database connection, click on 'Add Database Connection'.
     - To connect your BI tool, see [here](./bi_integration.md).
-- **Managing Users Access to Database Tables/Views**
+- **Manage Users Access to Database Tables/Views**
     - In DataBot, groups are used to manage table-level access; Users are assigned to groups, and groups are given access to tables. 
     - There are two built-in groups: Admins and Default. All new users are automatically added to the Default group. You can add and manage groups in Admin Panel > User Management > User Groups.
     - To specify which user groups should have access to which tables from a database, go to Admin Panel > Database Connections > [DB Name] > Manage Permissions.
@@ -114,11 +96,14 @@ After creating an account and logging in as admin, it's time for configuring the
         - Filter out rows that are redundant.
         - Perform renaming, type conversion, or any other transformations that can help make the data cleaner.
 
-- **Managing Semantic Layer and Metadata**
+- **Manage Semantic Layer and Metadata**
     - You can provide business metrics, domain-knowledge and descriptions at database, table and column-level (Admin Panel > Database Connections > [DB Name] > Semantic Layer and Metadata Management).
-    - It’s recommended to add descriptions only when it's actually helpful. For example, the column sale_date does not need a description, but a column like abc23 would. 
+    - You should add descriptions only when it's actually helpful. For example, the column sale_date does not need a description, but a column like abc23 would. 
     - The `db schema` command shows you what data is shared with the LLM when you ask a question.
 - **Email Setup**
 Setup email (Settings > Admin Panel > Email Setup) so new users can verify their email address. It's also used for password-reset functionality.
 - **Query Suggestions**
-New users usually don't know what type of questions they can ask. Adding query suggestions (Settings > Admin Panel > Query Suggestions) can greatly help with that.
+New users usually don't know what type of questions they can ask. Adding query suggestions (Settings > Admin Panel > Query Suggestions) can greatly help with that. Users would see the query suggestions in the main page when they login.
+- **Add Text-to-SQL Translation Tests**  
+When the AI assistant answers users’ analytical questions, it goes through a series of steps. One of the most critical steps is the text-to-SQL translation. If this step is not performed correctly, the insights provided to users may be unreliable.  
+For this reason, it is crucial to ensure that the text-to-SQL translation is working correctly. See [here](./admin_panel_overview.md#text-to-sql-translation-tests) for more details.

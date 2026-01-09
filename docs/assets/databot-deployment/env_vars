@@ -1,0 +1,11 @@
+# DataBot Application Database
+DATABOT_DB_HOST=***
+DATABOT_DB_DATABASE=***
+DATABOT_DB_PORT=***
+DATABOT_DB_USER=***
+DATABOT_DB_PASS=***
+
+DATABOT_AUTH_KEY=***  # The key used for password hashing and token generation.
+                      # Select a random string. Don't change it when upgrading DataBot.
+
+DATABOT_LICENCE_KEY=***  # The License key provided to you by the DataBot team.

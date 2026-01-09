@@ -1,0 +1,23 @@
+services:
+  databot:
+    # it's recommended to pin to a specific (e.g., intellimenta/databot:v3.8.6) 
+    # instead of using the 'latest' tag
+    image: intellimenta/databot:latest
+    env_file:
+      - ./env_vars
+    restart: unless-stopped
+
+  caddy:
+    image: caddy:2
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    restart: unless-stopped
+
+volumes:
+  caddy_data:
+  caddy_config:
