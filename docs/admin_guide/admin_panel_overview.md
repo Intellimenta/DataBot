@@ -51,7 +51,7 @@ In this section, you can define sample queries to be displayed on the homepage. 
 ![Text-to-SQL Translation Tests](../assets/text-to-sql-tests.png){ width="600" }
 </figure>
 
-In this section, you can define test cases along with their expected SQL query. You can then run these tests to verify if they all pass. If a test fails, you can see the reason for the failure. You can modify the semantic layer and metadata (business metrics, descriptions of the database, tables, and fields) (Admin Panel > Database Connections > [DB Name] > Semantic Layer and Metadata Management) accordingly to fix the errors and run the tests again.
+In this section, you can define test cases along with their expected SQL query. You can then run these tests to verify if they all pass. If a test fails, you can see the reason for the failure. You can modify the semantic layer and metadata (business metrics, descriptions of the database, tables, and fields) in  `Admin Panel > Database Connections > [DB Name] > Semantic Layer and Metadata Management` accordingly to fix the errors and run the tests again.
 
 ### Integration with BI Tools
 
