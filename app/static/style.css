@@ -753,7 +753,8 @@ th {
 }
 
 #testRunResultsTable td, #testRunResultsTable th {
-    min-width: 100px;
+    min-width: 110px;
+    padding: 5px;
 }
 
 label {
