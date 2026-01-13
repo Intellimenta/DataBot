@@ -122,7 +122,7 @@ services:
       - ./env_vars
     restart: unless-stopped
 ```
-If DataBot is meant to be accessed only from the client’s private network, then:
+If DataBot is meant to be accessed only from your private network, then:
 
 - No public DNS record required (or use internal DNS)
 - No public 80/443 exposure
