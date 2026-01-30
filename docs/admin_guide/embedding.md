@@ -17,7 +17,7 @@ If you control the platform where you want to place DataBot, adding it as a widg
 ></script>
 ```
 
-![DataBot Embedding as a Widget](../assets/widget.png)
+![DataBot Embedding as a Widget](../assets/embedding-widget.png)
 
 ### Embedding as an iframe
 If you do not control the platform where you want to place DataBot, such as a CRM or third party tool, embedding it as an iframe is the simplest way to integrate DataBot within that tool.
@@ -87,5 +87,6 @@ The easiest way to embed DataBot as an iframe inside Salesforce is using a Visua
     </iframe>
 </apex:page>
 ```
+Apex can be used to enable SSO, so a separate login is not required for DataBot.
 
-![DataBot Embedding in Salesforce](../assets/sf.png)
+![DataBot Embedding in Salesforce](../assets/embedding-sf.png)
