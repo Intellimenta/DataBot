@@ -45,5 +45,4 @@ We are also exploring adding the following data sources. Let us know if any of t
 - [Business plans](https://intellimenta.com/products/databot#pricing) start at $12/user/month (discounts available for long-term commitments or large user counts).
 
 ## Watch DataBot in Action
-
 [![Watch the video](./media/databot-video-bg2.png)](https://www.loom.com/share/4753919516534bff8e4ad37addcad92e)
