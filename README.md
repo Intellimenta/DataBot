@@ -1,15 +1,15 @@
 [![Latest Release](https://img.shields.io/github/release/intellimenta/databot.svg?label=latest%20release&color=644883)](https://github.com/intellimenta/databot/releases)
 ![Docker Pulls](https://img.shields.io/docker/pulls/intellimenta/databot?color=644883)
-[![Docs](https://img.shields.io/badge/docs-GitHub%20Pages-blue.svg?color=644883)](https://databot.intellimenta.com/)
+[![Docs](https://img.shields.io/badge/docs-GitHub%20Pages-blue.svg?color=644883)](https://docs.databot-analytics.com/)
 
 # **DataBot** – *AI Assistant for Data Analytics*
-- With <a href="https://intellimenta.com/products/databot" target="_blank">DataBot</a>, you can ask analytical questions, create visualizations, run analyses, generate reports, produce forecasts and more, all using natural language
+- With <a href="https://databot-analytics.com" target="_blank">DataBot</a>, you can ask analytical questions, create visualizations, run analyses, generate reports, produce forecasts and more, all using natural language
 - It's **self-hosted** and **free** for personal use.
 - It can be easily embedded in websites or apps (e.g. Salesforce)
 - DataBot combines rich features, strong security, and affordability in one solution.
 
 ## Running DataBot
-Trying out DataBot is very easy and takes just a few minutes. Follow the instructions <a href="https://databot.intellimenta.com/admin_guide/getting_started" target="_blank">here</a>.
+Trying out DataBot is very easy and takes just a few minutes. Follow the instructions <a href="https://docs.databot-analytics.com/admin_guide/getting_started" target="_blank">here</a>.
 
 ## Features
 - 🔍 Data Exploration
@@ -42,7 +42,7 @@ We are also exploring adding the following data sources. Let us know if any of t
 
 ## Pricing
 - **Free** for personal use. 
-- [Business plans](https://intellimenta.com/products/databot#pricing) start at $12/user/month (discounts available for long-term commitments or large user counts).
+- [Business plans](https://databot-analytics.com/pricing) start at $12/user/month (discounts available for long-term commitments or large user counts).
 
 ## Watch DataBot in Action
 [![Watch the video](./media/databot-video-bg2.png)](https://www.loom.com/share/4753919516534bff8e4ad37addcad92e)
