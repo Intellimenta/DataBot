@@ -7,7 +7,7 @@ DataBot can be run in two different modes, depending on your needs:
 - **Docker Mode**: Suitable for both advanced local testing and production deployments. This mode gives you full access to all features, but requires Docker, a PostgreSQL database, and some additional configuration.
 
 
-## Portable Mode
+## Portable Mode (Test)
 
 ### Launch
 - Download the latest portable version <a href="https://github.com/Intellimenta/DataBot/releases/latest" target="_blank">here</a>.
@@ -39,32 +39,31 @@ At the login screen, click on the Sign up button to create an account. After log
     - The `db schema` command shows you what metadata is shared with the LLM when you ask a question.
 
 
-## Docker Mode
+## Docker Mode (Test)
 
-### Deployment (Test)
-Below we provide instructions for deploying Sealed Intelligence on a VM with public IP over HTTP for testing. For production deployment, see [here](./production_deployment.md).
+Below we provide instructions for deploying DataBot on a VM with public IP over HTTP for testing. For production deployment, see [here](./production_deployment.md).
 
-#### Step 1: Launch a Linux server with a public IP 
+### Step 1: Launch a Linux server with a public IP 
 Make sure to allow inbound **TCP 5000** traffic.
 
-#### Step 2: Create a PostgreSQL DB
+### Step 2: Create a PostgreSQL DB
 This will be used as the internal database for the app. There is no need to add any tables; DataBot will create those on startup. Note down the following info: **host name**, **database name**, **port**, **username** and **password**.  
 In the DB security group allow **5432/tcp** from the VM to database host
 
-#### Step 3: Create a directory for DataBot
+### Step 3: Create a directory for DataBot
 SSH into the server and run the following command:
 ```
 mkdir databot
 cd databot
 ```
 
-#### Step 4: Check if Docker is already installed
+### Step 4: Check if Docker is already installed
 ```sh
 docker --version
 ```
 If Docker is installed, you’ll see something like `Docker version 24.x.x, build …`.  In this case **skip step 5**.
 
-#### Step 5: Install Docker 
+### Step 5: Install Docker 
 ```sh
 sudo apt-get update
 sudo apt-get install -y ca-certificates curl
@@ -80,7 +79,7 @@ sudo usermod -aG docker $USER
 ```
 Logout and log back in to refresh your user session.
 
-#### Step 6: Create `databot.env` file
+### Step 6: Create `databot.env` file
 ```sh title="databot.env"
 # DataBot Application Database
 DATABOT_DB_HOST=***
@@ -100,7 +99,7 @@ DATABOT_LICENCE_KEY=***
 DATABOT_ALLOW_HTTP=true
 ```
 
-#### Step 7: Deploy
+### Step 7: Deploy
 Run the DataBot container:
 ```sh
 docker run -d -p 5000:5000 --name databot --env-file ./databot.env intellimenta/databot:latest
