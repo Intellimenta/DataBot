@@ -41,9 +41,6 @@ At the login screen, click on the Sign up button to create an account. After log
 
 ## Docker Mode
 
-### Preparations
-Create a PostgreSQL database to be used as the internal database for the app. There is no need to add any tables; DataBot will create those on startup. Note down the following info: `host name`, `database name`, `port`, `username` and `password`.
-
 ### Deployment (Test)
 Below we provide instructions for deploying Sealed Intelligence on a VM with public IP over HTTP for testing. For production deployment, see [here](./production_deployment.md).
 
