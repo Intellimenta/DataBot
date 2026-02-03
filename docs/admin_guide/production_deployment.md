@@ -10,15 +10,15 @@ If you are using a Load Balancer, the healthcheck endpoint is `/healthcheck`.
 - **A Linux server with a public IP** (recommended: Ubuntu 22.04+)
 - **A domain name** you control
 - **DNS record set**
-  - Create an **A record** pointing your domain (example: databot.yourcompany.com) to your server's public IP.
+    - Create an **A record** pointing your domain (example: databot.yourcompany.com) to your server's public IP.
 - **A PostgreSQL Database**
-  - Create a PostgreSQL database to be used as the internal database for the app. There is no need to add any tables; DataBot will create those on startup. Note down the following info: **host name**, **database name**, **port**, **username** and **password**.
+    - Create a PostgreSQL database to be used as the internal database for the app. There is no need to add any tables; DataBot will create those on startup. Note down the following info: **host name**, **database name**, **port**, **username** and **password**.
 - **Open firewall / security group ports**
-  - Allow inbound **TCP 80** and **TCP 443**
-  - (Optional) Allow **TCP 22** for SSH
+    - Allow inbound **TCP 80** and **TCP 443**
+    - (Optional) Allow **TCP 22** for SSH
 - On the Postgres Database host containing the DataBot DB, **ensure network access from VM to the DB**
-  - Allow **5432/tcp** from the vm to database host
-  - If Database host is private, VM should be in the same VPC.
+    - Allow **5432/tcp** from the vm to database host
+    - If Database host is private, VM should be in the same VPC.
 
 ### Step 1: Install Dependencies
 SSH into the server and run the following command:
