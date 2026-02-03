@@ -107,5 +107,5 @@ If some of you clients require that their chats don't be stored in the database,
 - **Send Errors to the DataBot Cloud Server for Analysis**
 This helps us better assist you in the event of an application error. It also allows us to take a proactive approach and release patches in a timely manner.
 - **Send anonymized usage data to the DataBot cloud server to help improve DataBot**
-Anonymizing converts a value like 'support@staging.intellimenta.com' to 'e86477008dc34c19b50d9aad9fe12d935db2d1289edd2cbc'. Collecting anonymized data helps us improve DataBot.
+Anonymizing converts a value like 'support@intellimenta.com' to 'e86477008dc34c19b50d9aad9fe12d935db2d1289edd2cbc'. Collecting anonymized data helps us improve DataBot.
 
