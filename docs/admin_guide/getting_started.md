@@ -45,7 +45,7 @@ At the login screen, click on the Sign up button to create an account. After log
 Create a PostgreSQL database to be used as the internal database for the app. There is no need to add any tables; DataBot will create those on startup. Note down the following info: `host name`, `database name`, `port`, `username` and `password`.
 
 ### Deployment (Test)
-Official Docker image is available via <a href="https://hub.docker.com/r/intellimenta/databot/tags" target="_blank">DataBot's Dockerhub repository</a>. It can be deployed on any system that can run Docker.
+Below we provide instructions for deploying Sealed Intelligence on a VM with public IP over HTTP for testing. For production deployment, see [here](./production_deployment.md).
 
 #### Step 1: Launch a Linux server with a public IP 
 Make sure to allow inbound **TCP 5000** traffic.
@@ -111,9 +111,6 @@ docker run -d -p 5000:5000 --name databot --env-file ./databot.env intellimenta/
 You can use the command `docker ps -a` to check if the container is running and see the container id.  
 If the container status is "Exited", you can use `docker logs <container-id>` to see the logs and troubleshoot the issue.  
 Once the container is running, you can access the app at `http://[instance-public-ip]:5000` (`http://127.0.0.1:5000` if deployed locally).
-
-#### Production Deployment
-For production deployment (over HTTPS), see [here](./production_deployment.md).
 
 ### Configuration
 
