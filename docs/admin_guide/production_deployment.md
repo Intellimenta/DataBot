@@ -24,7 +24,7 @@ If you are using a Load Balancer, the healthcheck endpoint is `/healthcheck`.
 SSH into the server and run the following command:
 ```sh
 sudo apt-get update
-sudo apt-get install -y unzip ca-certificates curl
+sudo apt-get install -y ca-certificates curl
 ```
 ### Step 2: Check if Docker is already installed
 ```sh
@@ -44,16 +44,19 @@ docker compose version
 Allow running Docker without sudo:
 ```sh
 sudo usermod -aG docker $USER
-newgrp docker
 ```
-### Step 4: Download the DataBot installation bundle on the server
+Logout and log back in to refresh your user session.
+
+### Step 4: Create a directory for DataBot
 ```
-curl -L https://databot-downloads.s3.us-west-2.amazonaws.com/databot-deployment.zip -o databot.zip
-unzip databot.zip
+mkdir databot
 cd databot
 ```
-The bundle contains the following 3 files:  
-`env_vars`
+
+### Step 5: Create `databot.env`, `docker-compose.yaml` and `Caddyfile` files
+
+`databot.env`  
+Replace `***` with actual values.
 ```sh
 # DataBot Application Database
 DATABOT_DB_HOST=***
@@ -62,18 +65,21 @@ DATABOT_DB_PORT=***
 DATABOT_DB_USER=***
 DATABOT_DB_PASS=***
 
-DATABOT_LICENCE_KEY=***  # The License key provided to you by the DataBot team.
-DATABOT_AUTH_KEY=***  # The key used for password hashing and token generation.
-                      # Select a random string. Don't change it when upgrading DataBot.
+# The License key provided to you by the DataBot team.
+DATABOT_LICENCE_KEY=***
+
+# The key used for password hashing and token generation.
+# Select a random string. Don't change it when upgrading DataBot.
+DATABOT_AUTH_KEY=***
 ```
 `docker-compose.yaml`
 ```yaml
 services:
   databot:
-    # it's recommended to use a specific image tag instead of using 'latest'
+    # it's recommended to use a specific image tag instead of using 'latest' (e.g. intellimenta/databot:v3.9)
     image: intellimenta/databot:latest
     env_file:
-      - ./env_vars
+      - ./databot.env
     restart: unless-stopped
 
   caddy:
@@ -91,17 +97,13 @@ volumes:
   caddy_data:
   caddy_config:
 ```
-`Caddyfile`
+`Caddyfile`  
+Replace "databot.yourdomain.com"
 ```
-# replace "databot.yourdomain.com"
 databot.yourdomain.com {
   reverse_proxy databot:5000
 }
 ```
-### Step 5: Replace the example values with your own  
-- In `env_vars` provide values. 
-- In `Caddyfile` replace "databot.yourdomain.com" with the domain name you have pointed to the VM.
-- (Recommended) In `docker-compose.yaml`, in the line `image: intellimenta/databot:latest`, instead of `latest` use a specific image tag (e.g. `image: intellimenta/databot:v3.8.6`).
 ### Step 6: Deploy
 - Start DataBot + Caddy: `docker compose up -d`  
 - Check Status: `docker compose ps -a`  
@@ -119,7 +121,7 @@ services:
     # instead of using the 'latest' tag
     image: intellimenta/databot:latest
     env_file:
-      - ./env_vars
+      - ./databot.env
     restart: unless-stopped
 ```
 If DataBot is meant to be accessed only from your private network, then:

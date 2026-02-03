@@ -45,10 +45,46 @@ At the login screen, click on the Sign up button to create an account. After log
 Create a PostgreSQL database to be used as the internal database for the app. There is no need to add any tables; DataBot will create those on startup. Note down the following info: `host name`, `database name`, `port`, `username` and `password`.
 
 ### Deployment (Test)
-Official Docker image is available via <a href="https://hub.docker.com/r/intellimenta/databot/tags" target="_blank">DataBot's Dockerhub repository</a>. It can be deployed on any system that is running Docker.
+Official Docker image is available via <a href="https://hub.docker.com/r/intellimenta/databot/tags" target="_blank">DataBot's Dockerhub repository</a>. It can be deployed on any system that can run Docker.
 
-Create a file for storing environment variables:
-```sh title="env_vars"
+#### Step 1: Launch a Linux server with a public IP 
+Make sure to allow inbound **TCP 5000** traffic.
+
+#### Step 2: Create a PostgreSQL DB
+This will be used as the internal database for the app. There is no need to add any tables; DataBot will create those on startup. Note down the following info: **host name**, **database name**, **port**, **username** and **password**.  
+In the DB security group allow **5432/tcp** from the VM to database host
+
+#### Step 3: Create a directory for DataBot
+SSH into the server and run the following command:
+```
+mkdir databot
+cd databot
+```
+
+#### Step 4: Check if Docker is already installed
+```sh
+docker --version
+```
+If Docker is installed, you’ll see something like `Docker version 24.x.x, build …`.  In this case **skip step 5**.
+
+#### Step 5: Install Docker 
+```sh
+sudo apt-get update
+sudo apt-get install -y ca-certificates curl
+curl -fsSL https://get.docker.com | sudo sh
+```
+Verify installation:
+```sh
+docker --version
+```
+Allow running Docker without sudo:
+```sh
+sudo usermod -aG docker $USER
+```
+Logout and log back in to refresh your user session.
+
+#### Step 6: Create `databot.env` file
+```sh title="databot.env"
 # DataBot Application Database
 DATABOT_DB_HOST=***
 DATABOT_DB_DATABASE=***
@@ -56,23 +92,27 @@ DATABOT_DB_PORT=***
 DATABOT_DB_USER=***
 DATABOT_DB_PASS=***
 
-DATABOT_AUTH_KEY=***  # The key used for password hashing and token generation.
-                      # Select a random string. Don't change it when upgrading DataBot.
+# The key used for password hashing and token generation.
+# Select a random string. Don't change it when upgrading DataBot.
+DATABOT_AUTH_KEY=***
 
-DATABOT_LICENCE_KEY=***  # The License key provided to you by the DataBot team.
+# The License key provided to you by the DataBot team.
+DATABOT_LICENCE_KEY=***
 
-DATABOT_ALLOW_HTTP=true  # remove in production
+# remove in production
+DATABOT_ALLOW_HTTP=true
 ```
 
-Run the DataBot container (assuming the environment variables are stored in the file `env_vars`):
+#### Step 7: Deploy
+Run the DataBot container:
 ```sh
-docker run -d -p 5000:5000 --name databot --env-file ./env_vars intellimenta/databot:latest
+docker run -d -p 5000:5000 --name databot --env-file ./databot.env intellimenta/databot:latest
 ```
 You can use the command `docker ps -a` to check if the container is running and see the container id.  
 If the container status is "Exited", you can use `docker logs <container-id>` to see the logs and troubleshoot the issue.  
 Once the container is running, you can access the app at `http://[instance-public-ip]:5000` (`http://127.0.0.1:5000` if deployed locally).
 
-#### Production
+#### Production Deployment
 For production deployment (over HTTPS), see [here](./production_deployment.md).
 
 ### Configuration
@@ -98,7 +138,6 @@ After creating an account and logging in as admin, it's time for configuring the
 
 - **Manage Semantic Layer and Metadata**
     - You can provide business metrics, domain-knowledge and descriptions at database, table and column-level (Admin Panel > Database Connections > [DB Name] > Semantic Layer and Metadata Management).
-    - You should add descriptions only when it's actually helpful. For example, the column sale_date does not need a description, but a column like abc23 would. 
     - The `db schema` command shows you what data is shared with the LLM when you ask a question.
 - **Email Setup**
 Setup email (Settings > Admin Panel > Email Setup) so new users can verify their email address. It's also used for password-reset functionality.
