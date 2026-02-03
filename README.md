@@ -3,7 +3,7 @@
 [![Docs](https://img.shields.io/badge/docs-GitHub%20Pages-blue.svg?color=644883)](https://docs.databot-analytics.com/)
 
 # **DataBot** – *AI Assistant for Data Analytics*
-- With <a href="https://databot-analytics.com" target="_blank">DataBot</a>, you can ask analytical questions, create visualizations, run analyses, generate reports, produce forecasts and more, all using natural language
+- With <a href="https://databot-analytics.com" target="_blank">DataBot</a>, you can ask analytical questions, create visualizations, generate reports and produce forecasts, all using natural language
 - It's **self-hosted** and **free** for personal use.
 - It can be easily embedded in websites or apps (e.g. Salesforce)
 - DataBot combines rich features, strong security, and affordability in one solution.
@@ -39,10 +39,6 @@ We are also exploring adding the following data sources. Let us know if any of t
 - 📄Unstructured files (PDF, Word, TXT, ...)
 - 🧾Structured files (CSV, Excel, ...)
 - 🔌Custom Connectors (Google Sheets, AWS CloudWatch Logs, ...)
-
-## Pricing
-- **Free** for personal use. 
-- [Business plans](https://databot-analytics.com/pricing) start at $12/user/month (discounts available for long-term commitments or large user counts).
 
 ## Watch DataBot in Action
 [![Watch the video](./media/databot-video-bg2.png)](https://www.loom.com/share/4753919516534bff8e4ad37addcad92e)
