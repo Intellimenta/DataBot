@@ -7,6 +7,7 @@ async function saveLLMconfig() {
     const metadata = document.getElementById('analytical-mode-metadata').value;
     const includeExplanation = document.getElementById('toggle-button-include-explanation').checked;
     const includeDataSource = document.getElementById('toggle-button-include-data-source').checked;
+    const createSimpleChartsAutomatically = document.getElementById('toggle-button-create-simple-charts-automatically').checked;
 
     const responseDiv = document.getElementById('responseLLMconfig');
     const spinner = document.getElementById('spinnerSaveLLMconfig');
@@ -27,7 +28,8 @@ async function saveLLMconfig() {
                 rowLimit: rowLimit, 
                 metadata: metadata,
                 include_explanation: includeExplanation,
-                include_data_source: includeDataSource
+                include_data_source: includeDataSource,
+                create_simple_charts_automatically: createSimpleChartsAutomatically
             })
         });
         const result = await response.text();

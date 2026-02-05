@@ -111,7 +111,7 @@ async function syncDBs() {
         if (res_type == 'list') {
             showNotification(get_translation('Sync completed.', language), true);
  
-            html_content = `<div style="padding: 0px 20px;">
+            html_content = `<div>
                 <table>
                     <tr>
                         <th style="min-width: 300px;">Name</th>

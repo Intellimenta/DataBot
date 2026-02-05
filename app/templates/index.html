@@ -19,7 +19,6 @@
     <script src="{{ url_for('static', path='js/userSettings.js') }}?v={{ app_version }}"></script>
     <script src="{{ url_for('static', path='js/utils.js') }}?v={{ app_version }}"></script>
     <script src="{{ url_for('static', path='js/adminPanel/appAccessManagement.js') }}?v={{ app_version }}"></script>
-    <script src="{{ url_for('static', path='js/adminPanel/appMode.js') }}?v={{ app_version }}"></script>
     <script src="{{ url_for('static', path='js/adminPanel/databaseConnections.js') }}?v={{ app_version }}"></script>
     <script src="{{ url_for('static', path='js/adminPanel/dataObfuscation.js') }}?v={{ app_version }}"></script>
     <script src="{{ url_for('static', path='js/adminPanel/defaultLanguageForAllUsers.js') }}?v={{ app_version }}"></script>
@@ -31,7 +30,6 @@
     <!-- <script src="{{ url_for('static', path='js/adminPanel/performanceTuning.js') }}?v={{ app_version }}"></script> -->
     <script src="{{ url_for('static', path='js/adminPanel/querySuggestions.js') }}?v={{ app_version }}"></script>
     <script src="{{ url_for('static', path='js/adminPanel/rls.js') }}?v={{ app_version }}"></script>
-    <script src="{{ url_for('static', path='js/adminPanel/schemaModeConfig.js') }}?v={{ app_version }}"></script>
     <script src="{{ url_for('static', path='js/adminPanel/textToSQLTransactionTests.js') }}?v={{ app_version }}"></script>
     <script src="{{ url_for('static', path='js/adminPanel/userManagement.js') }}?v={{ app_version }}"></script>
     <script src="{{ url_for('static', path='js/adminPanel/whiteLabeling.js') }}?v={{ app_version }}"></script>
@@ -47,6 +45,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/luxon@3.7.2/build/global/luxon.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-matrix@2.0.1/dist/chartjs-chart-matrix.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-geo@4.3.6/build/index.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon@1.3.1/dist/chartjs-adapter-luxon.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-financial@0.2.1/dist/chartjs-chart-financial.min.js"></script>
@@ -273,7 +272,6 @@
             <button class="tablinks" onclick="openTab('reportIssue')" style="margin-top: 15px;"><img src="{{ url_for('static', path='media/reportIssueIcon.svg') }}" style="padding-right: 8px; width: 27px; margin-left: -1px;">Report a Problem or Request a Feature<img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
             <button class="tablinks" onclick="window.open('https://github.com/Intellimenta/DataBot/discussions', '_blank')"><img src="{{ url_for('static', path='media/discussionForumIcon.svg') }}" style="padding-right: 10px;">Ask a Question<img src="{{ url_for('static', path='media/openInNewWindowIcon.svg') }}" style="padding-left: 10px;"></button>
             <button class="tablinks" onclick="window.open('https://www.loom.com/share/a575fd6e6fd541d0ae56873db0a6b482', '_blank')"><img src="{{ url_for('static', path='media/demoVideoIcon.svg') }}" style="padding-right: 10px;">Watch a Demo of DataBot<img src="{{ url_for('static', path='media/openInNewWindowIcon.svg') }}" style="padding-left: 10px;"></button>
-            <!-- <button class="tablinks" onclick="window.open('https://intellimenta.com/products/databot', '_blank')"><img src="{{ url_for('static', path='media/visitProductPageIcon.svg') }}" style="padding-right: 10px;">Visit the Product Page<img src="{{ url_for('static', path='media/openInNewWindowIcon.svg') }}" style="padding-left: 10px;"></button> -->
             {% endif %}
             {% if logged_in_with_sso != True %}
             <button class="tablinks" data-testid="settings_change_password_btn" onclick="openTab('changePassword')"><img src="{{ url_for('static', path='media/changePasswordIcon.svg') }}" style="padding-right: 10px;">Change Password <img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
@@ -963,7 +961,7 @@
                     <button data-testid="back-btn-BIintegration" class="back-button" style="max-width: 72px; max-height: 30px; margin-bottom: 50px; margin-top:22px;" onclick="closeTab('BIintegration')"><img src="{{ url_for('static', path='media/arrowBackwardIcon.svg') }}" class="back_icon">Back</button>
                     <h3 class="settings_inner_page_title" style="justify-content: center; padding-bottom: 10px;"><img src="{{ url_for('static', path='media/bi_integration_icon.svg') }}" style="padding-right: 10px;">Integration with BI Tools</h3>
                     
-                    <button class="tablinks" data-testid="admin_panel_connect_bi_tool_btn" onclick="openTab('connectBItool')" style="margin-bottom: 20px;"><img src="{{ url_for('static', path='media/connectBItoolIcon.svg') }}" style="padding-right: 10px; ">Connect a BI Tool<img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
+                    <button class="tablinks" data-testid="admin_panel_connect_bi_tool_btn" onclick="openTab('connectBItool')"><img src="{{ url_for('static', path='media/connectBItoolIcon.svg') }}" style="padding-right: 10px; ">Connect a BI Tool<img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
 
                     <button class="tablinks" data-testid="admin_panel_two_col_setup_btn" onclick="openTabNoPreLoadTwoColumnSetup('chatbotAndDashboards')"><img src="{{ url_for('static', path='media/DashboardsAndWidgetModeIcon.svg') }}" style="padding-right: 10px;">Dashboards + Chatbot Interface<img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
                     
@@ -1195,17 +1193,6 @@
                         </div>    
                     {% endfor %}
 
-
-                <div id="schemaModeConfig" data-testid="admin_panel_schema_mode_config" class="tabcontent tabAdmin">
-
-                    <button data-testid="back-btn-schemaModeConfig" class="back-button" style="max-width: 72px; max-height: 30px; margin-bottom: 50px; margin-top:22px;" onclick="closeTab('schemaModeConfig')"><img src="{{ url_for('static', path='media/arrowBackwardIcon.svg') }}" class="back_icon">Back</button>
-                    <h3 class="settings_inner_page_title" style="justify-content: center; padding-bottom: 10px;"><img src="{{ url_for('static', path='media/schemaModeIcon.svg') }}" style="padding-right: 10px;">Schema Mode Config</h3>
-
-                    <button class="tablinks" data-testid="admin_panel_allow_public_sharing_btn" style="padding-right: 70px;"><img src="{{ url_for('static', path='media/publicSharingIcon.svg') }}" style="padding-right: 10px;">Allow Public Sharing
-                        <input type="checkbox" id="toggle-button-public-sharing" class="toggle-button" {% if allow_public_sharing == True %} checked {% endif %} onclick="savePublicSharingPreference(this.checked)">
-                        <label for="toggle-button-public-sharing" class="toggle-label"></label>
-                    </button>
-                </div>
 
 
                 <div id="responseQualityTestsSelectDB" data-testid="admin_panel_response_quality_tests_select_db" class="tabcontent tabAdmin">

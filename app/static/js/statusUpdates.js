@@ -55,23 +55,19 @@ async function connectWebSocket() {
             
             loadingOverlay.style.display = 'none';
 
-            if (botResponse.explanation) {
-                await handleBotResponse(botResponse.main_response, false, botResponse.viz_type, botResponse.is_single_color);
-                await handleBotResponse(botResponse.explanation);
-            } else {
-                // main operation
-                try {
-                    await handleBotResponse(botResponse.main_response, false, botResponse.viz_type, botResponse.is_single_color, false, technicalDetails=botResponse.technical_details);
-                }
-                catch (error) {
-                    console.error(error);
-                    const errorDiv = document.createElement('div');
-                    errorDiv.style.textAlign = 'left';
-                    errorDiv.style.padding = '5px';
-                    errorDiv.innerHTML = `An error occurred while processing the response: ${error}`;
-                    conversationDiv.appendChild(errorDiv);
-                }
+            // main operation
+            try {
+                await handleBotResponse(botResponse.main_response, false, technicalDetails=botResponse.technical_details);
             }
+            catch (error) {
+                console.error(error);
+                const errorDiv = document.createElement('div');
+                errorDiv.style.textAlign = 'left';
+                errorDiv.style.padding = '5px';
+                errorDiv.innerHTML = `An error occurred while processing the response: ${error}`;
+                conversationDiv.appendChild(errorDiv);
+            }
+
             await scrollToBottom();
         
         } else if (botResponse.ws_msg_type === "response_stream") {
@@ -239,7 +235,7 @@ async function connectWebSocket() {
             
         } else {
             loadingOverlay.style.display = 'none';
-            handleBotResponse('Unexpected Websocket message type: ' + botResponse.ws_msg_type);
+            await handleBotResponse('Unexpected Websocket message type: ' + botResponse.ws_msg_type);
         }
         
     };

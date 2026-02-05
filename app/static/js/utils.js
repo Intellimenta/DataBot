@@ -86,7 +86,7 @@ async function loadArchivedChatSession(chatSession) {
     try {
         for (const [query, response] of chatSession) {
             addToConversation(query);
-            await handleBotResponse(response, false, '', false, true);
+            await handleBotResponse(response, true);
         }
     } catch (error) {
         await handleBotResponse("An error occurred: " + error.stack); // show the error to the user
