@@ -121,20 +121,15 @@
                 margin-top: 13%;
             }
         }
-        
-
-
     </style>
 </head>
+
 <body id="main-body" style="visibility: hidden; flex-direction:row; background: linear-gradient(135deg, #f5f6fa 0%, #e9e6f7 100%);">
 
 <!-- 'block access' is handled in the /chat endpont -->
 <div id="warning" style="{{ 'display: block;' if license_key_status == 'warning' else 'display: none;' }} padding: 5px; background-color: lightyellow; position: absolute; z-index: 2;">
-    {% if license_is_static == True %}
-    Your license has expired. If you are the account owner, please renew the license to avoid any interruption in service.    
-    {% endif %}
-    {% if license_is_static == False %}
-    There is a billing issue with your subscription. If you are the account owner, please settle the outstanding balance to avoid any interruption in service.    
+    {% if license_is_static == True and is_admin %}
+    Your license has expired. Please renew the license to avoid any interruption in service.    
     {% endif %}
 </div>
 
@@ -237,7 +232,7 @@
 </div>
 {%else%}
 <div id="top-right-buttons-container" style="position: absolute; display: flex; top: 8px; right: 5px; justify-content: space-around; align-items: center; width: 80px; height: 36px;">
-    <img src="{{ url_for('static', path='media/newSessionIcon.svg') }}" id="newSessionIcon" alt="newSessionIcon" data-tippy-content="{{ _('New Chat') }}" class="top-right-button" onclick="window.location.href='/main'" style="width:32px; height: 32px; margin-top: 3px;">
+    <img src="{{ url_for('static', path='media/newSessionIcon.svg') }}" id="newSessionIcon" alt="newSessionIcon" data-tippy-content="{{ _('New Chat') }}" class="top-right-button" onclick="window.location.href='/main?full-width=true'" style="width:32px; height: 32px; margin-top: 3px;">
     <img src="{{ url_for('static', path='media/exportIcon.svg') }}" id="export-summary-btn" alt="Export Chat Session Summary" data-tippy-content="{{ _('Export Chat Session Summary') }}" class="top-right-button" onclick="exportSummaryToDOCX()" style="width:32px; height: 30px; padding: 4px;">
 </div>
 
@@ -943,7 +938,7 @@
 
                     <div id="emailDomainsForComplianceDiv" style="padding: 10px 15px; text-align: left;">
                         <p style="text-align:center">
-                            If you are using this app in a customer-facing environment and some of your customers require that their chats not be stored in your database, you can provide their email domains below (comma-separated).
+                            If you are using this app in a customer-facing environment and some of your customers require that their chats not be stored in the app database, you can provide their email domains below (comma-separated), to exclude their chats from being stored.
                             Note that for these users, their active chat session will be stored temporarily but will be deleted once the chat session ends.
                         </p>
                         <textarea id="email-domains-for-compliance" placeholder="example.com, example2.com" class="input-with-shadow" style="padding: 8px 10px; height: 50px; width:100%; min-width: 100%; ">{{email_domains_requiring_compliance}}</textarea>

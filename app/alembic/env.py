@@ -1,20 +1,20 @@
 from logging.config import fileConfig
-
+import os
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
-
 from alembic import context
 from shared.models import Base
-import os
+from shared.security_utils import getenv_secret
 
-is_portable = os.getenv("IS_PORTABLE") == 'true'
+
+is_portable = getenv_secret("IS_PORTABLE") == 'true'
 
 if is_portable:
     DATABASE_URL = f'postgresql+pg8000://postgres@127.0.0.1:5432/databot'
 else:
     DATABASE_URL = (
-        f"postgresql+pg8000://{os.getenv('DATABOT_DB_USER')}:{os.getenv('DATABOT_DB_PASS')}@"
-        f"{os.getenv('DATABOT_DB_HOST')}:{os.getenv('DATABOT_DB_PORT')}/{os.getenv('DATABOT_DB_DATABASE')}"
+        f"postgresql+pg8000://{getenv_secret('DATABOT_DB_USER')}:{getenv_secret('DATABOT_DB_PASS')}@"
+        f"{getenv_secret('DATABOT_DB_HOST')}:{getenv_secret('DATABOT_DB_PORT')}/{getenv_secret('DATABOT_DB_DATABASE')}"
     )
 
 

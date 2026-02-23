@@ -5,14 +5,15 @@ from sqlalchemy.ext.mutable import MutableDict, MutableList
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine, async_sessionmaker
 from sqlalchemy.sql import func
 from sqlalchemy.orm import relationship
-import os
 
-is_portable = os.getenv("IS_PORTABLE") == 'true'
+from .security_utils import getenv_secret
+
+is_portable = getenv_secret("IS_PORTABLE") == 'true'
 
 if is_portable:
     DATABASE_URL = f'postgresql+asyncpg://postgres@127.0.0.1:5432/databot'
 else:
-    DATABASE_URL = f'postgresql+asyncpg://{os.getenv("DATABOT_DB_USER")}:{os.getenv("DATABOT_DB_PASS")}@{os.getenv("DATABOT_DB_HOST")}:{os.getenv("DATABOT_DB_PORT")}/{os.getenv("DATABOT_DB_DATABASE")}'
+    DATABASE_URL = f'postgresql+asyncpg://{getenv_secret("DATABOT_DB_USER")}:{getenv_secret("DATABOT_DB_PASS")}@{getenv_secret("DATABOT_DB_HOST")}:{getenv_secret("DATABOT_DB_PORT")}/{getenv_secret("DATABOT_DB_DATABASE")}'
 
 engine = create_async_engine(DATABASE_URL) 
 SessionLocal = async_sessionmaker(
