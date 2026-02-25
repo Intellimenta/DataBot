@@ -1,5 +1,7 @@
 from logging.config import fileConfig
 import os
+
+from sqlalchemy.engine import URL
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 from alembic import context
@@ -12,10 +14,15 @@ is_portable = getenv_secret("IS_PORTABLE") == 'true'
 if is_portable:
     DATABASE_URL = f'postgresql+pg8000://postgres@127.0.0.1:5432/databot'
 else:
-    DATABASE_URL = (
-        f"postgresql+pg8000://{getenv_secret('DATABOT_DB_USER')}:{getenv_secret('DATABOT_DB_PASS')}@"
-        f"{getenv_secret('DATABOT_DB_HOST')}:{getenv_secret('DATABOT_DB_PORT')}/{getenv_secret('DATABOT_DB_DATABASE')}"
+    db_url = URL.create(
+        drivername="postgresql+pg8000",
+        username=getenv_secret("DATABOT_DB_USER"),
+        password=getenv_secret("DATABOT_DB_PASS"),
+        host=getenv_secret("DATABOT_DB_HOST"),
+        port=int(getenv_secret("DATABOT_DB_PORT")),
+        database=getenv_secret("DATABOT_DB_DATABASE"),
     )
+    DATABASE_URL = db_url.render_as_string(hide_password=False)
 
 
 # this is the Alembic Config object, which provides
@@ -28,7 +35,7 @@ if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
 # Update the SQLAlchemy URL dynamically
-config.set_main_option('sqlalchemy.url', DATABASE_URL)
+config.set_main_option('sqlalchemy.url', DATABASE_URL.replace('%', '%%'))
 
 # add your model's MetaData object here
 # for 'autogenerate' support

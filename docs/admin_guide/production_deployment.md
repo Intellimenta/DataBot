@@ -2,8 +2,8 @@
 
 For production deployment, it's recommended to run the app over HTTPS. The environment variable `DATABOT_ALLOW_HTTP` should be removed or set to `false`.
 
-For serving the app over HTTPS, you can use a load balancer, or a reverse proxy (such as Caddy or Nginx). For reverse-proxy, Caddy is preferred as it handles https and WebCockets automatically (DataBot uses WebSockets).  
-If you are using a Load Balancer, the healthcheck endpoint is `/healthcheck`.
+For serving the app over HTTPS, you can use a load balancer, or a reverse-proxy (such as Caddy or Nginx). For a reverse-proxy, Caddy is preferred as it handles HTTPS and WebSockets automatically (DataBot uses WebSockets).  
+If you are using a load balancer, the healthcheck endpoint is `/healthcheck`.
 
 ## Deployment on a VM with Public IP Using Reverse-Proxy
 ### Step 0: Prerequisites
@@ -16,8 +16,8 @@ If you are using a Load Balancer, the healthcheck endpoint is `/healthcheck`.
 - **Open firewall / security group ports**
     - Allow inbound **TCP 80** and **TCP 443**
     - (Optional) Allow **TCP 22** for SSH
-- On the Postgres Database host containing the DataBot DB, **ensure network access from VM to the DB**
-    - Allow **5432/tcp** from the vm to database host
+- On the PostgreSQL host, **ensure network access from the VM to the DataBot database**.
+    - Allow **5432/tcp** from the VM to database host
     - If Database host is private, VM should be in the same VPC.
 
 ### Step 1: Install Dependencies
@@ -48,38 +48,56 @@ sudo usermod -aG docker $USER
 Logout and log back in to refresh your user session.
 
 ### Step 4: Create a directory for DataBot
-```
+```sh
 mkdir databot
 cd databot
 ```
 
-### Step 5: Create `databot.env`, `docker-compose.yaml` and `Caddyfile` files
-
-`databot.env`  
-Replace `***` with actual values.
+### Step 5: Store secrets (replace `******` with actual values)
 ```sh
-# DataBot Application Database
-DATABOT_DB_HOST=***
-DATABOT_DB_DATABASE=***
-DATABOT_DB_PORT=***
-DATABOT_DB_USER=***
-DATABOT_DB_PASS=***
-
-# The License key provided to you by the DataBot team.
-DATABOT_LICENCE_KEY=***
-
-# The key used for password hashing and token generation.
+sudo mkdir -p /etc/databot/secrets
+# password for internal database of DataBot you created
+printf '%s' '******' | sudo tee /etc/databot/secrets/db_pass > /dev/null
+# The Licence key provided to you by the DataBot team.
+printf '%s' '******' | sudo tee /etc/databot/secrets/licence_key > /dev/null
+# The key used for password hashing and token generation. 
 # Select a random string. Don't change it when upgrading DataBot.
-DATABOT_AUTH_KEY=***
+printf '%s' '******' | sudo tee /etc/databot/secrets/auth_key > /dev/null
+
+# Ensure all secret files and the directory are owned by root only
+# This prevents non-root users on the host from accessing or modifying them
+sudo chown -R root:root /etc/databot/secrets
+
+# Set directory permissions to 700:
+# - Owner (root) can read, write, and enter the directory
+# - No other users can list or access its contents
+sudo chmod 700 /etc/databot/secrets
+
+# Set all secret files to 600:
+# - Owner (root) can read and write
+# - No other users can read, write, or execute
+sudo chmod 600 /etc/databot/secrets/*
 ```
-`docker-compose.yaml`
+
+### Step 6: Create `docker-compose.yaml` (replace `******` with actual values)
 ```yaml
 services:
   databot:
-    # it's recommended to use a specific image tag instead of using 'latest' (e.g. intellimenta/databot:v3.9)
+    # it's recommended to use a specific image tag instead of using 'latest' (e.g. intellimenta/databot:v3.10)
     image: intellimenta/databot:latest
-    env_file:
-      - ./databot.env
+    volumes:
+      - /etc/databot/secrets:/run/secrets:ro
+    environment:
+      # non-secrets (replace ****** with actual values)
+      DATABOT_DB_HOST: "******"
+      DATABOT_DB_DATABASE: "******"
+      DATABOT_DB_PORT: "******"
+      DATABOT_DB_USER: "******"
+      
+      # secrets as file path
+      DATABOT_DB_PASS_FILE: "/run/secrets/db_pass"
+      DATABOT_LICENCE_KEY_FILE: "/run/secrets/licence_key"
+      DATABOT_AUTH_KEY_FILE: "/run/secrets/auth_key"
     restart: unless-stopped
 
   caddy:
@@ -97,31 +115,43 @@ volumes:
   caddy_data:
   caddy_config:
 ```
-`Caddyfile`  
-Replace "databot.yourdomain.com"
+
+### Step 7: Create `Caddyfile` (replace `databot.yourdomain.com` with actual value)
+Caddy automatically obtains a TLS certificate (and renews it) allowing HTTPS access.
 ```
 databot.yourdomain.com {
   reverse_proxy databot:5000
 }
 ```
-### Step 6: Deploy
+
+
+### Step 8: Deploy
 - Start DataBot + Caddy: `docker compose up -d`  
 - Check Status: `docker compose ps -a`  
 - If the DataBot container status is "Exited", you can use `docker compose logs databot` to see the logs and troubleshoot the issue.
-- Follow Caddy logs: `docker compose logs -f caddy`  
-If DNS and ports are correct, Caddy will automatically obtain and renew TLS certificates.
-- Verify deployment is working by browsing `https://<your-domain>`
+- Follow Caddy logs: `docker compose logs -f caddy` to make sure TLS certificate is obtained successfully.
+- Verify the deployment by openning `https://<your-domain>`
 
 ## Deployment on a VM with Private IP
-When the VM is privare, Caddy shouldn't be part of the docker-compose.yaml:
+When the VM is private, Caddy shouldn't be part of the `docker-compose.yaml`:
 ```yaml
 services:
   databot:
-    # it's recommended to pin to a specific (e.g., intellimenta/databot:v3.8.6) 
-    # instead of using the 'latest' tag
+    # it's recommended to use a specific image tag instead of using 'latest' (e.g. intellimenta/databot:v3.10)
     image: intellimenta/databot:latest
-    env_file:
-      - ./databot.env
+    volumes:
+      - /etc/databot/secrets:/run/secrets:ro
+    environment:
+      # non-secrets (replace ****** with actual values)
+      DATABOT_DB_HOST: "******"
+      DATABOT_DB_DATABASE: "******"
+      DATABOT_DB_PORT: "******"
+      DATABOT_DB_USER: "******"
+      
+      # secrets as file path
+      DATABOT_DB_PASS_FILE: "/run/secrets/db_pass"
+      DATABOT_LICENCE_KEY_FILE: "/run/secrets/licence_key"
+      DATABOT_AUTH_KEY_FILE: "/run/secrets/auth_key"
     restart: unless-stopped
 ```
 If DataBot is meant to be accessed only from your private network, then:
@@ -136,7 +166,7 @@ If DataBot needs to be accessed from outside the private network, then:
 - Another solution is to install Caddy on a public "ingress" (bastion) host, and create an A record pointing your domain (example: databot.yourcompany.com) to the Caddy server's public IP
 
 ## Deployment using Managed Docker Services
-You can deploy DataBot using managed docker services in the cloud, for example AWS ECS, GCP Cloud Run, Azure Container Apps.
+You can deploy DataBot using managed Docker services in the cloud, for example AWS ECS, GCP Cloud Run, Azure Container Apps.
 
 ## Misc.
 As mentioned above, for reverse-proxy, Caddy is preferred as it handles WebSockets and HTTPS automatically. But if you decide to use Nginx, you need to add configurations for handling the WebSocket endpoint (`/ws`) and HTTPS. In the code below replace `databot.yourdomain.com` with your actual domain. You need to handle SSL as well (you can get an SSL certificate via Let's Encrypt).

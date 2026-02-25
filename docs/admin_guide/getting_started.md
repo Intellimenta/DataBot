@@ -2,41 +2,9 @@
 
 DataBot can be run in two different modes, depending on your needs:
 
-- **Portable Mode (Windows)**: Ideal for quickly testing DataBot on your local machine without setting up any external dependencies. No installation is required—just download the bundle, and launch the app.
-
 - **Docker Mode**: Suitable for both advanced local testing and production deployments. This mode gives you full access to all features, but requires Docker, a PostgreSQL database, and some additional configuration.
 
-
-## Portable Mode (Test)
-
-### Launch
-- Download the latest portable version <a href="https://github.com/Intellimenta/DataBot/releases/latest" target="_blank">here</a>.
-- Unzip the file.
-- Click on `launch_databot.bat` to run DataBot.
-- Browse `http://127.0.0.1:5000` to access the app.
-
-### Configuration
-
-At the login screen, click on the Sign up button to create an account. After logging in, you can access the admin panel by clicking on the gear icon at the top-right of the app and selecting "Admin Panel".
-
-- **Set the OpenAI API Key** in "LLM Config" tab.
-- **Add a Database Connection**. You can either manually add a connection or sync with your BI tool.
-    - To manually add a database connection, click on 'Add Database Connection'.
-    - To connect your BI tool, see [here](./bi_integration.md).
-- **Managing Access to Database Tables/Views**
-    - Click on [DB Name] > Manage Permissions
-    - Select tables/views that you want to query on.
-    !!! note
-        It is recommended to use views instead of tables for DataBot, as they provide greater flexibility. In the views:
-
-        - Include only the columns that are relevant for answering user queries. The fewer irrelevant columns you have, the better the response quality will be.
-        - Filter out rows that are redundant.
-        - Perform renaming, type conversion, or any other transformations that can help make the data cleaner.
-
-- **Managing Semantic Layer and Metadata**
-    - You can provide business metrics, domain-knowledge and descriptions at database, table and column-level (Admin Panel > Database Connections > [DB Name] > Semantic Layer and Metadata Management).
-    - It’s recommended to add descriptions only when it's actually helpful. For example, the column sale_date does not need a description, but a column like abc23 would. 
-    - The `db schema` command shows you what metadata is shared with the LLM when you ask a question.
+- **Portable Mode (Windows)**: Ideal for quickly testing DataBot on your local machine without setting up any external dependencies. No installation is required, just download the bundle, and launch the app.
 
 
 ## Docker Mode (Test)
@@ -95,7 +63,7 @@ DATABOT_AUTH_KEY=***
 # The License key provided to you by the DataBot team.
 DATABOT_LICENCE_KEY=***
 
-# remove in production
+# For testing only
 DATABOT_ALLOW_HTTP=true
 ```
 
@@ -118,7 +86,7 @@ After creating an account and logging in as admin, it's time for configuring the
 - **Add a Database Connection**. You can either manually add a connection or sync with your BI tool.
     - To manually add a database connection, click on 'Add Database Connection'.
     - To connect your BI tool, see [here](./bi_integration.md).
-- **Manage Users Access to Database Tables/Views**
+- **Manage User Access to Database Tables/Views**
     - In DataBot, groups are used to manage table-level access; Users are assigned to groups, and groups are given access to tables. 
     - There are two built-in groups: Admins and Default. All new users are automatically added to the Default group. You can add and manage groups in Admin Panel > User Management > User Groups.
     - To specify which user groups should have access to which tables from a database, go to Admin Panel > Database Connections > [DB Name] > Manage Permissions.
@@ -139,3 +107,35 @@ New users usually don't know what type of questions they can ask. Adding query s
 - **Add Text-to-SQL Translation Tests**  
 When DataBot answers users' analytical questions, it goes through a series of steps. One of the most critical steps is the text-to-SQL translation. If this step is not performed correctly, the insights provided to users may be unreliable.  
 For this reason, it is crucial to ensure that the text-to-SQL translation is working correctly. See [here](./admin_panel_overview.md#text-to-sql-translation-tests) for more details.
+
+
+## Portable Mode (Test)
+
+### Launch
+- Download the latest portable version <a href="https://github.com/Intellimenta/DataBot/releases/latest" target="_blank">here</a>.
+- Unzip the file.
+- Click on `launch_databot.bat` to run DataBot.
+- Browse `http://127.0.0.1:5000` to access the app.
+
+### Configuration
+
+At the login screen, click on the Sign up button to create an account. After logging in, you can access the admin panel by clicking on the gear icon at the top-right of the app and selecting "Admin Panel".
+
+- **Set the OpenAI API Key** in "LLM Config" tab.
+- **Add a Database Connection**. You can either manually add a connection or sync with your BI tool.
+    - To manually add a database connection, click on 'Add Database Connection'.
+    - To connect your BI tool, see [here](./bi_integration.md).
+- **Managing Access to Database Tables/Views**
+    - Click on [DB Name] > Manage Permissions
+    - Select tables/views that you want to query on.
+    !!! note
+        It is recommended to use views instead of tables for DataBot, as they provide greater flexibility. In the views:
+
+        - Include only the columns that are relevant for answering user queries. The fewer irrelevant columns you have, the better the response quality will be.
+        - Filter out rows that are redundant.
+        - Perform renaming, type conversion, or any other transformations that can help make the data cleaner.
+
+- **Managing Semantic Layer and Metadata**
+    - You can provide business metrics, domain-knowledge and descriptions at database, table and column-level (Admin Panel > Database Connections > [DB Name] > Semantic Layer and Metadata Management).
+    - It’s recommended to add descriptions only when it's actually helpful. For example, the column sale_date does not need a description, but a column like abc23 would. 
+    - The `db schema` command shows you what metadata is shared with the LLM when you ask a question.
