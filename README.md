@@ -12,23 +12,30 @@
 Trying out DataBot is very easy and takes just a few minutes. Follow the instructions <a href="https://docs.databot-analytics.com/admin_guide/getting_started" target="_blank">here</a>.
 
 ## Features
-- 🔍 Data Exploration
-- 📊 Data Visualization
-- 📝 Report Generation
+- 🔍 Data exploration
+- 📊 Data visualization
+- 📝 Report generation
 - 📈 Forecasting
-- 🔗 Integration with BI Tools (currently Metabase)
-- 🌐 Multi-language Support
-- 🎤 Voice Transcription
-- 🗄️ Supporting Major SQL and NoSQL Databases
-- 🧩 JSON Columns Support
-- 💻 Easy Embedding in Your Website or App
-- 📦 Portable Mode and Containerized Deployment
-- 🛡️ Fine-grained Access Control
-- 🙈 Data Obfuscation (Using Dynamic Data Masking)
-- 👥 Role-Based Access Control (RBAC)
-- 🏢 Multi-Tenant Support
-- 🔑 Single Sign-On (SSO)
-- 🎨 White-Labelling
+- 🔗 Integration with BI tools (currently Metabase)
+- 🌐 Multi-language support
+- 🎤 Voice transcription
+- 🗄️ Supporting major SQL and NoSQL databases
+- 🧩 JSON columns support
+- 💬 Query explanation
+- 💻 Easy embedding in your website or app
+- 📦 Portable mode and containerized deployment
+- 🛡️ Fine-grained access control
+- 🙈 Data obfuscation (using dynamic data masking)
+- 👥 Role-based access control (RBAC)
+- 🔐 Row-level security (RLS)
+- 🔑 Single sign-On (SSO)
+- 🏢 Multi-tenant support
+- 🎨 White-labelling
+- 🎯 Semantic/metadata layer grounding questions in defined metrics and business logic
+- 🧪 Text-to-SQL test suite to verify expected behavior before rollout
+- ✅ SQL validation (validates the generated SQL before execution)
+- 🔄 Self-correction loop (if SQL fails, the error is sent back to the LLM for auto-correction)
+- 🛡️ Safety guardrails (SELECT-only queries, row limits, injection prevention)
 
 ## Data Sources
 - 🗄️Major SQL and NoSQL Databases
