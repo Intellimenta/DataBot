@@ -27,6 +27,8 @@ const translations = {
         "Unexpected error while exporting the summary.": "Unexpected error while exporting the summary.",
         "Technical Details": "Technical Details",
         "Copy": "Copy",
+        "Download Data as CSV": "Download Data as CSV",
+        "Downloading data as CSV. Please wait...": "Downloading data as CSV. Please wait...",
         "If your next question is on a different topic, for the best results, start a new chat by clicking the plus icon at the top.": "If your next question is on a different topic, for the best results, start a new chat by clicking the plus icon at the top.",
     },
     "fr-CA": {
@@ -57,6 +59,8 @@ const translations = {
         "Unexpected error while exporting the summary.": "Erreur inattendue lors de l'exportation du résumé.",
         "Technical Details": "Détails techniques",
         "Copy": "Copier",
+        "Download Data as CSV": "Télécharger les données au format CSV",
+        "Downloading data as CSV. Please wait...": "Téléchargement des données au format CSV. Veuillez patienter...",
         "If your next question is on a different topic, for the best results, start a new chat by clicking the plus icon at the top.": "Si votre prochaine question porte sur un sujet différent, pour de meilleurs résultats, commencez une nouvelle discussion en cliquant sur l'icône plus en haut.",
     },
     "fr-FR": {
@@ -87,6 +91,8 @@ const translations = {
         "Unexpected error while exporting the summary.": "Erreur inattendue lors de l'export du résumé.",
         "Technical Details": "Détails techniques",
         "Copy": "Copier",
+        "Download Data as CSV": "Télécharger les données au format CSV",
+        "Downloading data as CSV. Please wait...": "Téléchargement des données au format CSV. Veuillez patienter...",
         "If your next question is on a different topic, for the best results, start a new chat by clicking the plus icon at the top.": "Si votre prochaine question porte sur un sujet différent, pour de meilleurs résultats, commencez une nouvelle discussion en cliquant sur l'icône plus en haut.",
     },
     "de-DE": {
@@ -117,6 +123,8 @@ const translations = {
         "Unexpected error while exporting the summary.": "Unerwarteter Fehler beim Exportieren der Zusammenfassung.",
         "Technical Details": "Technische Details",
         "Copy": "Kopieren",
+        "Download Data as CSV": "Daten als CSV herunterladen",
+        "Downloading data as CSV. Please wait...": "Daten werden als CSV heruntergeladen. Bitte warten...",
         "If your next question is on a different topic, for the best results, start a new chat by clicking the plus icon at the top.": "Wenn Ihre nächste Frage ein anderes Thema betrifft, starten Sie für die besten Ergebnisse einen neuen Chat, indem Sie oben auf das Plus-Symbol klicken.",
     },
     "hi-IN": {
@@ -147,6 +155,8 @@ const translations = {
         "Unexpected error while exporting the summary.": "सारांश निर्यात करते समय अप्रत्याशित त्रुटि।",
         "Technical Details": "तकनीकी विवरण",
         "Copy": "कॉपी करें",
+        "Download Data as CSV": "CSV के रूप में डेटा डाउनलोड करें",
+        "Downloading data as CSV. Please wait...": "CSV के रूप में डेटा डाउनलोड हो रहा है। कृपया प्रतीक्षा करें...",
         "If your next question is on a different topic, for the best results, start a new chat by clicking the plus icon at the top.": "यदि आपका अगला प्रश्न किसी अन्य विषय पर है, तो सर्वोत्तम परिणामों के लिए, शीर्ष पर प्लस आइकन पर क्लिक करके एक नई चैट शुरू करें।",
     },
     "ja-JP": {
@@ -177,6 +187,8 @@ const translations = {
         "Unexpected error while exporting the summary.": "要約のエクスポート中に予期しないエラーが発生しました。",
         "Technical Details": "技術的な詳細",
         "Copy": "コピー",
+        "Download Data as CSV": "CSVとしてデータをダウンロード",
+        "Downloading data as CSV. Please wait...": "CSVとしてデータをダウンロードしています。しばらくお待ちください...",
         "If your next question is on a different topic, for the best results, start a new chat by clicking the plus icon at the top.": "次の質問が別のトピックに関する場合は、最良の結果を得るために、上部のプラスアイコンをクリックして新しいチャットを開始してください。",
     },
     "pt-BR": {
@@ -207,6 +219,8 @@ const translations = {
         "Unexpected error while exporting the summary.": "Erro inesperado ao exportar o resumo.",
         "Technical Details": "Detalhes técnicos",
         "Copy": "Copiar",
+        "Download Data as CSV": "Baixar dados como CSV",
+        "Downloading data as CSV. Please wait...": "Baixando dados como CSV. Por favor, aguarde...",
         "If your next question is on a different topic, for the best results, start a new chat by clicking the plus icon at the top.": "Se sua próxima pergunta for sobre um tópico diferente, para obter os melhores resultados, inicie um novo chat clicando no ícone de mais na parte superior.",
     },
     "ru-RU": {
@@ -237,6 +251,8 @@ const translations = {
         "Unexpected error while exporting the summary.": "Неожиданная ошибка при экспорте сводки.",
         "Technical Details": "Технические детали",
         "Copy": "Копировать",
+        "Download Data as CSV": "Скачать данные в формате CSV",
+        "Downloading data as CSV. Please wait...": "Скачивание данных в формате CSV. Пожалуйста, подождите...",
         "If your next question is on a different topic, for the best results, start a new chat by clicking the plus icon at the top.": "Если ваш следующий вопрос на другую тему, для достижения наилучших результатов начните новый чат, нажав на значок плюса вверху.",
     },
     "es-ES": {
@@ -267,6 +283,8 @@ const translations = {
         "Unexpected error while exporting the summary.": "Error inesperado al exportar el resumen.",
         "Technical Details": "Detalles técnicos",
         "Copy": "Copiar",
+        "Download Data as CSV": "Descargar datos como CSV",
+        "Downloading data as CSV. Please wait...": "Descargando datos como CSV. Por favor, espere...",
         "If your next question is on a different topic, for the best results, start a new chat by clicking the plus icon at the top.": "Si su próxima pregunta es sobre un tema diferente, para obtener los mejores resultados, inicie un nuevo chat haciendo clic en el ícono de más en la parte superior.",
     },
     "ar-SA": {
@@ -297,6 +315,8 @@ const translations = {
         "Unexpected error while exporting the summary.": "حدث خطأ غير متوقع أثناء تصدير الملخص.",
         "Technical Details": "تفاصيل تقنية",
         "Copy": "نسخ",
+        "Download Data as CSV": "تحميل البيانات كملف CSV",
+        "Downloading data as CSV. Please wait...": "يتم الآن تحميل البيانات كملف CSV. يرجى الانتظار...",
         "If your next question is on a different topic, for the best results, start a new chat by clicking the plus icon at the top.": "إذا كان سؤالك التالي حول موضوع مختلف، للحصول على أفضل النتائج، ابدأ محادثة جديدة بالنقر على أيقونة الزائد في الأعلى.",
     },
     "fa-IR": {
@@ -327,6 +347,8 @@ const translations = {
         "Unexpected error while exporting the summary.": "خطای غیرمنتظره هنگام تولید خلاصه.",
         "Technical Details": "جزئیات فنی",
         "Copy": "کپی",
+        "Download Data as CSV": "دانلود داده‌ها به صورت CSV",
+        "Downloading data as CSV. Please wait...": "در حال دانلود داده‌ها به صورت CSV. لطفاً صبر کنید...",
         "If your next question is on a different topic, for the best results, start a new chat by clicking the plus icon at the top.": "اگر سوال بعدی شما در مورد موضوع دیگری است، برای بهترین نتیجه، با کلیک روی نماد مثبت در بالا، یک گفتگوی جدید را شروع کنید.",
     },
     "zh-CN": {
@@ -357,6 +379,8 @@ const translations = {
         "Unexpected error while exporting the summary.": "导出摘要时发生意外错误。",
         "Technical Details": "技术细节",
         "Copy": "复制",
+        "Download Data as CSV": "下载数据为CSV",
+        "Downloading data as CSV. Please wait...": "正在下载数据为CSV。请稍候...",
         "If your next question is on a different topic, for the best results, start a new chat by clicking the plus icon at the top.": "如果您的下一个问题是关于不同主题的，为获得最佳结果，请点击顶部的加号图标开始新的聊天。",
     },
     "zh-TW": {
@@ -387,6 +411,9 @@ const translations = {
         "Unexpected error while exporting the summary.": "匯出摘要時發生非預期錯誤。",
         "Technical Details": "技術細節",
         "Copy": "複製",
+        "Download Data as CSV": "下載資料為CSV",
+        "Downloading data as CSV. Please wait...": "正在下載資料為CSV。請稍候...",
+        "If your next question is on a different topic, for the best results, start a new chat by clicking the plus icon at the top.": "如果您的下一個問題是關於不同主題的，為了獲得最佳結果，請點擊頂部的加號圖示開始新的聊天。",
     },
     "bn-BD": {
         "Add to Personal Dashboard": "ব্যক্তিগত ড্যাশবোর্ডে যোগ করুন",
@@ -416,6 +443,8 @@ const translations = {
         "Unexpected error while exporting the summary.": "সারাংশ রপ্তানি করার সময় অপ্রত্যাশিত ত্রুটি।",
         "Technical Details": "প্রযুক্তিগত বিবরণ",
         "Copy": "কপি করুন",
+        "Download Data as CSV": "CSV হিসাবে ডেটা ডাউনলোড করুন",
+        "Downloading data as CSV. Please wait...": "CSV হিসাবে ডেটা ডাউনলোড হচ্ছে। অনুগ্রহ করে অপেক্ষা করুন...",
         "If your next question is on a different topic, for the best results, start a new chat by clicking the plus icon at the top.": "যদি আপনার পরবর্তী প্রশ্নটি ভিন্ন বিষয়ে হয়, সর্বোত্তম ফলাফলের জন্য, উপরে প্লাস আইকনে ক্লিক করে একটি নতুন চ্যাট শুরু করুন।",
     },
     "he-IL": {
@@ -446,6 +475,8 @@ const translations = {
         "Unexpected error while exporting the summary.": "שגיאה בלתי צפויה בעת ייצוא הסיכום.",
         "Technical Details": "פרטים טכניים",
         "Copy": "העתק",
+        "Download Data as CSV": "הורד נתונים כ-CSV",
+        "Downloading data as CSV. Please wait...": "מוריד נתונים כ-CSV. נא להמתין...",
         "If your next question is on a different topic, for the best results, start a new chat by clicking the plus icon at the top.": "אם השאלה הבאה שלך עוסקת בנושא אחר, לקבלת התוצאות הטובות ביותר, התחל צ'אט חדש על ידי לחיצה על סמל הפלוס למעלה.",
     }
 };

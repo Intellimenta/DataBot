@@ -137,7 +137,7 @@ async function handleBotResponse(botResponse, isChatSessionArchivePage=false, te
 
     if ( botResponse == 'NA') {
         if (isChatSessionArchivePage == false && technicalDetails != '') {
-            // add technical details button
+            // add button for technical details
             var actionButtonsContainer = document.getElementById('actionButtonsContainer');
             const techDetailsButton = document.createElement('button');
             techDetailsButton.className = 'intellimenta-color-button action-buttons tooltip';
@@ -154,6 +154,23 @@ async function handleBotResponse(botResponse, isChatSessionArchivePage=false, te
             techDetailsButtonTooltip.textContent = get_translation('Technical Details', language);
             techDetailsButton.appendChild(techDetailsButtonTooltip);
             actionButtonsContainer.appendChild(techDetailsButton);
+
+            // add button for download data as csv
+            const downloadDataButton = document.createElement('button');
+            downloadDataButton.className = 'intellimenta-color-button action-buttons tooltip';
+            downloadDataButton.onclick = async function() {
+                await downloadDataAsCSV(technicalDetails);
+            };
+            const downloadDataButtonIcon = document.createElement('img');
+            downloadDataButtonIcon.src = downloadDataButtonIconURL;
+            downloadDataButtonIcon.style.width = '21px';
+            downloadDataButton.appendChild(downloadDataButtonIcon);
+            const downloadDataButtonTooltip = document.createElement('span');
+            downloadDataButtonTooltip.className = 'tooltiptext';
+            downloadDataButtonTooltip.style.whiteSpace = 'nowrap';
+            downloadDataButtonTooltip.textContent = get_translation('Download Data as CSV', language);
+            downloadDataButton.appendChild(downloadDataButtonTooltip);
+            actionButtonsContainer.appendChild(downloadDataButton);
         }
     }
     else {    

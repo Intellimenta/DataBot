@@ -198,6 +198,7 @@ function collectConversation() {
     return out;
 }
 
+
 async function exportSummaryToDOCX() {
     try {
         const conversation = collectConversation();
@@ -232,5 +233,62 @@ async function exportSummaryToDOCX() {
     } catch (err) {
         console.error(err);
         alert('Unexpected error while exporting the summary: ' + err.message);
+    }
+}
+
+
+async function downloadDataAsCSV(sqlQueries) {
+    const delimiter = '\n------------------------------------------\n';
+
+    try {
+        const queries = sqlQueries
+            .split(delimiter)
+            .map(q => q.trim())
+            .filter(Boolean);
+
+        if (!queries.length) {
+            alert('No SQL queries found.');
+            return;
+        }
+
+        for (let i = 0; i < queries.length; i++) {
+            
+            showNotification(get_translation("Downloading data as CSV. Please wait...", language), true, 2000);
+
+            const sqlQuery = queries[i];
+
+            const res = await fetch('/download-data-as-csv', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    sqlQuery,
+                }),
+            });
+
+            if (!res.ok) {
+                const msg = await res.text().catch(() => '');
+                alert(`Could not download CSV for query ${i + 1}: ${msg}`);
+                continue;
+            }
+
+            const blob = await res.blob();
+            const url = URL.createObjectURL(blob);
+
+            const a = document.createElement('a');
+            const ts = new Date().toISOString().slice(0, 19).replace(/[:T]/g, '');
+            a.href = url;
+            a.download = `Data_${i + 1}_${ts}.csv`;
+
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+
+            URL.revokeObjectURL(url);
+
+            await new Promise(resolve => setTimeout(resolve, 1000));
+        }
+    } catch (err) {
+        console.error(err);
+        alert('Unexpected error while downloading the CSV file: ' + err.message);
     }
 }
