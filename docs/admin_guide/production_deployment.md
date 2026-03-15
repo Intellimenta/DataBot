@@ -3,7 +3,7 @@
 For production deployment, it's recommended to run the app over HTTPS. The environment variable `DATABOT_ALLOW_HTTP` should be removed or set to `false`.
 
 For serving the app over HTTPS, you can use a load balancer, or a reverse-proxy (such as Caddy or Nginx). For a reverse-proxy, Caddy is preferred as it handles HTTPS and WebSockets automatically (DataBot uses WebSockets).  
-If you are using a load balancer, the healthcheck endpoint is `/healthcheck`.
+If you are using a load balancer, the healthcheck endpoint is `/healthcheck`. Also the load balancer needs to be a layer 7 load balancer to handle WebSockers automatically (AWS: Application Load Balancer. GCP: HTTPS Load Balancer. Azure: Application Gateway).
 
 ## Deployment on a VM with Public IP Using Reverse-Proxy
 ### Step 0: Prerequisites
