@@ -1,0 +1,15 @@
+.md-footer {
+  margin-top: 3rem;
+}
+
+.md-nav.md-nav--primary {
+  border-right-style: solid;
+  border-right-width: 1px;
+  border-right-color: #eceeef;
+}
+
+.md-nav.md-nav--secondary {
+  border-left-style: solid;
+  border-left-width: 1px;
+  border-left-color: #eceeef;
+}

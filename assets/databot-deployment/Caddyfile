@@ -1,0 +1,4 @@
+# replace "databot.yourdomain.com" with your real hostname
+databot.yourdomain.com {
+  reverse_proxy databot:5000
+}
