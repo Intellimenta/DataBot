@@ -27,8 +27,8 @@ function addToConversation(message) {
     // ask user to start a new chat on high message count
     const messages = conversationDiv.getElementsByClassName('user-message');
     const messageCount = messages.length;
-    if (isChatSessionArchivePage == false && (messageCount == 6 || messageCount == 11 || messageCount == 16)) {
-        showNotification(get_translation(`If your next question is on a different topic, for the best results, start a new chat by clicking the plus icon at the top.`, language), true, 5000);
+    if (isChatSessionArchivePage == false && (messageCount == 5 || messageCount == 10 || messageCount == 15)) {
+        showNotification(get_translation(`Switching topics? Click the plus icon at the top to start a new session.`, language), true, 6000);
     }
 }
 
@@ -136,42 +136,7 @@ async function handleBotResponse(botResponse, isChatSessionArchivePage=false, te
     const conversationDiv = document.getElementById('conversation');
 
     if ( botResponse == 'NA') {
-        if (isChatSessionArchivePage == false && technicalDetails != '') {
-            // add button for technical details
-            var actionButtonsContainer = document.getElementById('actionButtonsContainer');
-            const techDetailsButton = document.createElement('button');
-            techDetailsButton.className = 'intellimenta-color-button action-buttons tooltip';
-            techDetailsButton.onclick = async function() {
-                alert(technicalDetails);
-            };
-            const techDetailsButtonIcon = document.createElement('img');
-            techDetailsButtonIcon.src = technicalDetailsIconURL;
-            techDetailsButtonIcon.style.width = '21px';
-            techDetailsButton.appendChild(techDetailsButtonIcon);
-            const techDetailsButtonTooltip = document.createElement('span');
-            techDetailsButtonTooltip.className = 'tooltiptext';
-            techDetailsButtonTooltip.style.whiteSpace = 'nowrap';
-            techDetailsButtonTooltip.textContent = get_translation('Technical Details', language);
-            techDetailsButton.appendChild(techDetailsButtonTooltip);
-            actionButtonsContainer.appendChild(techDetailsButton);
-
-            // add button for download data as csv
-            const downloadDataButton = document.createElement('button');
-            downloadDataButton.className = 'intellimenta-color-button action-buttons tooltip';
-            downloadDataButton.onclick = async function() {
-                await downloadDataAsCSV(technicalDetails);
-            };
-            const downloadDataButtonIcon = document.createElement('img');
-            downloadDataButtonIcon.src = downloadDataButtonIconURL;
-            downloadDataButtonIcon.style.width = '21px';
-            downloadDataButton.appendChild(downloadDataButtonIcon);
-            const downloadDataButtonTooltip = document.createElement('span');
-            downloadDataButtonTooltip.className = 'tooltiptext';
-            downloadDataButtonTooltip.style.whiteSpace = 'nowrap';
-            downloadDataButtonTooltip.textContent = get_translation('Download Data as CSV', language);
-            downloadDataButton.appendChild(downloadDataButtonTooltip);
-            actionButtonsContainer.appendChild(downloadDataButton);
-        }
+        await addActionButtons(conversationDiv, technicalDetails, ['copy', 'feedback','technical_details', 'download_data']); 
     }
     else {    
         if (botResponse.includes('<chartConfig>')) {  // contains one or more charts
@@ -191,54 +156,14 @@ async function handleBotResponse(botResponse, isChatSessionArchivePage=false, te
                     await addRegularMessageToChat(segment, conversationDiv);
                 }
             }
-
-            // remove previous action buttons 
-            var actionButtonsContainer = document.getElementById('actionButtonsContainer');
-            if (actionButtonsContainer) {
-                actionButtonsContainer.remove();
-            }
-            // Add limited Action Buttons 
-            if (isChatSessionArchivePage == false) {
-                // *** feedback button ***
-                const feedbackButton = document.createElement('button');
-                feedbackButton.className = 'intellimenta-color-button action-buttons tooltip';
-                
-                feedbackButton.onclick = async function() {
-                    await markAsBadResponse();
-                    feedbackButton.style.backgroundColor = '#8451bc';
-                };
-
-                const feedbackButtonIcon = document.createElement('img');
-                feedbackButtonIcon.src = feedbackButtonIconURL;
-                feedbackButtonIcon.style.width = '21px';
-
-                const feedbackButtonTooltip = document.createElement('span');
-                feedbackButtonTooltip.className = 'tooltiptext';
-                feedbackButtonTooltip.style.whiteSpace = 'nowrap';
-                feedbackButtonTooltip.textContent = get_translation('Mark as Bad Response', language);
-
-                feedbackButton.appendChild(feedbackButtonIcon);
-                feedbackButton.appendChild(feedbackButtonTooltip);
-
-                // container for the action buttons
-                var actionButtonsContainer = document.createElement('div');
-                actionButtonsContainer.id = 'actionButtonsContainer';
-                actionButtonsContainer.style.display = 'flex';
-                actionButtonsContainer.style.justifyContent = 'flex-start';
-                actionButtonsContainer.style.margin = '0px 5px';
-
-                actionButtonsContainer.appendChild(feedbackButton);
-
-                conversationDiv.appendChild(actionButtonsContainer);
-            }
+            
+            await addActionButtons(conversationDiv, technicalDetails, ['copy', 'feedback','technical_details', 'download_data']);
             
         } else {  // regular message
 
             const botResponseDiv = await addRegularMessageToChat(botResponse, conversationDiv);
 
-            if (isChatSessionArchivePage == false) {
-                await addActionButtonsAnalyticalMode(botResponseDiv, technicalDetails=technicalDetails);
-            }
+            await addActionButtons(botResponseDiv, technicalDetails, ['copy', 'feedback', 'technical_details', 'download_data']);
         }
     }
 }

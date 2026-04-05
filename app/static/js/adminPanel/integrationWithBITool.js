@@ -95,8 +95,28 @@ async function saveTwoColConfig() {
 
 
 
-async function toggleRefreshCardsBtn() {
-    const section = document.getElementById('refresh_cards_data_in_db_btn');
+async function saveDashboardCardIDsList() {
+    const dashboardCardIDsList = document.getElementById('dashboard_card_ids_list').value;
+    const response = await fetch('/save-dashboard-card-ids-list', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({dashboardCardIDsList:dashboardCardIDsList})
+    });
+    const result = await response.text();
+    if (result.startsWith('Error')) {
+        showNotification(get_translation("Save failed!", language), false);
+        console.log(result);
+    }
+    else {
+        showNotification(get_translation("Saved.", language), true);
+    }
+}
+
+
+async function toggleUseDashboardsAsDataSource() {
+    const section = document.getElementById('use_dashboards_as_data_source_div');
     const toggleBtn = document.getElementById('toggle-button-use-dashboard-cards-data-as-data-source');
     
     if (toggleBtn.checked) {

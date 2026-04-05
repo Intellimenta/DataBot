@@ -49,105 +49,132 @@ async function downloadPDF(responseText, pdfTitle) {
 
 
 
+async function addActionButtons(botResponseDiv='', technicalDetails='', itemsToAdd=['copy', 'feedback']) {
 
-async function addActionButtonsAnalyticalMode(botResponseDiv, technicalDetails='') {
-    // remove previous action buttons 
-    var actionButtonsContainer = document.getElementById('actionButtonsContainer');
-    if (actionButtonsContainer) {
-        actionButtonsContainer.remove();
-    }
+    if (isChatSessionArchivePage == false) {
 
-    // container for the action buttons
-    var actionButtonsContainer = document.createElement('div');
-    actionButtonsContainer.id = 'actionButtonsContainer';
-    actionButtonsContainer.style.display = 'flex';
-    actionButtonsContainer.style.justifyContent = 'flex-start';
-    actionButtonsContainer.style.margin = '0px 5px';
-    
-    // *** feedback button ***
-    const feedbackButton = document.createElement('button');
-    feedbackButton.className = 'intellimenta-color-button action-buttons tooltip';
-    
-    feedbackButton.onclick = async function() {
-        await markAsBadResponse();
-        feedbackButton.style.backgroundColor = '#8451bc';
-    };
-
-    const feedbackButtonIcon = document.createElement('img');
-    feedbackButtonIcon.src = feedbackButtonIconURL;
-    feedbackButtonIcon.style.width = '21px';
-
-    const feedbackButtonTooltip = document.createElement('span');
-    feedbackButtonTooltip.className = 'tooltiptext';
-    feedbackButtonTooltip.style.whiteSpace = 'nowrap';
-    feedbackButtonTooltip.textContent = get_translation('Mark as Bad Response', language);
-
-    feedbackButton.appendChild(feedbackButtonIcon);
-    feedbackButton.appendChild(feedbackButtonTooltip);
-
-
-    // *** copy button ***
-    const copyButton = document.createElement('button');
-    copyButton.className = 'intellimenta-color-button action-buttons tooltip';
-    
-    copyButton.onclick = async function() {
-        //  copy content of botResponseDiv to clipboard
-        const textToCopy = botResponseDiv.innerText || botResponseDiv.textContent;
-        try {
-            await navigator.clipboard.writeText(textToCopy);
-            showNotification(get_translation('Copied to clipboard.', language), true);
-        } catch (err) {
-            console.error('Failed to copy: ', err);
-            showNotification(get_translation('Failed to copy to clipboard', language), false);
+        // remove previous action buttons 
+        var actionButtonsContainer = document.getElementById('actionButtonsContainer');
+        if (actionButtonsContainer) {
+            actionButtonsContainer.remove();
         }
-    };
 
-    const copyButtonIcon = document.createElement('img');
-    copyButtonIcon.src = copyButtonIconURL;
-    copyButtonIcon.style.width = '21px';
+        // container for the action buttons
+        var actionButtonsContainer = document.createElement('div');
+        actionButtonsContainer.id = 'actionButtonsContainer';
+        actionButtonsContainer.style.display = 'flex';
+        actionButtonsContainer.style.justifyContent = 'flex-start';
+        actionButtonsContainer.style.margin = '0px 5px';
+        
+        if (itemsToAdd.includes('feedback')) {
+            const feedbackButton = document.createElement('button');
+            feedbackButton.className = 'intellimenta-color-button action-buttons tooltip';
+            feedbackButton.onclick = async function() {
+                await markAsBadResponse();
+                feedbackButton.style.backgroundColor = '#8451bc';
+            };
+            const feedbackButtonIcon = document.createElement('img');
+            feedbackButtonIcon.src = feedbackButtonIconURL;
+            feedbackButtonIcon.style.width = '21px';
+            const feedbackButtonTooltip = document.createElement('span');
+            feedbackButtonTooltip.className = 'tooltiptext';
+            feedbackButtonTooltip.style.whiteSpace = 'nowrap';
+            feedbackButtonTooltip.textContent = get_translation('Mark as Bad Response', language);
+            feedbackButton.appendChild(feedbackButtonIcon);
+            feedbackButton.appendChild(feedbackButtonTooltip);
+            actionButtonsContainer.appendChild(feedbackButton);
+        }
 
-    const copyButtonTooltip = document.createElement('span');
-    copyButtonTooltip.className = 'tooltiptext';
-    copyButtonTooltip.style.whiteSpace = 'nowrap';
-    copyButtonTooltip.textContent = get_translation('Copy', language);
+        if (itemsToAdd.includes('copy') && botResponseDiv) {
+            const copyButton = document.createElement('button');
+            copyButton.className = 'intellimenta-color-button action-buttons tooltip';
+            copyButton.onclick = async function() {
+                //  copy content of botResponseDiv to clipboard
+                const textToCopy = botResponseDiv.innerText || botResponseDiv.textContent;
+                try {
+                    await navigator.clipboard.writeText(textToCopy);
+                    showNotification(get_translation('Copied to clipboard.', language), true);
+                } catch (err) {
+                    console.error('Failed to copy: ', err);
+                    showNotification(get_translation('Failed to copy to clipboard', language), false);
+                }
+            };
+            const copyButtonIcon = document.createElement('img');
+            copyButtonIcon.src = copyButtonIconURL;
+            copyButtonIcon.style.width = '21px';
+            const copyButtonTooltip = document.createElement('span');
+            copyButtonTooltip.className = 'tooltiptext';
+            copyButtonTooltip.style.whiteSpace = 'nowrap';
+            copyButtonTooltip.textContent = get_translation('Copy', language);
+            copyButton.appendChild(copyButtonIcon);
+            copyButton.appendChild(copyButtonTooltip);
+            actionButtonsContainer.appendChild(copyButton);
+        }
 
-    copyButton.appendChild(copyButtonIcon);
-    copyButton.appendChild(copyButtonTooltip);
+        if (itemsToAdd.includes('technical_details') && technicalDetails != '') {
+            // add button for technical details (SQL queries)
+            const techDetailsButton = document.createElement('button');
+            techDetailsButton.className = 'intellimenta-color-button action-buttons tooltip';
+            techDetailsButton.onclick = async function() {
+                alert(technicalDetails);
+            };
+            const techDetailsButtonIcon = document.createElement('img');
+            techDetailsButtonIcon.src = technicalDetailsIconURL;
+            techDetailsButtonIcon.style.width = '21px';
+            techDetailsButton.appendChild(techDetailsButtonIcon);
+            const techDetailsButtonTooltip = document.createElement('span');
+            techDetailsButtonTooltip.className = 'tooltiptext';
+            techDetailsButtonTooltip.style.whiteSpace = 'nowrap';
+            techDetailsButtonTooltip.textContent = get_translation('Technical Details', language);
+            techDetailsButton.appendChild(techDetailsButtonTooltip);
+            actionButtonsContainer.appendChild(techDetailsButton);
+        }
 
-    
-    // // *** pdf button ***
-    // const pdfButton = document.createElement('button');
-    // pdfButton.className = 'intellimenta-color-button action-buttons tooltip';
-    
-    // pdfButton.onclick = async function() {
-    //     // get the text of the last div with class 'user-message'
-    //     const userMessages = document.querySelectorAll('.user-message');
-    //     const userMessageDiv = userMessages.length ? userMessages[userMessages.length - 1] : null;
-    //     const userMessage = userMessageDiv ? userMessageDiv.innerText : '';
-    //     const pdfContent = `<p class="user-message">User Message: <b>${userMessage}</b></p>
-    //                         Bot Response:<br>
-    //                         ${botResponseDiv.innerHTML}`;
+        if (itemsToAdd.includes('download_data') && technicalDetails != '') {
+            // add button for download data as csv
+            const downloadDataButton = document.createElement('button');
+            downloadDataButton.className = 'intellimenta-color-button action-buttons tooltip';
+            downloadDataButton.onclick = async function() {
+                await downloadDataAsCSV(technicalDetails);
+            };
+            const downloadDataButtonIcon = document.createElement('img');
+            downloadDataButtonIcon.src = downloadDataButtonIconURL;
+            downloadDataButtonIcon.style.width = '21px';
+            downloadDataButton.appendChild(downloadDataButtonIcon);
+            const downloadDataButtonTooltip = document.createElement('span');
+            downloadDataButtonTooltip.className = 'tooltiptext';
+            downloadDataButtonTooltip.style.whiteSpace = 'nowrap';
+            downloadDataButtonTooltip.textContent = get_translation('Download Data as CSV', language);
+            downloadDataButton.appendChild(downloadDataButtonTooltip);
+            actionButtonsContainer.appendChild(downloadDataButton);
+        }
 
-    //     await downloadPDF(pdfContent, 'Chatbot Response');
-    // };
+        conversationDiv.appendChild(actionButtonsContainer);
 
-    // const pdfButtonIcon = document.createElement('img');
-    // pdfButtonIcon.src = pdfButtonIconURL;
-    // pdfButtonIcon.style.width = '21px';
-
-    // const pdfButtonTooltip = document.createElement('span');
-    // pdfButtonTooltip.className = 'tooltiptext';
-    // pdfButtonTooltip.style.whiteSpace = 'nowrap';
-    // pdfButtonTooltip.textContent = get_translation('Download as PDF', language);
-
-    // pdfButton.appendChild(pdfButtonIcon);
-    // pdfButton.appendChild(pdfButtonTooltip);
-
-    actionButtonsContainer.appendChild(copyButton);
-    //actionButtonsContainer.appendChild(pdfButton);
-    actionButtonsContainer.appendChild(feedbackButton);
-
-    conversationDiv.appendChild(actionButtonsContainer);
+        // // *** pdf button ***
+        // const pdfButton = document.createElement('button');
+        // pdfButton.className = 'intellimenta-color-button action-buttons tooltip';
+        // pdfButton.onclick = async function() {
+        //     // get the text of the last div with class 'user-message'
+        //     const userMessages = document.querySelectorAll('.user-message');
+        //     const userMessageDiv = userMessages.length ? userMessages[userMessages.length - 1] : null;
+        //     const userMessage = userMessageDiv ? userMessageDiv.innerText : '';
+        //     const pdfContent = `<p class="user-message">User Message: <b>${userMessage}</b></p>
+        //                         Bot Response:<br>
+        //                         ${botResponseDiv.innerHTML}`;
+        //     await downloadPDF(pdfContent, 'Chatbot Response');
+        // };
+        // const pdfButtonIcon = document.createElement('img');
+        // pdfButtonIcon.src = pdfButtonIconURL;
+        // pdfButtonIcon.style.width = '21px';
+        // const pdfButtonTooltip = document.createElement('span');
+        // pdfButtonTooltip.className = 'tooltiptext';
+        // pdfButtonTooltip.style.whiteSpace = 'nowrap';
+        // pdfButtonTooltip.textContent = get_translation('Download as PDF', language);
+        // pdfButton.appendChild(pdfButtonIcon);
+        // pdfButton.appendChild(pdfButtonTooltip);
+        //actionButtonsContainer.appendChild(pdfButton);
+    }
 }
 
 
@@ -253,7 +280,7 @@ async function downloadDataAsCSV(sqlQueries) {
 
         for (let i = 0; i < queries.length; i++) {
             
-            showNotification(get_translation("Downloading data as CSV. Please wait...", language), true, 2000);
+            showNotification(get_translation("Downloading data as CSV. Please wait...", language), true, 2500);
 
             const sqlQuery = queries[i];
 

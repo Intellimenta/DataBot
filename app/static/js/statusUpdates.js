@@ -168,9 +168,7 @@ async function connectWebSocket() {
                 await scrollToBottom();
                 autoScrollEnabled = true;
 
-                if (isChatSessionArchivePage == false) {
-                    await addActionButtonsAnalyticalMode(currentResponseDivForStreaming);
-                }
+                await addActionButtons(currentResponseDivForStreaming, botResponse.technical_details, ['copy', 'feedback', 'technical_details', 'download_data']);
                 
                 currentResponseDivForStreaming = null;
                 htmlBuffer = "";

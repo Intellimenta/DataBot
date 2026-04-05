@@ -27,6 +27,7 @@
     <script src="{{ url_for('static', path='js/adminPanel/integrationWithBITool.js') }}?v={{ app_version }}"></script>
     <script src="{{ url_for('static', path='js/adminPanel/llmConfig.js') }}?v={{ app_version }}"></script>
     <script src="{{ url_for('static', path='js/adminPanel/misc.js') }}?v={{ app_version }}"></script>
+    <script src="{{ url_for('static', path='js/adminPanel/reportGeneration.js') }}?v={{ app_version }}"></script>
     <!-- <script src="{{ url_for('static', path='js/adminPanel/performanceTuning.js') }}?v={{ app_version }}"></script> -->
     <script src="{{ url_for('static', path='js/adminPanel/querySuggestions.js') }}?v={{ app_version }}"></script>
     <script src="{{ url_for('static', path='js/adminPanel/rls.js') }}?v={{ app_version }}"></script>
@@ -86,7 +87,7 @@
                 position: absolute;
             }
             #content-wrapper {
-                padding: 45px 0px 10px 0px;
+                padding: 50px 0px 10px 0px;
             }
             #settingsPopup, #personalDashboardSection {
                 max-width: 900px;
@@ -222,9 +223,8 @@
 
 
 {%if is_chat_session_archive_page != True %}
-<div id="top-right-buttons-container" style="position: absolute; display: flex; top: 8px; right: 30px; justify-content: space-around; align-items: center; width: {{117 if is_widget == True else 80}}px; height: 36px;">
+<div id="top-right-buttons-container" style="position: absolute; display: flex; top: 8px; right: 5px; justify-content: space-around; align-items: center; width: {{117 if is_widget == True else 80}}px; height: 36px;">
     <img src="{{ url_for('static', path='media/newSessionIcon.svg') }}" id="newSessionIcon" alt="newSessionIcon" data-tippy-content="{{ _('New Chat') }}" class="top-right-button" onclick="startNewSession()" style="width:32px; height: 32px; margin-top: 3px;">
-    <img src="{{ url_for('static', path='media/exportIcon.svg') }}" id="export-summary-btn" alt="Export Chat Session Summary" data-tippy-content="{{ _('Export Chat Session Summary') }}" class="top-right-button" onclick="exportSummaryToDOCX()" style="width:32px; height: 30px; padding: 4px;">
     <img src="{{ url_for('static', path='media/gearIcon.svg') }}" id="gearIcon" alt="gearIcon" class="top-right-button" data-tippy-content="{{ _('Settings') }}" onclick="togglePopup()" style="width: 28px; height: 28px; padding: 5px 3px;">
     {%if is_widget == True %}
         <img src="{{ url_for('static', path='media/open_in_new_window_icon.svg') }}" id="openInNewWindow" alt="fullScreen" class="top-right-button" data-tippy-content="{{ _('Open New Chat in Full Page') }}" onclick="window.open(window.location.origin + window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1) + '?full-width=true', '_blank')" style="height: 32px; padding: 5px 3px;">
@@ -233,7 +233,6 @@
 {%else%}
 <div id="top-right-buttons-container" style="position: absolute; display: flex; top: 8px; right: 5px; justify-content: space-around; align-items: center; width: 80px; height: 36px;">
     <img src="{{ url_for('static', path='media/newSessionIcon.svg') }}" id="newSessionIcon" alt="newSessionIcon" data-tippy-content="{{ _('New Chat') }}" class="top-right-button" onclick="window.location.href='/main?full-width=true'" style="width:32px; height: 32px; margin-top: 3px;">
-    <img src="{{ url_for('static', path='media/exportIcon.svg') }}" id="export-summary-btn" alt="Export Chat Session Summary" data-tippy-content="{{ _('Export Chat Session Summary') }}" class="top-right-button" onclick="exportSummaryToDOCX()" style="width:32px; height: 30px; padding: 4px;">
 </div>
 
 {%endif%}
@@ -292,6 +291,7 @@
                 <button class="tablinks" data-testid="admin_panel_default_lang_all_users_btn" onclick="openTab('defaultLangAllUsers')"><img src="{{ url_for('static', path='media/langIcon.svg') }}" style="padding-right: 10px;">Default Language for All Users<img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
                 <button class="tablinks" data-testid="admin_panel_query_suggestions_btn" onclick="openTab('querySuggestionsDB')"><img src="{{ url_for('static', path='media/querySuggestionIcon.svg') }}" style="padding-right: 10px;">Query Suggestions<img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
                 <button class="tablinks" data-testid="admin_panel_response_quality_tests_btn" onclick="openTab('responseQualityTestsSelectDB')"><img src="{{ url_for('static', path='media/responseQualityTestsIcon.svg') }}" style="padding-right: 10px;">Text-to-SQL Translation Tests<img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
+                <button class="tablinks" data-testid="admin_panel_report_generation_btn" onclick="openTabNoPreLoadReportGenerationConfig('reportGeneration')"><img src="{{ url_for('static', path='media/reportingIcon.svg') }}" style="padding-right: 10px;">Report Generation<img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
                 <button class="tablinks" data-testid="admin_panel_bi_integration_btn" onclick="openTab('BIintegration')"><img src="{{ url_for('static', path='media/bi_integration_icon.svg') }}" style="padding-right: 10px;">Integration with BI Tools<img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button>
                 <!-- <button class="tablinks" data-testid="admin_panel_performance_tuning_btn" onclick="openTabNoPreLoadPerformanceTuning('performanceTuning')"><img src="{{ url_for('static', path='media/performanceTuningIcon.svg') }}" style="padding-right: 10px;">Performance Tuning<img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button> -->
                 <!-- <button class="tablinks" data-testid="admin_panel_file_uploads_btn" onclick="openTabNoPreLoad('fileUploadsConfig', 'file-uploads-config')"><img src="{{ url_for('static', path='media/uploadIcon.svg') }}" style="padding-right: 10px;">File Uploads<img src="{{ url_for('static', path='media/arrowForwardIcon.svg') }}" class="arrow"></button> -->
@@ -962,16 +962,25 @@
                     
                     <div style="display: flex; flex-direction: column; background-color: #64488317; padding-bottom: 10px; border-radius: 5px; margin-top: 20px;">
                         <button class="tablinks" data-testid="admin_panel_use_dashboard_cards_as_data_source_btn" style="padding-right: 70px; margin-top: 20px;"><img src="{{ url_for('static', path='media/useDashboardCardsAsDataSourceIcon.svg') }}" style="padding-right: 10px;">Use the Dashboards Defined Above as Data Source
-                            <input type="checkbox" id="toggle-button-use-dashboard-cards-data-as-data-source" class="toggle-button" {% if use_dashboard_cards_as_data_source %} checked {% endif %} onclick="toggleRefreshCardsBtn()">
+                            <input type="checkbox" id="toggle-button-use-dashboard-cards-data-as-data-source" class="toggle-button" {% if use_dashboard_cards_as_data_source %} checked {% endif %} onclick="toggleUseDashboardsAsDataSource()">
                             <label for="toggle-button-use-dashboard-cards-data-as-data-source" class="toggle-label"></label>
                         </button>
                         
-                        <button id="refresh_cards_data_in_db_btn" class="intellimenta-color-button" data-testid="refresh_dashboards_cards_data_btn" onclick="refreshDashboardsCardsInDb()" style="display: {% if use_dashboard_cards_as_data_source %} flex {% else %} none {% endif %}; max-width: 290px; background-color: #644883; padding: 7px 10px;; font-size: 14px; margin: 30px auto; margin-top: 15px; margin-bottom: 15px; text-align: center;">
-                            <img src="{{ url_for('static', path='media/refreshDataIconWhite.svg') }}" style="padding-right: 5px;">Store/Refresh Dashboards Data in DB<br><span style="font-size: small; display: contents;">(Native cards only)</span>
-                        </button>
+                        <div id="use_dashboards_as_data_source_div" style="display: flex; flex-direction: column;">
+                            <div style="padding: 0px 20px;">
+                                <p>In the box below, you can provide a comma-separated list of dashboard card IDs to limit which cards the chatbot should use as data sources.</p>
+                                <textarea id="dashboard_card_ids_list" class="input-with-shadow" style="padding: 8px 10px; height: 50px; width:100%; min-width: 100%; ">{{dashboard_card_ids_list_str}}</textarea>
+                                <input data-testid="save_dashboard_card_ids_list" type="submit" name="action" value="Save" class="intellimenta-color-button" style="margin-bottom: 20px;" onclick="saveDashboardCardIDsList()">
+                            </div>
+                            
+                            <button id="refresh_cards_data_in_db_btn" class="intellimenta-color-button" data-testid="refresh_dashboards_cards_data_btn" onclick="refreshDashboardsCardsInDb()" style="display: {% if use_dashboard_cards_as_data_source %} flex {% else %} none {% endif %}; max-width: 290px; background-color: #644883; padding: 7px 10px;; font-size: 14px; margin: 30px auto; margin-top: 15px; margin-bottom: 15px; text-align: center;">
+                                <img src="{{ url_for('static', path='media/refreshDataIconWhite.svg') }}" style="padding-right: 5px;">Store/Refresh Dashboards Data in DB<br><span style="font-size: small; display: contents;">(Native cards only)</span>
+                            </button>
+                            
+                            <div id="spinnerRefreshCardData" class="spinner"></div>
+                            <div id="responseRefreshCardData" style="margin: 20px;"></div>
 
-                        <div id="spinnerRefreshCardData" class="spinner"></div>
-                        <div id="responseRefreshCardData" style="margin: 20px;"></div>
+                        </div>
                     </div>
                 
                 </div>
@@ -1236,6 +1245,7 @@
                 <div id="responseQualityTestRunResults" data-testid="admin_panel_response_quality_test_run_results" class="tabcontent tabAdmin"></div>
                 <div id="chatbotAndDashboards" data-testid="admin_panel_two_col_setup" class="tabcontent tabAdmin"></div>
                 <div id="emailSetup" data-testid="admin_panel_email_setup" class="tabcontent tabAdmin"></div>
+                <div id="reportGeneration" data-testid="admin_panel_report_generation" class="tabcontent tabAdmin"></div>
                 <div id="whiteLabeling" data-testid="admin_panel_white_labeling_config" class="tabcontent tabAdmin"></div>
                 <div id="errorLogs" class="tabcontent tabAdmin"></div>
                 <div id="fileUploadsConfig" class="tabcontent tabAdmin"></div>

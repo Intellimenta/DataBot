@@ -88,23 +88,35 @@
         position: absolute;
         width: 14px;
         height: 14px;
-        top: -4px;
-        left: -4px;
+        top: 2px;
+        left: -2px;
         cursor: nw-resize;
         z-index: 2;
         background: transparent;
       }
 
-      .resize-handle::before {
+      .resize-handle::before,
+      .resize-handle::after {
         content: '';
         position: absolute;
-        width: 10px;
-        height: 10px;
-        top: 2px;
-        left: 2px;
+        width: 8px;
+        height: 2px;
         background: ${COLOR};
-        clip-path: polygon(0 0, 100% 0, 0 100%); /* Triangle shape */
+        border-radius: 2px;
         opacity: 0.8;
+        transform: rotate(-45deg);
+        transform-origin: left center;
+      }
+
+      .resize-handle::before {
+        top: 3px;
+        left: 2px;
+      }
+
+      .resize-handle::after {
+        top: 8px;
+        left: 2px;
+        width: 15px;
       }
 
       @media (max-width: 750px) {

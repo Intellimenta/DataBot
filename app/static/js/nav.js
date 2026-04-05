@@ -287,6 +287,28 @@ async function openTabNoPreLoadEmailSetup(tabName) {
 }
 
 
+
+async function openTabNoPreLoadReportGenerationConfig(tabName) {
+    
+    const spinner = document.getElementById('spinnerAdminPanel');
+    spinner.style.display = 'block';
+
+    const response = await fetch('/get-html-content-for-report-generation-config', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({})
+    });
+    spinner.style.display = 'none';
+    const result = await response.text();
+    
+    var tab = document.getElementById(tabName);
+    tab.innerHTML = result;
+    tab.classList.add('active');
+}
+
+
 async function openTabNoPreLoadErrorLogs(tabName) {
     
     const spinner = document.getElementById('spinnerAdminPanel');
